@@ -1,11 +1,13 @@
 'use client';
 
+import { use } from 'react';
 import Link from 'next/link';
 import { mockArticles, formatDate } from '@/lib/mockData';
 import { notFound } from 'next/navigation';
 
-export default function BeritaDetailPage({ params }: { params: { id: string } }) {
-  const article = mockArticles.find(a => a.id === params.id && a.status === 'published');
+export default function BeritaDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const article = mockArticles.find(a => a.id === id && a.status === 'published');
   if (!article) notFound();
 
   const related = mockArticles.filter(a => a.id !== article.id && a.status === 'published').slice(0, 3);
