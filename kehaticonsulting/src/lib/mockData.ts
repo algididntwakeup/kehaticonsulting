@@ -224,7 +224,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_01',
     judul: 'Tips Menjaga Kesehatan Mental Saat Bertugas di Lapangan',
-    konten: '<p>Menjaga kesehatan mental saat bertugas di lapangan merupakan hal yang sangat penting bagi anggota Polri...</p><p>Berikut beberapa tips yang dapat diterapkan sehari-hari...</p>',
+    konten: '<p>Menjaga kesehatan mental saat bertugas di lapangan merupakan hal yang sangat penting bagi anggota Polri. Mengingat tingginya beban kerja dan dinamika situasi di lapangan, setiap personel dituntut untuk memiliki ketahanan psikologis yang tangguh.</p><p>Berikut adalah beberapa tips praktis yang dapat diterapkan sehari-hari:</p><h2>1. Kenali Batasan Diri</h2><p>Penting untuk menyadari kapan tubuh dan pikiran Anda membutuhkan istirahat. Jangan ragu untuk meminta waktu menepi sejenak (time-out) jika situasi terasa terlalu menekan.</p><h2>2. Komunikasi yang Terbuka</h2><p>Bicarakan keluh kesah atau kendala yang Anda alami dengan rekan satu tim atau pimpinan. Dukungan sosial adalah salah satu cara terbaik meredakan stres.</p><h2>3. Terapkan Teknik Relaksasi</h2><p>Lakukan teknik pernapasan dalam (deep breathing) sebelum atau sesudah tugas yang menegangkan untuk mengembalikan fokus dan menurunkan detak jantung.</p><ul><li>Tarik napas dalam selama 4 detik</li><li>Tahan selama 4 detik</li><li>Hembuskan perlahan selama 4 detik</li></ul><p>Mari jadikan kesehatan mental sebagai prioritas bersama demi pelayanan yang maksimal kepada masyarakat.</p>',
     kategori: 'Kesehatan',
     thumbnail_url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
     status: 'published',
@@ -236,7 +236,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_02',
     judul: 'Program Konseling Gratis untuk Anggota dan Keluarga Polri',
-    konten: '<p>Biro SDM Polda Jawa Barat dengan bangga mengumumkan program konseling gratis...</p>',
+    konten: '<p>Biro SDM Polda Jawa Barat dengan bangga mengumumkan program konseling psikologi gratis yang kini tidak hanya ditujukan bagi personel, tetapi juga bagi keluarga (suami/istri dan anak).</p><h2>Latar Belakang Program</h2><p>Kesejahteraan personel tidak terlepas dari keharmonisan lingkungan keluarganya. Oleh karena itu, Polda Jabar menginisiasi program ini untuk memastikan dukungan psikologis menyeluruh.</p><h2>Cara Mengakses Layanan</h2><ul><li>Buka aplikasi KEHATI dan masuk dengan NRP Anda.</li><li>Pilih menu <strong>Mulai Skrining & Konsultasi</strong> di Dashboard.</li><li>Isi formulir skrining singkat untuk menentukan jadwal dan psikolog yang tepat.</li><li>Anda dapat memilih metode konseling <em>daring (online)</em> maupun <em>luring (offline)</em>.</li></ul><p>Semua sesi dijamin kerahasiaannya dan tidak akan mempengaruhi penilaian kinerja personel.</p>',
     kategori: 'Program SDM',
     thumbnail_url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800',
     status: 'published',
@@ -248,7 +248,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_03',
     judul: 'Seminar Manajemen Stres Kerja di Lingkungan Polri',
-    konten: '<p>Pada tanggal 5 Mei 2026, Biro SDM Polda Jabar menyelenggarakan seminar...</p>',
+    konten: '<p>Pada tanggal 5 Mei 2026, Biro SDM Polda Jabar telah sukses menyelenggarakan seminar bertajuk "Manajemen Stres Kerja di Era Kepolisian Modern". Seminar ini dihadiri oleh lebih dari 500 personel dari berbagai Satker.</p><h2>Poin-Poin Penting Seminar</h2><p>Narasumber utama, Prof. Dr. Andi Setiawan, M.Psi., menyampaikan bahwa stres kerja di lingkungan Polri tidak bisa dihindari, namun bisa dikelola (managed) dengan teknik yang tepat.</p><ul><li><strong>Mindfulness:</strong> Melatih kesadaran penuh saat bertugas untuk mengurangi reaksi impulsif.</li><li><strong>Work-Life Harmony:</strong> Bukan sekadar balance, melainkan menciptakan harmoni antara tanggung jawab profesi dan peran dalam keluarga.</li><li><strong>Peer Support:</strong> Membangun sistem dukungan sebaya antar personel.</li></ul><p>Bagi Anda yang tidak sempat hadir, materi seminar dapat diunduh melalui portal internal SDM atau dapat langsung berdiskusi dengan konselor kami melalui aplikasi KEHATI.</p>',
     kategori: 'Kegiatan',
     thumbnail_url: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800',
     status: 'published',
@@ -260,7 +260,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_04',
     judul: 'Pentingnya Self-Care bagi Personel Kepolisian',
-    konten: '<p>Self-care bukan berarti egois. Justru dengan merawat diri sendiri...</p>',
+    konten: '<p>Self-care atau perawatan diri bukanlah suatu bentuk keegoisan. Sebaliknya, dengan merawat fisik dan mental diri sendiri, Anda dapat memberikan perlindungan dan pelayanan yang jauh lebih baik kepada masyarakat.</p><h2>Bentuk Self-Care Sederhana</h2><p>Banyak yang beranggapan self-care membutuhkan waktu luang yang banyak, padahal dapat dilakukan dengan cara sederhana:</p><ul><li>Mengkonsumsi makanan bergizi dan minum air putih yang cukup saat piket.</li><li>Tidur yang berkualitas saat lepas dinas. Jangan memaksakan diri begadang jika tidak ada keperluan mendesak.</li><li>Meluangkan waktu 15-30 menit untuk hobi atau hal yang Anda senangi, seperti membaca, mendengarkan musik, atau olahraga ringan.</li></ul><p>Jika Anda merasa kelelahan yang tidak kunjung hilang (chronic fatigue), segera lakukan skrining di aplikasi KEHATI.</p>',
     kategori: 'Kesehatan',
     thumbnail_url: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800',
     status: 'published',
@@ -272,7 +272,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_05',
     judul: 'Mengenal Gejala Burnout dan Cara Mengatasinya',
-    konten: '<p>Burnout adalah kondisi kelelahan emosional dan fisik akibat beban kerja berlebih...</p>',
+    konten: '<p>Burnout adalah kondisi kelelahan emosional, fisik, dan mental yang parah akibat stres berlebihan dan berkepanjangan. Kondisi ini rentan dialami oleh aparat penegak hukum.</p><h2>Tanda-Tanda Anda Mengalami Burnout</h2><ul><li>Merasa sinis dan cepat marah terhadap rekan kerja atau masyarakat.</li><li>Kehilangan motivasi dan merasa setiap hari di tempat kerja adalah hari yang berat.</li><li>Sering sakit kepala kronis atau masalah pencernaan tanpa sebab medis yang jelas.</li><li>Produktivitas menurun drastis dan merasa tidak berharga.</li></ul><h2>Cara Mengatasi Burnout</h2><p>Jika Anda mengalami lebih dari dua gejala di atas, sangat disarankan untuk mencari bantuan profesional. Jangan memendamnya sendirian. Biro SDM menyediakan konselor yang siap membantu Anda merancang rencana pemulihan (recovery plan). Segera hubungi kami melalui fitur Konseling.</p>',
     kategori: 'Edukasi',
     thumbnail_url: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800',
     status: 'published',
@@ -284,7 +284,7 @@ export const mockArticles: Article[] = [
   {
     id: 'art_06',
     judul: 'Draft: Pedoman Penggunaan Aplikasi KEHATI',
-    konten: '<p>Panduan lengkap penggunaan aplikasi KEHATI untuk personel...</p>',
+    konten: '<p>Panduan lengkap penggunaan aplikasi KEHATI untuk seluruh personel Polda Jabar.</p>',
     kategori: 'Panduan',
     status: 'draft',
     author_id: 'usr_admin01',

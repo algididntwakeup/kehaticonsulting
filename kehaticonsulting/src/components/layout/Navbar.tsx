@@ -12,12 +12,20 @@ const navLinks = [
   { href: '/profil',    label: 'Profil',       icon: 'person' },
 ];
 
+const dummyNotifications = [
+  { id: 1, text: 'Jadwal konseling Anda telah dikonfirmasi oleh Admin.', time: '5 menit yang lalu', unread: true, icon: 'check_circle', color: 'text-green-600', bg: 'bg-green-100' },
+  { id: 2, text: 'Surat rujukan telah diterbitkan dan dapat diunduh.', time: '1 jam yang lalu', unread: true, icon: 'description', color: 'text-blue-600', bg: 'bg-blue-100' },
+  { id: 3, text: 'Sesi konseling Anda akan dimulai dalam 24 jam.', time: '1 hari yang lalu', unread: false, icon: 'schedule', color: 'text-orange-600', bg: 'bg-orange-100' },
+];
+
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -71,10 +79,42 @@ export default function Navbar() {
               </button>
             </Link>
 
-            <button className="relative p-2 text-[#616f89] hover:text-[#135bec] transition-colors rounded-lg hover:bg-[#f6f6f8]">
-              <span className="material-symbols-outlined">notifications</span>
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-            </button>
+            {/* Notification dropdown */}
+            <div className="relative">
+              <button 
+                onClick={() => setNotifOpen(!notifOpen)}
+                className="relative p-2 text-[#616f89] hover:text-[#135bec] transition-colors rounded-lg hover:bg-[#f6f6f8]">
+                <span className="material-symbols-outlined">notifications</span>
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              </button>
+
+              {notifOpen && (
+                <div className="absolute right-[-60px] sm:right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-[#dbdfe6] overflow-hidden animate-fade-in z-50">
+                  <div className="px-4 py-3 border-b border-[#dbdfe6] flex justify-between items-center bg-[#f6f6f8]">
+                    <p className="text-sm font-bold text-[#111318]">Notifikasi</p>
+                    <button className="text-xs text-[#135bec] font-semibold hover:underline">Tandai dibaca</button>
+                  </div>
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {dummyNotifications.map(n => (
+                      <div key={n.id} className={`px-4 py-3 border-b border-[#f6f6f8] hover:bg-[#f6f6f8] transition-colors cursor-pointer flex gap-3 ${n.unread ? 'bg-[#ebf1fd]/30' : ''}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${n.bg} ${n.color}`}>
+                          <span className="material-symbols-outlined text-[16px]">{n.icon}</span>
+                        </div>
+                        <div>
+                          <p className={`text-sm leading-tight ${n.unread ? 'font-bold text-[#111318]' : 'font-medium text-[#616f89]'}`}>{n.text}</p>
+                          <p className="text-xs text-[#616f89] mt-1">{n.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="px-4 py-2.5 text-center border-t border-[#dbdfe6] hover:bg-[#f6f6f8] transition-colors">
+                    <Link href="/riwayat" onClick={() => setNotifOpen(false)} className="text-xs font-bold text-[#135bec]">
+                      Lihat Semua
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className="h-8 w-px bg-[#dbdfe6] hidden sm:block"></div>
 
@@ -152,8 +192,8 @@ export default function Navbar() {
       )}
 
       {/* Click outside to close */}
-      {(profileOpen || mobileOpen) && (
-        <div className="fixed inset-0 z-40" onClick={() => { setProfileOpen(false); setMobileOpen(false); }} />
+      {(profileOpen || mobileOpen || notifOpen) && (
+        <div className="fixed inset-0 z-40" onClick={() => { setProfileOpen(false); setMobileOpen(false); setNotifOpen(false); }} />
       )}
     </header>
   );

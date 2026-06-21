@@ -2,6 +2,7 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { mockBookings, mockArticles, formatDateShort } from '@/lib/mockData';
 
@@ -38,6 +39,15 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const activeBooking = mockBookings.find(b => b.status === 'confirmed');
   const latestArticles = mockArticles.filter(a => a.status === 'published').slice(0, 3);
+  const [selectedMood, setSelectedMood] = useState<number | null>(2);
+  const [showMoodWarning, setShowMoodWarning] = useState(false);
+
+  const handleMoodClick = (index: number) => {
+    setSelectedMood(index);
+    if (index === 0 || index === 1) {
+      setShowMoodWarning(true);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -162,7 +172,8 @@ export default function DashboardPage() {
               <p className="text-blue-100 text-sm mb-5">Bagaimana perasaanmu sekarang?</p>
               <div className="flex justify-between items-center bg-white/10 rounded-xl p-2 backdrop-blur-sm">
                 {moodEmojis.map((emoji, i) => (
-                  <button key={i} className={`p-2 rounded-full transition-all text-2xl ${i === 2 ? 'bg-white shadow-md scale-110' : 'hover:bg-white/20'}`}>
+                  <button key={i} onClick={() => handleMoodClick(i)}
+                    className={`p-2 rounded-full transition-all text-2xl ${selectedMood === i ? 'bg-white shadow-md scale-110' : 'hover:bg-white/20'}`}>
                     {emoji}
                   </button>
                 ))}
@@ -224,6 +235,33 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Mood Warning Modal */}
+      {showMoodWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm animate-fade-in text-center p-6 relative overflow-hidden">
+            <div className="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+              <span className="material-symbols-outlined text-[32px]">favorite</span>
+            </div>
+            <h3 className="font-bold text-xl text-[#111318] mb-2">Apakah kamu baik-baik saja?</h3>
+            <p className="text-sm text-[#616f89] mb-6 leading-relaxed">
+              Kami perhatikan suasana hatimu sedang kurang baik. Mari lakukan skrining sekarang agar kami bisa membantu memastikan kondisi kesehatan mentalmu.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Link href="/skrining" onClick={() => setShowMoodWarning(false)}>
+                <button className="w-full bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-sm">
+                  Lakukan Skrining Sekarang
+                </button>
+              </Link>
+              <button onClick={() => setShowMoodWarning(false)}
+                className="w-full py-3 text-[#616f89] rounded-xl text-sm font-semibold hover:bg-[#f6f6f8] transition-all">
+                Nanti Saja
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

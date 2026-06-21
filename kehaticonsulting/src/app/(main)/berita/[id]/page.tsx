@@ -45,21 +45,9 @@ export default function BeritaDetailPage({ params }: { params: { id: string } })
           {/* Title */}
           <h1 className="text-2xl sm:text-3xl font-bold text-[#111318] mb-6 leading-tight">{article.judul}</h1>
 
-          {/* Content */}
           <div
             className="prose prose-blue max-w-none text-[#111318] text-base leading-relaxed [&>p]:mb-4 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:mt-6 [&>h2]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4"
-            dangerouslySetInnerHTML={{ __html: article.konten + `
-              <p>Dalam menjalankan tugas sehari-hari, personel Polri menghadapi berbagai tekanan yang dapat mempengaruhi kesehatan mental. Penting bagi setiap anggota untuk mengenali tanda-tanda masalah psikologis sejak dini.</p>
-              <h2>Langkah-Langkah yang Dapat Dilakukan</h2>
-              <ul>
-                <li>Lakukan skrining kesehatan mental secara rutin melalui aplikasi KEHATI</li>
-                <li>Manfaatkan layanan konseling yang tersedia di Biro SDM Polda Jabar</li>
-                <li>Bangun komunikasi yang terbuka dengan rekan dan atasan yang dipercaya</li>
-                <li>Jaga keseimbangan antara pekerjaan dan kehidupan pribadi</li>
-                <li>Istirahat yang cukup dan menjaga pola makan yang sehat</li>
-              </ul>
-              <p>Untuk informasi lebih lanjut dan pendaftaran layanan konseling, silakan akses menu Skrining di aplikasi KEHATI atau hubungi Biro SDM Polda Jawa Barat.</p>
-            ` }}
+            dangerouslySetInnerHTML={{ __html: article.konten }}
           />
 
           {/* Share */}
