@@ -5,7 +5,7 @@ import { User, AuthState } from '@/lib/types';
 import { mockUsers } from '@/lib/mockData';
 
 interface AuthContextType extends AuthState {
-  login: (nrp: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (nrp: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>;
   logout: () => void;
   switchRole: (role: 'personel' | 'admin' | 'psikolog') => void;
 }
@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = async (nrp: string, _password: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (nrp: string, _password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
     // Simulasi delay API
     await new Promise(r => setTimeout(r, 800));
 
@@ -43,14 +43,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (found) {
       localStorage.setItem('kehati_user', JSON.stringify(found));
       setState({ user: found, isAuthenticated: true, isLoading: false });
-      return { success: true };
+      return { success: true, user: found };
     }
     // Default: login sebagai personel jika NRP tidak ditemukan tapi bukan kosong
     if (nrp.trim()) {
       const defaultUser = mockUsers[0];
       localStorage.setItem('kehati_user', JSON.stringify(defaultUser));
       setState({ user: defaultUser, isAuthenticated: true, isLoading: false });
-      return { success: true };
+      return { success: true, user: defaultUser };
     }
     return { success: false, error: 'NRP atau password salah.' };
   };

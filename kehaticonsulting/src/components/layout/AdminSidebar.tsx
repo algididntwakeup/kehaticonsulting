@@ -34,7 +34,7 @@ export default function AdminSidebar() {
               <span className="material-symbols-outlined text-[16px]">health_and_safety</span>
             </div>
             <span className="text-base font-bold text-[#135bec]">KEHATI</span>
-            <span className="text-xs font-semibold text-[#616f89] bg-[#f6f6f8] px-1.5 py-0.5 rounded">Admin</span>
+            <span className="text-xs font-semibold text-[#616f89] bg-[#f6f6f8] px-1.5 py-0.5 rounded capitalize">{user?.role}</span>
           </Link>
         )}
         <button
@@ -51,6 +51,22 @@ export default function AdminSidebar() {
       <nav className="flex-1 py-4 px-2 flex flex-col gap-1 overflow-y-auto">
         {sidebarLinks.map(link => {
           const active = pathname.startsWith(link.href);
+          const isRestricted = user?.role === 'psikolog' && (link.label === 'Berita' || link.label === 'Kelola User');
+
+          if (isRestricted) {
+            return (
+              <div
+                key={link.href}
+                title={`${link.label} (Akses Khusus Admin)`}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#dbdfe6] cursor-not-allowed ${collapsed ? 'justify-center' : ''}`}
+              >
+                <span className="material-symbols-outlined text-[20px] shrink-0 opacity-50">{link.icon}</span>
+                {!collapsed && <span className="truncate opacity-50">{link.label}</span>}
+                {!collapsed && <span className="ml-auto material-symbols-outlined text-[14px] opacity-50" title="Akses Terkunci">lock</span>}
+              </div>
+            );
+          }
+
           return (
             <Link
               key={link.href}

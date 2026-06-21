@@ -26,7 +26,11 @@ export default function LoginPage() {
     const result = await login(nrp, password);
     setLoading(false);
     if (result.success) {
-      router.push('/dashboard');
+      if (result.user?.role === 'admin' || result.user?.role === 'psikolog') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
     } else {
       setError(result.error ?? 'Login gagal. Periksa NRP dan password Anda.');
     }
@@ -89,7 +93,7 @@ export default function LoginPage() {
 
             {/* Demo hint */}
             <div className="mb-4 p-3 bg-[#ebf1fd] border border-[#135bec]/20 rounded-lg">
-              <p className="text-xs text-[#135bec] font-medium">💡 Demo: Gunakan NRP <strong>82110001</strong> (Personel) atau <strong>70000001</strong> (Admin) dengan password apapun</p>
+              <p className="text-xs text-[#135bec] font-medium leading-relaxed">💡 Demo: Gunakan NRP <strong>82110001</strong> (Personel), <strong>70000001</strong> (Admin), atau <strong>70000002</strong> (Psikolog) dengan password apapun.</p>
             </div>
 
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
