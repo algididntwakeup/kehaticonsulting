@@ -144,11 +144,11 @@ export default function Navbar() {
                     <span className="material-symbols-outlined text-[18px] text-[#616f89]">person</span>
                     Profil Saya
                   </Link>
-                  {user?.role === 'admin' && (
+                  {(user?.role === 'admin' || user?.role === 'psikolog') && (
                     <Link href="/admin/dashboard" onClick={() => setProfileOpen(false)}
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#111318] hover:bg-[#f6f6f8] transition-colors">
                       <span className="material-symbols-outlined text-[18px] text-[#616f89]">admin_panel_settings</span>
-                      Panel Admin
+                      Dashboard Admin
                     </Link>
                   )}
                   <button onClick={handleLogout}

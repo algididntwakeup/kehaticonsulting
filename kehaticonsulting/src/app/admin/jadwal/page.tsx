@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { mockSlots, mockPsikolog } from '@/lib/mockData';
 import { Slot } from '@/lib/types';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminJadwalPage() {
+  const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [slots, setSlots] = useState(mockSlots);
   const [form, setForm] = useState({
@@ -107,12 +109,20 @@ export default function AdminJadwalPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <button className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors">
+                      <button 
+                        disabled={user?.role === 'psikolog'} 
+                        className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        title={user?.role === 'psikolog' ? 'Akses Khusus Admin' : 'Edit Jadwal'}
+                      >
                         <span className="material-symbols-outlined text-[18px]">edit</span>
                       </button>
                       {slot.status === 'available' && (
-                        <button onClick={() => handleDelete(slot.id)}
-                          className="p-1.5 rounded-lg text-[#616f89] hover:text-red-600 hover:bg-red-50 transition-colors">
+                        <button 
+                          disabled={user?.role === 'psikolog'} 
+                          onClick={() => user?.role !== 'psikolog' && handleDelete(slot.id)}
+                          className="p-1.5 rounded-lg text-[#616f89] hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          title={user?.role === 'psikolog' ? 'Akses Khusus Admin' : 'Hapus Jadwal'}
+                        >
                           <span className="material-symbols-outlined text-[18px]">delete</span>
                         </button>
                       )}
