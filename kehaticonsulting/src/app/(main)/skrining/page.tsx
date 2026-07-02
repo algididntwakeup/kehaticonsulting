@@ -30,6 +30,8 @@ export default function SkriningPage() {
   const handleSubmit = async () => {
     setSubmitting(true);
     await new Promise(r => setTimeout(r, 1500));
+    // Simpan jawaban ke sessionStorage agar halaman hasil bisa menghitungnya
+    sessionStorage.setItem('skrining_answers', JSON.stringify(answers));
     setSubmitting(false);
     router.push('/skrining/hasil');
   };
