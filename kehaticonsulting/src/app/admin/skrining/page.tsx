@@ -55,22 +55,28 @@ export default function AdminSkriningPage() {
     // Save pesan jika ada
     if (pesan) {
       const isRujukan = pesan.toLowerCase().includes('rujukan');
+      const isDitolak = newStatus === 'rejected';
       const mailboxMsg: MailboxMessage = {
         id: generateId('msg'),
         user_id: selected.user_id,
-        tipe: isRujukan ? 'rujukan' : 'tiket',
-        judul: isRujukan ? `Surat Rujukan - Tiket ${selected.tiket_id}` : `Pembaruan Jadwal Konseling (${selected.tiket_id})`,
+        tipe: isDitolak ? 'info' : (isRujukan ? 'rujukan' : 'tiket'),
+        judul: isDitolak 
+          ? `Jadwal Konseling Ditolak (${selected.tiket_id})` 
+          : (isRujukan ? `Surat Rujukan - Tiket ${selected.tiket_id}` : `Konfirmasi Jadwal Konseling (${selected.tiket_id})`),
         konten: pesan,
         is_read: false,
         created_at: new Date().toISOString(),
-        action_url: isRujukan ? undefined : `/tiket/${selected.id}`,
-        tiket_id: selected.tiket_id,
-        psikolog_nama: selected.slot.psikolog.nama,
-        tanggal: selected.slot.tanggal,
-        waktu: `${updatedSlot.jam_mulai} – ${updatedSlot.jam_selesai} WIB`,
-        metode: selected.slot.metode,
-        lokasi_link: updatedSlot.lokasi,
-        booking_id: selected.id
+        action_url: isDitolak ? undefined : `/tiket/${selected.id}`,
+        // Only include ticket metadata if not rejected
+        ...(isDitolak ? {} : {
+          tiket_id: selected.tiket_id,
+          psikolog_nama: selected.slot.psikolog.nama,
+          tanggal: selected.slot.tanggal,
+          waktu: `${updatedSlot.jam_mulai} – ${updatedSlot.jam_selesai} WIB`,
+          metode: selected.slot.metode,
+          lokasi_link: updatedSlot.lokasi,
+          booking_id: selected.id
+        })
       };
       saveMailboxMessage(mailboxMsg);
     }

@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { getBookingStatusColor, getValidationColor, getRisikoColor, formatDateShort } from '@/lib/mockData';
-import { getLocalBookings, getLocalScreenings } from '@/lib/dataStore';
+import { getLocalBookings, getLocalScreenings, deleteScreening } from '@/lib/dataStore';
 import { Booking, Screening } from '@/lib/types';
+import { toast } from 'sonner';
 
 type TabType = 'booking' | 'skrining';
 
@@ -12,11 +13,24 @@ export default function RiwayatPage() {
   const [activeTab, setActiveTab] = useState<TabType>('booking');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [screenings, setScreenings] = useState<Screening[]>([]);
+  const [confirmDeleteSk, setConfirmDeleteSk] = useState<Screening | null>(null);
 
   useEffect(() => {
     setBookings(getLocalBookings());
     setScreenings(getLocalScreenings());
   }, []);
+
+  const handleDeleteScreening = (sk: Screening) => {
+    setConfirmDeleteSk(sk);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!confirmDeleteSk) return;
+    deleteScreening(confirmDeleteSk.id);
+    setScreenings(getLocalScreenings());
+    toast.success('Riwayat skrining berhasil dihapus');
+    setConfirmDeleteSk(null);
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -167,6 +181,14 @@ export default function RiwayatPage() {
                       )}
                     </div>
                   </div>
+                  {/* Delete button only if validation_status is not pending */}
+                  {sk.validation_status !== 'pending' && (
+                    <button onClick={() => handleDeleteScreening(sk)}
+                      className="p-1.5 rounded-lg text-[#616f89] hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
+                      title="Hapus Riwayat Skrining">
+                      <span className="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
+                  )}
                 </div>
               </div>
             ))
@@ -179,6 +201,29 @@ export default function RiwayatPage() {
                 Skrining Baru
               </button>
             </Link>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: KONFIRMASI HAPUS SKRINING */}
+      {confirmDeleteSk && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm animate-fade-in overflow-hidden">
+            <div className="p-6 text-center">
+              <span className="material-symbols-outlined text-[48px] text-red-500 mb-2">warning</span>
+              <h3 className="font-bold text-[#111318] text-base mb-1">Hapus Riwayat Skrining?</h3>
+              <p className="text-xs text-[#616f89] leading-relaxed">
+                Apakah Anda yakin ingin menghapus riwayat skrining <strong>#{confirmDeleteSk.id.slice(-6)}</strong> secara permanen? Tindakan ini tidak dapat dibatalkan.
+              </p>
+            </div>
+            <div className="flex gap-2 p-4 bg-[#f6f6f8] border-t border-[#dbdfe6]">
+              <button onClick={handleConfirmDelete} className="flex-1 py-2 rounded-lg text-white font-bold bg-red-600 hover:bg-red-700 text-xs transition-colors">
+                Ya, Hapus
+              </button>
+              <button onClick={() => setConfirmDeleteSk(null)} className="flex-1 py-2 rounded-lg border border-[#dbdfe6] text-[#616f89] font-bold bg-white hover:bg-gray-50 text-xs transition-colors">
+                Batal
+              </button>
+            </div>
           </div>
         </div>
       )}

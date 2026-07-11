@@ -41,6 +41,20 @@ export const saveScreening = (screening: Screening) => {
   localStorage.setItem('app_screenings', JSON.stringify(parsed));
 };
 
+export const deleteScreening = (id: string) => {
+  if (typeof window === 'undefined') return;
+  const local = localStorage.getItem('app_screenings');
+  if (local) {
+    try {
+      let parsed: Screening[] = JSON.parse(local);
+      parsed = parsed.filter(s => s.id !== id);
+      localStorage.setItem('app_screenings', JSON.stringify(parsed));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
+
 // --- BOOKING ---
 export const getLocalBookings = (): Booking[] => {
   if (typeof window === 'undefined') return mockBookings;
