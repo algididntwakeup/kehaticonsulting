@@ -10,16 +10,24 @@ export const generateId = (prefix: string) => {
 export const getLocalScreenings = (): Screening[] => {
   if (typeof window === 'undefined') return mockScreenings;
   const local = localStorage.getItem('app_screenings');
+  const deletedStr = localStorage.getItem('app_deleted_screenings') || '[]';
+  let deletedList: string[] = [];
+  try {
+    deletedList = JSON.parse(deletedStr);
+  } catch (e) {
+    console.error(e);
+  }
+
+  let allScreenings = mockScreenings;
   if (local) {
     try {
       const parsed = JSON.parse(local);
-      return [...parsed, ...mockScreenings];
+      allScreenings = [...parsed, ...mockScreenings];
     } catch (e) {
       console.error(e);
-      return mockScreenings;
     }
   }
-  return mockScreenings;
+  return allScreenings.filter(s => !deletedList.includes(s.id));
 };
 
 export const saveScreening = (screening: Screening) => {
@@ -34,7 +42,6 @@ export const saveScreening = (screening: Screening) => {
     }
   }
   
-  // Prevent duplicate saving if id already exists
   if (parsed.find(s => s.id === screening.id)) return;
   
   parsed.unshift(screening);
@@ -43,6 +50,17 @@ export const saveScreening = (screening: Screening) => {
 
 export const deleteScreening = (id: string) => {
   if (typeof window === 'undefined') return;
+  const deletedStr = localStorage.getItem('app_deleted_screenings') || '[]';
+  try {
+    const deletedList: string[] = JSON.parse(deletedStr);
+    if (!deletedList.includes(id)) {
+      deletedList.push(id);
+      localStorage.setItem('app_deleted_screenings', JSON.stringify(deletedList));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
   const local = localStorage.getItem('app_screenings');
   if (local) {
     try {
@@ -59,16 +77,24 @@ export const deleteScreening = (id: string) => {
 export const getLocalBookings = (): Booking[] => {
   if (typeof window === 'undefined') return mockBookings;
   const local = localStorage.getItem('app_bookings');
+  const deletedStr = localStorage.getItem('app_deleted_bookings') || '[]';
+  let deletedList: string[] = [];
+  try {
+    deletedList = JSON.parse(deletedStr);
+  } catch (e) {
+    console.error(e);
+  }
+
+  let allBookings = mockBookings;
   if (local) {
     try {
       const parsed = JSON.parse(local);
-      return [...parsed, ...mockBookings];
+      allBookings = [...parsed, ...mockBookings];
     } catch (e) {
       console.error(e);
-      return mockBookings;
     }
   }
-  return mockBookings;
+  return allBookings.filter(b => !deletedList.includes(b.id));
 };
 
 export const saveBooking = (booking: Booking) => {
@@ -84,13 +110,46 @@ export const saveBooking = (booking: Booking) => {
   }
   
   if (parsed.find(b => b.id === booking.id)) {
-    // Update existing
     parsed = parsed.map(b => b.id === booking.id ? booking : b);
   } else {
     parsed.unshift(booking);
   }
-  
   localStorage.setItem('app_bookings', JSON.stringify(parsed));
+};
+
+export const deleteBooking = (id: string) => {
+  if (typeof window === 'undefined') return;
+  const deletedStr = localStorage.getItem('app_deleted_bookings') || '[]';
+  try {
+    const deletedList: string[] = JSON.parse(deletedStr);
+    if (!deletedList.includes(id)) {
+      deletedList.push(id);
+      localStorage.setItem('app_deleted_bookings', JSON.stringify(deletedList));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  const local = localStorage.getItem('app_bookings');
+  if (local) {
+    try {
+      let parsed: Booking[] = JSON.parse(local);
+      parsed = parsed.filter(b => b.id !== id);
+      localStorage.setItem('app_bookings', JSON.stringify(parsed));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
+
+export const cancelLocalBooking = (id: string) => {
+  if (typeof window === 'undefined') return;
+  const bookings = getLocalBookings();
+  const b = bookings.find(item => item.id === id);
+  if (b) {
+    const updated = { ...b, status: 'cancelled' as const };
+    saveBooking(updated);
+  }
 };
 
 // --- MAILBOX ---

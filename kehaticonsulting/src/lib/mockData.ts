@@ -145,6 +145,28 @@ const weekdays = getNextWeekdays(5);
 // ─── Slots ────────────────────────────────────────────
 export const mockSlots: Slot[] = [
   {
+    id: 'slot_today_daring',
+    psikolog: mockPsikolog[0],
+    tanggal: new Date().toISOString().split('T')[0],
+    jam_mulai: '08:00',
+    jam_selesai: '09:00',
+    metode: 'daring',
+    kapasitas: 1,
+    lokasi: 'Google Meet (link diberikan setelah konfirmasi)',
+    status: 'available',
+  },
+  {
+    id: 'slot_today_luring',
+    psikolog: mockPsikolog[1],
+    tanggal: new Date().toISOString().split('T')[0],
+    jam_mulai: '09:30',
+    jam_selesai: '10:30',
+    metode: 'luring',
+    kapasitas: 1,
+    lokasi: 'Ruang Konseling Lt.2, Gedung Biro SDM',
+    status: 'available',
+  },
+  {
     id: 'slot_01HDEF',
     psikolog: mockPsikolog[0],
     tanggal: weekdays[0],

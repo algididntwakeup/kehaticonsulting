@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { getLocalBookings } from '@/lib/dataStore';
+import { getLocalBookings, cancelLocalBooking } from '@/lib/dataStore';
 import { Booking } from '@/lib/types';
 import { useEffect, useState, use } from 'react';
+import { toast } from 'sonner';
 
 function QRCode() {
   return (
@@ -24,6 +25,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
   const unwrappedParams = use(params);
   const id = unwrappedParams.id;
   const [booking, setBooking] = useState<Booking | null>(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
     const local = getLocalBookings();
@@ -33,6 +35,82 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
   const formatDate = (d: string) => new Date(d).toLocaleDateString('id-ID', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
   });
+
+  const isCancelDisabled = () => {
+    if (!booking) return true;
+    const todayStr = new Date().toISOString().split('T')[0];
+    const slotDateStr = booking.slot.tanggal;
+    return slotDateStr <= todayStr;
+  };
+
+  const handleCancelBooking = () => {
+    if (!booking) return;
+    cancelLocalBooking(booking.id);
+    const local = getLocalBookings();
+    setBooking(local.find(b => b.id === id) ?? null);
+    toast.success('Jadwal konseling berhasil dibatalkan');
+    setShowCancelModal(false);
+  };
+
+  const handleDownloadPDF = () => {
+    if (!booking) return;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast.error('Gagal membuka jendela cetak. Pastikan pop-up blocker Anda dinonaktifkan.');
+      return;
+    }
+    const content = `
+      <html>
+        <head>
+          <title>TIKET KONSELING - ${booking.tiket_id}</title>
+          <style>
+            body { font-family: 'Arial', sans-serif; padding: 40px; color: #111318; background-color: #fff; }
+            .ticket { border: 2px solid #dbdfe6; padding: 30px; border-radius: 0px; max-width: 600px; margin: 0 auto; }
+            .header { text-align: center; border-bottom: 2px dashed #dbdfe6; padding-bottom: 20px; margin-bottom: 20px; }
+            .header h1 { margin: 5px 0; color: #135bec; font-size: 28px; }
+            .header p { margin: 0; color: #616f89; font-size: 14px; }
+            .section { margin-bottom: 20px; }
+            .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f6f6f8; }
+            .label { color: #616f89; font-size: 14px; }
+            .value { font-weight: bold; font-size: 14px; }
+            .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #616f89; }
+            .qr { border: 1px solid #dbdfe6; padding: 10px; width: 100px; height: 100px; display: inline-block; margin-top: 15px; }
+          </style>
+        </head>
+        <body>
+          <div class="ticket">
+            <div class="header">
+              <p>POLDA JAWA BARAT - BIRO SDM</p>
+              <h1>TIKET KONSELING KEHATI</h1>
+              <p>NRP Tiket: ${booking.tiket_id}</p>
+            </div>
+            <div class="section">
+              <div class="row"><span class="label">Nama Personel</span><span class="value">${booking.user?.nama_lengkap}</span></div>
+              <div class="row"><span class="label">NRP</span><span class="value">${booking.user?.nrp}</span></div>
+              <div class="row"><span class="label">Psikolog</span><span class="value">${booking.slot.psikolog.nama}</span></div>
+              <div class="row"><span class="label">Hari / Tanggal</span><span class="value">${formatDate(booking.slot.tanggal)}</span></div>
+              <div class="row"><span class="label">Waktu Sesi</span><span class="value">${booking.slot.jam_mulai} - ${booking.slot.jam_selesai} WIB</span></div>
+              <div class="row"><span class="label">Metode</span><span class="value" style="text-transform: capitalize;">${booking.slot.metode}</span></div>
+              <div class="row"><span class="label">Lokasi / Link Meet</span><span class="value">${booking.slot.lokasi}</span></div>
+            </div>
+            <div class="footer">
+              <p>Harap hadir/bergabung 10 menit sebelum jadwal konseling dimulai.</p>
+              <div style="font-family: monospace; font-size: 10px; border: 1px solid #616f89; display: inline-block; padding: 8px; margin-top: 10px;">
+                [QR CODE VALIDASI KEHATI]
+              </div>
+            </div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+            }
+          </script>
+        </body>
+      </html>
+    `;
+    printWindow.document.write(content);
+    printWindow.document.close();
+  };
 
   if (!booking) return <div className="p-10 text-center">Loading...</div>;
 
@@ -122,13 +200,29 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
 
       {/* Actions */}
       <div className="flex flex-col gap-3 mt-5">
-        {booking.status === 'confirmed' && (
-          <button className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-red-200 text-red-600 font-semibold hover:bg-red-50 transition-all text-sm">
+        {(booking.status === 'confirmed' || booking.status === 'pending_psikolog' || booking.status === 'pending_admin') && (
+          <button
+            onClick={() => {
+              if (isCancelDisabled()) {
+                toast.error('Pembatalan tidak dapat dilakukan pada hari H atau setelah jadwal sesi dimulai.');
+                return;
+              }
+              setShowCancelModal(true);
+            }}
+            disabled={isCancelDisabled()}
+            className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 font-semibold text-sm transition-all ${
+              isCancelDisabled()
+                ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                : 'border-red-200 text-red-600 hover:bg-red-50'
+            }`}
+            title={isCancelDisabled() ? "Pembatalan dinonaktifkan pada hari H" : "Batalkan Booking"}
+          >
             <span className="material-symbols-outlined text-[18px]">cancel</span>
             Batalkan Booking
           </button>
         )}
-        <button className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-[#dbdfe6] text-[#616f89] font-semibold hover:bg-[#f6f6f8] transition-all text-sm">
+        <button onClick={handleDownloadPDF}
+          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-[#dbdfe6] text-[#616f89] font-semibold hover:bg-[#f6f6f8] transition-all text-sm">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Unduh Tiket (PDF)
         </button>
@@ -144,6 +238,29 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
       {booking.status === 'confirmed' && (
         <div className="mt-4 p-4 bg-[#ebf1fd] border border-[#135bec]/20 rounded-xl text-xs text-[#616f89]">
           <span className="font-bold text-[#135bec]">ℹ️ Informasi:</span> Pembatalan hanya dapat dilakukan minimal 24 jam sebelum jadwal sesi. Setelah itu, pembatalan tidak dapat diproses.
+        </div>
+      )}
+
+      {/* MODAL: KONFIRMASI BATAL BOOKING */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm animate-fade-in overflow-hidden">
+            <div className="p-6 text-center">
+              <span className="material-symbols-outlined text-[48px] text-red-500 mb-2">warning</span>
+              <h3 className="font-bold text-[#111318] text-base mb-1">Batalkan Konseling?</h3>
+              <p className="text-xs text-[#616f89] leading-relaxed">
+                Apakah Anda yakin ingin membatalkan jadwal konseling ini secara permanen? Sesi yang dibatalkan tidak dapat dikembalikan.
+              </p>
+            </div>
+            <div className="flex gap-2 p-4 bg-[#f6f6f8] border-t border-[#dbdfe6]">
+              <button onClick={handleCancelBooking} className="flex-1 py-2 rounded-lg text-white font-bold bg-red-600 hover:bg-red-700 text-xs transition-colors">
+                Ya, Batalkan Sesi
+              </button>
+              <button onClick={() => setShowCancelModal(false)} className="flex-1 py-2 rounded-lg border border-[#dbdfe6] text-[#616f89] font-bold bg-white hover:bg-gray-50 text-xs transition-colors">
+                Kembali
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

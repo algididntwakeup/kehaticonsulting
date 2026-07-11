@@ -136,7 +136,7 @@ function MailboxContent() {
               </div>
 
               <div className="prose prose-sm max-w-none text-[#111318] mb-8 leading-relaxed">
-                <p>{selectedMsg.konten}</p>
+                <p className="whitespace-pre-wrap">{selectedMsg.konten}</p>
               </div>
 
               {/* TIKET DETAIL */}
