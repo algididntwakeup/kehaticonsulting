@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getLocalMailbox, markMailboxMessageAsRead } from '@/lib/dataStore';
 import { MailboxMessage } from '@/lib/types';
 
-export default function MailboxPage() {
+function MailboxContent() {
   const [messages, setMessages] = useState<MailboxMessage[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const searchParams = useSearchParams();
@@ -225,5 +225,13 @@ export default function MailboxPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MailboxPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center text-[#616f89]">Memuat kotak masuk...</div>}>
+      <MailboxContent />
+    </Suspense>
   );
 }

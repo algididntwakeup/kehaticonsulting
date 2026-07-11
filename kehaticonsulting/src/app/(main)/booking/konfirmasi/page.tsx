@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { mockSlots, mockUsers, mockScreenings } from '@/lib/mockData';
 import { saveBooking, getLocalScreenings } from '@/lib/dataStore';
 import { useAuth } from '@/context/AuthContext';
 
-export default function KonfirmasiBookingPage() {
+function KonfirmasiBookingContent() {
   const router = useRouter();
   const { user } = useAuth();
   const searchParams = useSearchParams();
@@ -176,5 +176,13 @@ export default function KonfirmasiBookingPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function KonfirmasiBookingPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center text-[#616f89]">Memuat halaman konfirmasi...</div>}>
+      <KonfirmasiBookingContent />
+    </Suspense>
   );
 }
