@@ -1,14 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockUsers, pangkatOptions, satkerOptions } from '@/lib/mockData';
+import { getLocalUsers, saveUsers } from '@/lib/dataStore';
 import { User } from '@/lib/types';
 import { toast } from 'sonner';
 
 export default function AdminUserPage() {
-  const [users, setUsers] = useState<User[]>(mockUsers);
+  const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState('');
   const [filterRole, setFilterRole] = useState<string>('semua');
+
+  useEffect(() => {
+    setUsers(getLocalUsers());
+  }, []);
 
   // Modal States
   const [showAddModal, setShowAddModal] = useState(false);
@@ -38,11 +43,12 @@ export default function AdminUserPage() {
   const handleRoleChangeRequest = (user: User, newRole: string) => {
     setConfirmRoleData({ user, newRole });
   };
-
   const handleConfirmRoleChange = () => {
     if (!confirmRoleData) return;
     const { user, newRole } = confirmRoleData;
-    setUsers(prev => prev.map(u => u.id === user.id ? { ...u, role: newRole as any } : u));
+    const updated = users.map(u => u.id === user.id ? { ...u, role: newRole as any } : u);
+    setUsers(updated);
+    saveUsers(updated);
     toast.success(`Peran ${user.nama_lengkap} berhasil diubah menjadi ${newRole.toUpperCase()}`);
     setConfirmRoleData(null);
   };
@@ -54,7 +60,9 @@ export default function AdminUserPage() {
   const handleConfirmToggleActive = () => {
     if (!confirmStatusUser) return;
     const user = confirmStatusUser;
-    setUsers(prev => prev.map(u => u.id === user.id ? { ...u, is_active: !u.is_active } : u));
+    const updated = users.map(u => u.id === user.id ? { ...u, is_active: !u.is_active } : u);
+    setUsers(updated);
+    saveUsers(updated);
     toast.success(`Akun ${user.nama_lengkap} berhasil ${user.is_active ? 'dinonaktifkan' : 'diaktifkan'}`);
     setConfirmStatusUser(null);
   };
@@ -78,7 +86,9 @@ export default function AdminUserPage() {
       created_at: new Date().toISOString(),
     };
 
-    setUsers(prev => [newUser, ...prev]);
+    const updated = [newUser, ...users];
+    setUsers(updated);
+    saveUsers(updated);
     toast.success(`User ${newUser.role.toUpperCase()} baru berhasil didaftarkan`);
     setShowAddModal(false);
     setAddForm({

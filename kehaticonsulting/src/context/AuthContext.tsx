@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, AuthState } from '@/lib/types';
 import { mockUsers } from '@/lib/mockData';
+import { getLocalUsers } from '@/lib/dataStore';
 
 interface AuthContextType extends AuthState {
   login: (nrp: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>;
@@ -38,21 +39,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Simulasi delay API
     await new Promise(r => setTimeout(r, 800));
 
-    // Cek user dummy — semua password diterima untuk demo
-    const found = mockUsers.find(u => u.nrp === nrp);
+    // Cek user terdaftar di local database
+    const users = getLocalUsers();
+    const found = users.find(u => u.nrp === nrp);
+    
     if (found) {
+      if (!found.is_active) {
+        return { success: false, error: 'Akun Anda dinonaktifkan. Hubungi Admin.' };
+      }
       localStorage.setItem('kehati_user', JSON.stringify(found));
       setState({ user: found, isAuthenticated: true, isLoading: false });
       return { success: true, user: found };
     }
-    // Default: login sebagai personel jika NRP tidak ditemukan tapi bukan kosong
-    if (nrp.trim()) {
-      const defaultUser = mockUsers[0];
-      localStorage.setItem('kehati_user', JSON.stringify(defaultUser));
-      setState({ user: defaultUser, isAuthenticated: true, isLoading: false });
-      return { success: true, user: defaultUser };
-    }
-    return { success: false, error: 'NRP atau password salah.' };
+    
+    return { success: false, error: 'Akun tidak terdaftar. Periksa kembali NRP Anda.' };
   };
 
   const logout = () => {

@@ -1,9 +1,44 @@
-import { Screening, Booking, MailboxMessage, Article } from './types';
-import { mockScreenings, mockBookings, mockMailbox, mockArticles } from './mockData';
+import { User, Screening, Booking, MailboxMessage, Article } from './types';
+import { mockUsers, mockScreenings, mockBookings, mockMailbox, mockArticles } from './mockData';
 
 // Generate a random ID
 export const generateId = (prefix: string) => {
   return `${prefix}_${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+};
+
+// --- USER ---
+export const getLocalUsers = (): User[] => {
+  if (typeof window === 'undefined') return mockUsers;
+  const local = localStorage.getItem('app_users');
+  let allUsers = mockUsers;
+  if (local) {
+    try {
+      const parsed = JSON.parse(local);
+      const localIds = new Set(parsed.map((u: any) => u.id));
+      const filteredMock = mockUsers.filter(u => !localIds.has(u.id));
+      allUsers = [...parsed, ...filteredMock];
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  return allUsers;
+};
+
+export const saveUsers = (usersList: User[]) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('app_users', JSON.stringify(usersList));
+};
+
+export const saveUser = (user: User) => {
+  if (typeof window === 'undefined') return;
+  const users = getLocalUsers();
+  const index = users.findIndex(u => u.id === user.id);
+  if (index >= 0) {
+    users[index] = user;
+  } else {
+    users.unshift(user);
+  }
+  saveUsers(users);
 };
 
 // --- SCREENING ---
