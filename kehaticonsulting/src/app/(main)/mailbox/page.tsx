@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getLocalMailbox, markMailboxMessageAsRead } from '@/lib/dataStore';
 import { MailboxMessage } from '@/lib/types';
+import { toast } from 'sonner';
 
 function MailboxContent() {
   const [messages, setMessages] = useState<MailboxMessage[]>([]);
@@ -201,17 +202,52 @@ function MailboxContent() {
 
               {/* SURAT RUJUKAN */}
               {selectedMsg.tipe === 'rujukan' && (
-                <div className="bg-red-50 rounded-2xl border border-red-200 p-6 flex flex-col items-center text-center">
+                <div className="bg-red-50 rounded-2xl border border-red-200 p-6 flex flex-col items-center text-center w-full">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-red-600 mb-4 shadow-sm">
                     <span className="material-symbols-outlined text-[32px]">assignment_late</span>
                   </div>
                   <h3 className="text-lg font-bold text-red-800 mb-2">Surat Rujukan Penanganan Lanjutan</h3>
-                  <p className="text-sm text-red-600 mb-6 max-w-sm">Surat rujukan resmi dari tim Psikologi SDM telah diterbitkan berdasarkan hasil skrining Anda.</p>
+                  <p className="text-sm text-red-600 mb-4 max-w-sm">Surat rujukan resmi dari tim Psikologi SDM telah diterbitkan berdasarkan hasil skrining Anda.</p>
                   
-                  <button className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-[0.98]">
-                    <span className="material-symbols-outlined text-[20px]">download</span>
-                    Unduh PDF Rujukan
-                  </button>
+                  {selectedMsg.konten && (
+                    <p className="text-xs text-red-950 mb-6 bg-red-100/50 p-4 rounded-xl text-left w-full border border-red-200/50 whitespace-pre-wrap leading-relaxed">
+                      {selectedMsg.konten}
+                    </p>
+                  )}
+                  
+                  {selectedMsg.file_url ? (
+                    <button 
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = selectedMsg.file_url!;
+                        link.download = `Surat_Rujukan_${selectedMsg.tiket_id || 'SDM'}.pdf`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        toast.success('Unduhan rujukan PDF berhasil dimulai');
+                      }}
+                      className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-[0.98]">
+                      <span className="material-symbols-outlined text-[20px]">download</span>
+                      Unduh PDF Rujukan Resmi
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => {
+                        const text = `SURAT RUJUKAN KHUSUS BIRO SDM POLDA JABAR\n\nTiket ID: ${selectedMsg.tiket_id || 'N/A'}\nStatus: Direkomendasikan untuk pemeriksaan klinis lanjutan di Rumah Sakit Bhayangkara.\n\nDicetak pada: ${new Date().toLocaleDateString('id-ID')}`;
+                        const blob = new Blob([text], { type: 'text/plain' });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = `Surat_Rujukan_Simulasi_${selectedMsg.tiket_id || 'SDM'}.txt`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        toast.success('Unduhan rujukan simulasi berhasil dimulai');
+                      }}
+                      className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-[0.98]">
+                      <span className="material-symbols-outlined text-[20px]">download</span>
+                      Unduh PDF Rujukan (Simulasi)
+                    </button>
+                  )}
                 </div>
               )}
             </div>

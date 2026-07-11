@@ -24,6 +24,40 @@ export default function AdminSkriningPage() {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [feedbackCatatan, setFeedbackCatatan] = useState('');
   
+  // Referral PDF Upload States
+  const [rujukanFileUrl, setRujukanFileUrl] = useState<string | null>(null);
+  const [rujukanFileName, setRujukanFileName] = useState<string | null>(null);
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf') {
+      toast.error('File harus berupa PDF');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Ukuran file maksimal 5MB');
+      return;
+    }
+    
+    setRujukanFileName(file.name);
+    
+    const reader = new FileReader();
+    reader.onload = () => {
+      setRujukanFileUrl(reader.result as string);
+      toast.success(`File ${file.name} berhasil diunggah`);
+    };
+    reader.onerror = () => {
+      toast.error('Gagal membaca file');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleClearFile = () => {
+    setRujukanFileUrl(null);
+    setRujukanFileName(null);
+  };
+
   // States for overriding slot details
   const [lokasiOverride, setLokasiOverride] = useState('');
   const [waktuMulaiOverride, setWaktuMulaiOverride] = useState('');
@@ -62,7 +96,7 @@ export default function AdminSkriningPage() {
     
     // Save pesan jika ada
     if (pesan) {
-      const isRujukan = pesan.toLowerCase().includes('rujukan');
+      const isRujukan = pesan.toLowerCase().includes('rujukan') || rujukanFileUrl !== null;
       const isDitolak = newStatus === 'rejected';
       const mailboxMsg: MailboxMessage = {
         id: generateId('msg'),
@@ -74,7 +108,8 @@ export default function AdminSkriningPage() {
         konten: pesan,
         is_read: false,
         created_at: new Date().toISOString(),
-        action_url: isDitolak ? undefined : `/tiket/${selected.id}`,
+        action_url: isDitolak ? undefined : (isRujukan ? undefined : `/tiket/${selected.id}`),
+        file_url: isRujukan && rujukanFileUrl ? rujukanFileUrl : undefined,
         // Only include ticket metadata if not rejected
         ...(isDitolak ? {} : {
           tiket_id: selected.tiket_id,
@@ -98,6 +133,8 @@ export default function AdminSkriningPage() {
     setSelected(null);
     setCatatan('');
     setPesan('');
+    setRujukanFileUrl(null);
+    setRujukanFileName(null);
   };
 
   const isDeletable = (status: string) => ['completed', 'rejected', 'cancelled'].includes(status);
@@ -354,6 +391,35 @@ export default function AdminSkriningPage() {
                       placeholder="Kirim pesan pemberitahuan ke kotak masuk personel..."
                       className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#135bec] transition-all" />
                   </div>
+
+                  {/* Referral PDF Uploader */}
+                  {user?.role === 'admin' && (
+                    <div className="mb-4 p-4 border border-red-200 bg-red-50/40 rounded-xl">
+                      <label className="text-xs font-bold text-red-800 mb-1.5 block flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[16px]">assignment_late</span>
+                        Lampirkan Surat Rujukan (PDF)
+                      </label>
+                      <p className="text-[10px] text-[#616f89] mb-3">
+                        Rekomendasi untuk personel risiko tinggi. Unggah file PDF surat rujukan resmi di sini.
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#dbdfe6] rounded-xl p-3 bg-white hover:bg-gray-50 cursor-pointer transition-all">
+                          <span className="material-symbols-outlined text-gray-400 text-[24px] mb-1">upload_file</span>
+                          <span className="text-xs text-[#111318] font-bold truncate max-w-xs">
+                            {rujukanFileName ? rujukanFileName : 'Pilih File PDF Rujukan'}
+                          </span>
+                          <span className="text-[9px] text-[#616f89] mt-0.5">PDF Maksimal 5MB</span>
+                          <input type="file" accept="application/pdf" className="hidden" onChange={handleFileChange} />
+                        </label>
+                        {rujukanFileUrl && (
+                          <button type="button" onClick={handleClearFile} className="text-xs text-red-600 hover:text-red-700 font-bold self-end flex items-center gap-0.5 mt-1">
+                            <span className="material-symbols-outlined text-[14px]">delete</span>
+                            Hapus File Lampiran
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mb-4">
                     <label className="text-xs font-bold text-[#616f89] mb-1 block">Catatan Internal (Admin/Psikolog)</label>
