@@ -1,24 +1,61 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { mockSlots } from '@/lib/mockData';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { mockSlots, mockUsers, mockScreenings } from '@/lib/mockData';
+import { saveBooking, getLocalScreenings } from '@/lib/dataStore';
+import { useAuth } from '@/context/AuthContext';
 
 export default function KonfirmasiBookingPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const searchParams = useSearchParams();
   const [catatan, setCatatan] = useState('');
   const [loading, setLoading] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
-  // Demo: ambil slot pertama sebagai contoh
-  const slot = mockSlots[0];
+  // Ambil slot berdasarkan query param
+  const slotId = searchParams.get('slot');
+  const slot = mockSlots.find(s => s.id === slotId) || mockSlots[0];
 
   const handleConfirm = async () => {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1500));
+    
+    // Ambil hasil skrining terbaru untuk user ini
+    const userId = user?.id || mockUsers[0].id;
+    const userScreenings = getLocalScreenings().filter(s => s.user_id === userId);
+    
+    // Urutkan berdasarkan tanggal submit terbaru
+    const latestScreening = userScreenings.sort(
+      (a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime()
+    )[0];
+    
+    const screeningId = latestScreening ? latestScreening.id : mockScreenings[0].id;
+    const levelRisiko = latestScreening ? latestScreening.level_risiko : 'rendah';
+    
+    // Triage status:
+    // Risiko Tinggi (Parah) langsung masuk ke pending_admin (dashboard admin)
+    // Risiko Rendah / Sedang masuk ke pending_psikolog (dashboard psikolog dulu)
+    const triageStatus = levelRisiko === 'tinggi' ? 'pending_admin' : 'pending_psikolog';
+
+    // Simpan ke local storage
+    const newBookingId = `bkg_${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+    saveBooking({
+      id: newBookingId,
+      tiket_id: `TK-2607-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+      user_id: userId,
+      user: user || mockUsers[0],
+      slot: slot,
+      screening_id: screeningId,
+      catatan_tambahan: catatan,
+      status: triageStatus,
+      created_at: new Date().toISOString(),
+    });
+
     setLoading(false);
-    router.push('/tiket/bkg_01HXYZ');
+    router.push(`/tiket/${newBookingId}`);
   };
 
   const formatDate = (d: string) => new Date(d).toLocaleDateString('id-ID', {

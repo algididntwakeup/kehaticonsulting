@@ -1,16 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { mockArticles, formatDateShort } from '@/lib/mockData';
+import { useState, useEffect } from 'react';
+import { formatDateShort } from '@/lib/mockData';
+import { getLocalArticles } from '@/lib/dataStore';
+import { Article } from '@/lib/types';
 
 const kategoriList = ['Semua', 'Kesehatan', 'Program SDM', 'Kegiatan', 'Edukasi', 'Panduan'];
 
 export default function BeritaPage() {
   const [query, setQuery] = useState('');
   const [selectedKategori, setSelectedKategori] = useState('Semua');
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
 
-  const articles = mockArticles
+  useEffect(() => {
+    setAllArticles(getLocalArticles());
+  }, []);
+
+  const articles = allArticles
     .filter(a => a.status === 'published')
     .filter(a => selectedKategori === 'Semua' || a.kategori === selectedKategori)
     .filter(a => a.judul.toLowerCase().includes(query.toLowerCase()));

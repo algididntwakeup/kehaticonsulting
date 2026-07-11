@@ -2,15 +2,17 @@
 
 import { use } from 'react';
 import Link from 'next/link';
-import { mockArticles, formatDate } from '@/lib/mockData';
+import { formatDate } from '@/lib/mockData';
+import { getLocalArticles } from '@/lib/dataStore';
 import { notFound } from 'next/navigation';
 
 export default function BeritaDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const article = mockArticles.find(a => a.id === id && a.status === 'published');
+  const allArticles = getLocalArticles();
+  const article = allArticles.find(a => a.id === id && a.status === 'published');
   if (!article) notFound();
 
-  const related = mockArticles.filter(a => a.id !== article.id && a.status === 'published').slice(0, 3);
+  const related = allArticles.filter(a => a.id !== article.id && a.status === 'published').slice(0, 3);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

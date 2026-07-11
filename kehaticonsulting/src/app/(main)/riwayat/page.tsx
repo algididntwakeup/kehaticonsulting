@@ -1,13 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { mockBookings, mockScreenings, getBookingStatusColor, getValidationColor, getRisikoColor, formatDateShort } from '@/lib/mockData';
+import { useState, useEffect } from 'react';
+import { getBookingStatusColor, getValidationColor, getRisikoColor, formatDateShort } from '@/lib/mockData';
+import { getLocalBookings, getLocalScreenings } from '@/lib/dataStore';
+import { Booking, Screening } from '@/lib/types';
 
 type TabType = 'booking' | 'skrining';
 
 export default function RiwayatPage() {
   const [activeTab, setActiveTab] = useState<TabType>('booking');
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [screenings, setScreenings] = useState<Screening[]>([]);
+
+  useEffect(() => {
+    setBookings(getLocalBookings());
+    setScreenings(getLocalScreenings());
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -37,7 +46,7 @@ export default function RiwayatPage() {
       {/* Booking Tab */}
       {activeTab === 'booking' && (
         <div className="flex flex-col gap-4 animate-fade-in">
-          {mockBookings.length === 0 ? (
+          {bookings.length === 0 ? (
             <div className="flex flex-col items-center py-20 bg-white rounded-xl border border-[#dbdfe6] text-center">
               <span className="material-symbols-outlined text-[60px] text-[#dbdfe6] mb-4">confirmation_number</span>
               <p className="text-[#616f89] font-medium">Belum ada riwayat booking</p>
@@ -48,7 +57,7 @@ export default function RiwayatPage() {
               </Link>
             </div>
           ) : (
-            mockBookings.map((booking, i) => (
+            bookings.map((booking, i) => (
               <Link key={booking.id} href={`/tiket/${booking.id}`}>
                 <div
                   className="bg-white rounded-xl border border-[#dbdfe6] p-5 hover:border-[#135bec]/40 hover:shadow-sm transition-all cursor-pointer group animate-fade-in"
@@ -97,7 +106,7 @@ export default function RiwayatPage() {
       {/* Skrining Tab */}
       {activeTab === 'skrining' && (
         <div className="flex flex-col gap-4 animate-fade-in">
-          {mockScreenings.length === 0 ? (
+          {screenings.length === 0 ? (
             <div className="flex flex-col items-center py-20 bg-white rounded-xl border border-[#dbdfe6] text-center">
               <span className="material-symbols-outlined text-[60px] text-[#dbdfe6] mb-4">psychology</span>
               <p className="text-[#616f89] font-medium">Belum ada riwayat skrining</p>
@@ -108,7 +117,7 @@ export default function RiwayatPage() {
               </Link>
             </div>
           ) : (
-            mockScreenings.slice(0, 2).map((sk, i) => (
+            screenings.slice(0, 10).map((sk, i) => (
               <div
                 key={sk.id}
                 className="bg-white rounded-xl border border-[#dbdfe6] p-5 animate-fade-in"

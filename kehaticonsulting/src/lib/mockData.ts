@@ -1,7 +1,7 @@
 // Mock Data — KEHATI Platform
 // Data dummy untuk demonstrasi front-end
 
-import { User, Screening, Slot, Booking, Article, DassQuestion, AdminStats } from './types';
+import { User, Screening, Slot, Booking, Article, DassQuestion, AdminStats, MailboxMessage } from './types';
 
 // ─── Users ───────────────────────────────────────────
 export const mockUsers: User[] = [
@@ -126,12 +126,28 @@ export const mockPsikolog = [
   { id: 'psi_03', nama: 'Siti Rahayu, S.Psi., M.Psi', spesialis: 'Konseling' },
 ];
 
+// ─── Helper: Dynamic Weekday Dates ────────────────────
+function getNextWeekdays(count: number): string[] {
+  const dates: string[] = [];
+  const d = new Date();
+  while (dates.length < count) {
+    const day = d.getDay();
+    if (day >= 1 && day <= 5) { // Mon-Fri
+      dates.push(d.toISOString().split('T')[0]);
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return dates;
+}
+
+const weekdays = getNextWeekdays(5);
+
 // ─── Slots ────────────────────────────────────────────
 export const mockSlots: Slot[] = [
   {
     id: 'slot_01HDEF',
     psikolog: mockPsikolog[0],
-    tanggal: '2026-07-01',
+    tanggal: weekdays[0],
     jam_mulai: '09:00',
     jam_selesai: '10:00',
     metode: 'daring',
@@ -142,7 +158,7 @@ export const mockSlots: Slot[] = [
   {
     id: 'slot_02HGHI',
     psikolog: mockPsikolog[0],
-    tanggal: '2026-07-01',
+    tanggal: weekdays[0],
     jam_mulai: '10:30',
     jam_selesai: '11:30',
     metode: 'luring',
@@ -153,7 +169,7 @@ export const mockSlots: Slot[] = [
   {
     id: 'slot_03HJKL',
     psikolog: mockPsikolog[1],
-    tanggal: '2026-07-02',
+    tanggal: weekdays[1],
     jam_mulai: '13:00',
     jam_selesai: '14:00',
     metode: 'daring',
@@ -164,18 +180,18 @@ export const mockSlots: Slot[] = [
   {
     id: 'slot_04HMNO',
     psikolog: mockPsikolog[2],
-    tanggal: '2026-07-03',
+    tanggal: weekdays[2],
     jam_mulai: '08:00',
     jam_selesai: '09:00',
     metode: 'luring',
     kapasitas: 1,
     lokasi: 'Ruang Konseling Lt.1, Gedung Biro SDM',
-    status: 'booked',
+    status: 'available',
   },
   {
     id: 'slot_05HPQR',
     psikolog: mockPsikolog[0],
-    tanggal: '2026-07-03',
+    tanggal: weekdays[2],
     jam_mulai: '14:00',
     jam_selesai: '15:00',
     metode: 'daring',
@@ -186,7 +202,7 @@ export const mockSlots: Slot[] = [
   {
     id: 'slot_06HSTU',
     psikolog: mockPsikolog[1],
-    tanggal: '2026-07-04',
+    tanggal: weekdays[3],
     jam_mulai: '09:00',
     jam_selesai: '10:00',
     metode: 'daring',
@@ -293,13 +309,62 @@ export const mockArticles: Article[] = [
   },
 ];
 
-// ─── Admin Stats ──────────────────────────────────────
+// ─── Dashboard Stats (Admin) ──────────────────────────
 export const mockAdminStats: AdminStats = {
   total_skrining_hari_ini: 12,
   antrian_booking: 5,
-  distribusi_risiko: { rendah: 45, sedang: 38, tinggi: 17 },
+  distribusi_risiko: {
+    rendah: 45,
+    sedang: 38,
+    tinggi: 17,
+  },
   total_user: 248,
 };
+
+// ─── Mailbox Messages ─────────────────────────────────
+export const mockMailbox: MailboxMessage[] = [
+  {
+    id: 'msg_01',
+    user_id: 'usr_01HXYZ',
+    tipe: 'tiket',
+    judul: 'Tiket Konseling Anda Telah Terbit',
+    konten: 'Jadwal konseling Anda telah dikonfirmasi oleh Admin. Silakan periksa detail tiket di bawah ini dan pastikan Anda hadir tepat waktu.',
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+    is_read: false,
+    tiket_id: 'TK-2601-XYZ',
+    psikolog_nama: mockPsikolog[0].nama,
+    tanggal: '2026-02-01',
+    waktu: '10:00 - 11:00 WIB',
+    metode: 'daring',
+    lokasi_link: 'https://meet.google.com/abc-defg-hij'
+  },
+  {
+    id: 'msg_02',
+    user_id: 'usr_01HXYZ',
+    tipe: 'rujukan',
+    judul: 'Surat Rujukan Penanganan Lanjutan',
+    konten: 'Berdasarkan hasil skrining, kondisi psikologis Anda memerlukan perhatian serius. Kami telah menerbitkan Surat Rujukan untuk penanganan lebih lanjut. Harap segera menghubungi konselor.',
+    created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+    is_read: true,
+    screening_id: mockScreenings[0].id,
+    file_url: '/dummy-rujukan.pdf'
+  },
+  {
+    id: 'msg_03',
+    user_id: 'usr_01HXYZ',
+    tipe: 'tiket',
+    judul: 'Tiket Konseling Luring (Tatap Muka)',
+    konten: 'Jadwal konseling luring Anda telah dikonfirmasi. Harap datang 15 menit sebelum sesi dimulai dan tunjukkan tiket Anda ke petugas.',
+    created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+    is_read: true,
+    tiket_id: 'TK-2512-ABC',
+    psikolog_nama: mockPsikolog[1].nama,
+    tanggal: '2025-12-28',
+    waktu: '13:00 - 14:00 WIB',
+    metode: 'luring',
+    lokasi_link: 'Ruang Konseling Biro SDM, Gedung Utama Lt.3'
+  }
+];
 
 // ─── Pangkat Options ──────────────────────────────────
 export const pangkatOptions = [
@@ -369,7 +434,10 @@ export function getValidationColor(status: string): string {
 export function getBookingStatusColor(status: string): string {
   switch (status) {
     case 'confirmed':  return 'text-green-700 bg-green-100';
+    case 'pending_psikolog': return 'text-purple-700 bg-purple-100';
+    case 'pending_admin': return 'text-orange-700 bg-orange-100';
     case 'completed':  return 'text-blue-700 bg-blue-100';
+    case 'rejected':   return 'text-red-700 bg-red-100';
     case 'cancelled':  return 'text-red-700 bg-red-100';
     default:           return 'text-gray-700 bg-gray-100';
   }

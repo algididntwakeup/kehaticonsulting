@@ -1,38 +1,99 @@
 'use client';
 
-import { useState } from 'react';
-import { mockArticles, formatDateShort } from '@/lib/mockData';
+import { useState, useEffect } from 'react';
+import { formatDateShort } from '@/lib/mockData';
+import { getLocalArticles, saveArticle, deleteArticle } from '@/lib/dataStore';
 import { Article } from '@/lib/types';
+import { toast } from 'sonner';
 
 export default function AdminBeritaPage() {
-  const [articles, setArticles] = useState(mockArticles);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ judul: '', konten: '', kategori: '', status: 'draft' });
+  const [editId, setEditId] = useState<string | null>(null);
+  const [form, setForm] = useState({ judul: '', konten: '', kategori: '', status: 'draft', thumbnail_url: '' });
+
+  useEffect(() => {
+    setArticles(getLocalArticles());
+  }, []);
 
   const handleDelete = (id: string) => {
-    if (confirm('Hapus artikel ini?')) setArticles(prev => prev.filter(a => a.id !== id));
+    if (confirm('Hapus artikel ini?')) {
+      deleteArticle(id);
+      setArticles(getLocalArticles());
+      toast.success('Artikel berhasil dihapus');
+    }
   };
 
   const handleToggle = (id: string) => {
-    setArticles(prev => prev.map(a =>
-      a.id === id ? { ...a, status: a.status === 'published' ? 'draft' : 'published' as any } : a
-    ));
+    const article = articles.find(a => a.id === id);
+    if (!article) return;
+    const updated = { ...article, status: article.status === 'published' ? 'draft' as const : 'published' as const, published_at: article.status === 'draft' ? new Date().toISOString() : article.published_at };
+    saveArticle(updated);
+    setArticles(getLocalArticles());
+    toast.success(`Artikel ${updated.status === 'published' ? 'dipublikasikan' : 'di-draft'}`);
   };
 
-  const handleAdd = () => {
-    const newArticle: Article = {
-      id: `art_${Date.now()}`,
-      judul: form.judul,
-      konten: form.konten,
-      kategori: form.kategori,
-      status: form.status as 'draft' | 'published',
-      author_id: 'usr_admin01',
-      created_at: new Date().toISOString(),
-      read_time: Math.ceil(form.konten.split(' ').length / 200) || 3,
-    };
-    setArticles(prev => [newArticle, ...prev]);
+  const handleOpenEdit = (article: Article) => {
+    setEditId(article.id);
+    setForm({
+      judul: article.judul,
+      konten: article.konten,
+      kategori: article.kategori,
+      status: article.status,
+      thumbnail_url: article.thumbnail_url || '',
+    });
+    setShowModal(true);
+  };
+
+  const handleOpenAdd = () => {
+    setEditId(null);
+    setForm({ judul: '', konten: '', kategori: '', status: 'draft', thumbnail_url: '' });
+    setShowModal(true);
+  };
+
+  const handleSave = () => {
+    if (!form.judul.trim() || !form.konten.trim()) {
+      toast.error('Judul dan konten wajib diisi');
+      return;
+    }
+
+    if (editId) {
+      // Edit existing
+      const existing = articles.find(a => a.id === editId);
+      if (!existing) return;
+      const updated: Article = {
+        ...existing,
+        judul: form.judul,
+        konten: form.konten,
+        kategori: form.kategori,
+        status: form.status as 'draft' | 'published',
+        thumbnail_url: form.thumbnail_url || undefined,
+        read_time: Math.ceil(form.konten.split(' ').length / 200) || 3,
+      };
+      saveArticle(updated);
+      toast.success('Artikel berhasil diperbarui');
+    } else {
+      // Add new
+      const newArticle: Article = {
+        id: `art_${Date.now()}`,
+        judul: form.judul,
+        konten: form.konten,
+        kategori: form.kategori,
+        status: form.status as 'draft' | 'published',
+        author_id: 'usr_admin01',
+        created_at: new Date().toISOString(),
+        published_at: form.status === 'published' ? new Date().toISOString() : undefined,
+        read_time: Math.ceil(form.konten.split(' ').length / 200) || 3,
+        thumbnail_url: form.thumbnail_url || undefined,
+      };
+      saveArticle(newArticle);
+      toast.success('Artikel baru berhasil dibuat');
+    }
+
+    setArticles(getLocalArticles());
     setShowModal(false);
-    setForm({ judul: '', konten: '', kategori: '', status: 'draft' });
+    setEditId(null);
+    setForm({ judul: '', konten: '', kategori: '', status: 'draft', thumbnail_url: '' });
   };
 
   return (
@@ -42,7 +103,7 @@ export default function AdminBeritaPage() {
           <h1 className="text-2xl font-bold text-[#111318]">Kelola Berita</h1>
           <p className="text-[#616f89] text-sm mt-1">Buat, edit, dan kelola konten artikel portal KEHATI.</p>
         </div>
-        <button onClick={() => setShowModal(true)}
+        <button onClick={handleOpenAdd}
           className="flex items-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition-all hover:shadow-md">
           <span className="material-symbols-outlined text-[18px]">add</span>
           Artikel Baru
@@ -93,7 +154,7 @@ export default function AdminBeritaPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-xs font-bold px-2 py-0.5 bg-[#ebf1fd] text-[#135bec] rounded-full">{article.kategori}</span>
+                    <span className="text-xs font-bold px-2 py-0.5 bg-[#ebf1fd] text-[#135bec] rounded-full">{article.kategori || '-'}</span>
                   </td>
                   <td className="px-4 py-3">
                     <button onClick={() => handleToggle(article.id)}
@@ -112,7 +173,7 @@ export default function AdminBeritaPage() {
                   <td className="px-4 py-3 text-xs text-[#616f89]">{article.read_time} mnt</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
-                      <button className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors">
+                      <button onClick={() => handleOpenEdit(article)} className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors">
                         <span className="material-symbols-outlined text-[18px]">edit</span>
                       </button>
                       <button onClick={() => handleDelete(article.id)}
@@ -128,13 +189,13 @@ export default function AdminBeritaPage() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Add/Edit */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg animate-fade-in">
             <div className="flex items-center justify-between p-6 border-b border-[#dbdfe6]">
-              <h3 className="font-bold text-[#111318]">Artikel Baru</h3>
-              <button onClick={() => setShowModal(false)} className="text-[#616f89] hover:text-[#111318]">
+              <h3 className="font-bold text-[#111318]">{editId ? 'Edit Artikel' : 'Artikel Baru'}</h3>
+              <button onClick={() => { setShowModal(false); setEditId(null); }} className="text-[#616f89] hover:text-[#111318]">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
@@ -162,6 +223,12 @@ export default function AdminBeritaPage() {
                 </div>
               </div>
               <div>
+                <label className="text-xs font-bold text-[#616f89] mb-1.5 block">URL Thumbnail (opsional)</label>
+                <input type="text" value={form.thumbnail_url} onChange={e => setForm(f => ({ ...f, thumbnail_url: e.target.value }))}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+              </div>
+              <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Konten *</label>
                 <textarea value={form.konten} onChange={e => setForm(f => ({ ...f, konten: e.target.value }))}
                   rows={5} placeholder="Isi konten artikel..."
@@ -169,11 +236,11 @@ export default function AdminBeritaPage() {
               </div>
             </div>
             <div className="flex gap-3 p-6 pt-0">
-              <button onClick={handleAdd}
+              <button onClick={handleSave}
                 className="flex-1 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-2.5 rounded-xl text-sm transition-all">
-                Simpan Artikel
+                {editId ? 'Simpan Perubahan' : 'Simpan Artikel'}
               </button>
-              <button onClick={() => setShowModal(false)}
+              <button onClick={() => { setShowModal(false); setEditId(null); }}
                 className="px-5 py-2.5 border border-[#dbdfe6] text-[#616f89] rounded-xl text-sm font-semibold hover:bg-[#f6f6f8]">
                 Batal
               </button>

@@ -32,6 +32,10 @@ export default function SkriningPage() {
     await new Promise(r => setTimeout(r, 1500));
     // Simpan jawaban ke sessionStorage agar halaman hasil bisa menghitungnya
     sessionStorage.setItem('skrining_answers', JSON.stringify(answers));
+    // Generate ID unik untuk skrining ini
+    const skriningId = `skr_${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+    sessionStorage.setItem('skrining_current_id', skriningId);
+    sessionStorage.removeItem('skrining_saved'); // reset status saved
     setSubmitting(false);
     router.push('/skrining/hasil');
   };

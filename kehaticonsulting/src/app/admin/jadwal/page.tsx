@@ -1,17 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockSlots, mockPsikolog } from '@/lib/mockData';
 import { Slot } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
+import { getLocalBookings } from '@/lib/dataStore';
 
 export default function AdminJadwalPage() {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [slots, setSlots] = useState(mockSlots);
+  const [slots, setSlots] = useState<Slot[]>([]);
   const [form, setForm] = useState({
     psikolog_id: '', tanggal: '', jam_mulai: '', jam_selesai: '', metode: 'daring', lokasi: '',
   });
+
+  useEffect(() => {
+    const localBookings = getLocalBookings();
+    const updatedSlots = mockSlots.map(slot => {
+      const isBooked = localBookings.some(b => b.slot.id === slot.id);
+      if (isBooked) return { ...slot, status: 'booked' as const };
+      return slot;
+    });
+    setSlots(updatedSlots);
+  }, []);
 
   const statusColor: Record<string, string> = {
     available: 'bg-green-100 text-green-700',

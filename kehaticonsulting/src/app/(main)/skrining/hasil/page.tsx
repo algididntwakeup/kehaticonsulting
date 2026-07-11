@@ -2,7 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { dass21Questions } from '@/lib/mockData';
+import { dass21Questions, mockUsers } from '@/lib/mockData';
+import { saveScreening } from '@/lib/dataStore';
+import { useAuth } from '@/context/AuthContext';
+import { Screening } from '@/lib/types';
 
 // ─── DASS-21 Scoring Thresholds ─────────────────────────────────────────────
 // Skala DASS-21: skor dikalikan 2 lalu dibandingkan dengan threshold standar
@@ -48,6 +51,7 @@ function getOverallRisiko(depressionRaw: number, anxietyRaw: number, stressRaw: 
 }
 
 export default function HasilSkriningPage() {
+  const { user } = useAuth();
   const [scores, setScores] = useState<{
     depression: number; anxiety: number; stress: number; total: number;
   } | null>(null);
@@ -56,6 +60,7 @@ export default function HasilSkriningPage() {
 
   useEffect(() => {
     const raw = sessionStorage.getItem('skrining_answers');
+    const saved = sessionStorage.getItem('skrining_saved');
     if (!raw) return;
 
     const answers: Record<number, number> = JSON.parse(raw);
@@ -69,10 +74,29 @@ export default function HasilSkriningPage() {
     });
 
     const total = depression + anxiety + stress;
+    const computedLevel = getOverallRisiko(depression, anxiety, stress);
     setScores({ depression, anxiety, stress, total });
-    setLevel(getOverallRisiko(depression, anxiety, stress));
+    setLevel(computedLevel);
     setFromSession(true);
-  }, []);
+
+    if (!saved) {
+      const skriningId = sessionStorage.getItem('skrining_current_id') || `skr_${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+      const newScreening: Screening = {
+        id: skriningId,
+        user_id: user?.id || mockUsers[0].id,
+        user: user || mockUsers[0],
+        instrument_version: 'DASS-21-v1',
+        jawaban: Object.entries(answers).map(([nomor, skor]) => ({ nomor: Number(nomor), skor })),
+        skor_total: total,
+        level_risiko: computedLevel,
+        dapat_booking: true,
+        validation_status: 'pending',
+        submitted_at: new Date().toISOString(),
+      };
+      saveScreening(newScreening);
+      sessionStorage.setItem('skrining_saved', 'true');
+    }
+  }, [user]);
 
   const risikoConfig = {
     rendah: {

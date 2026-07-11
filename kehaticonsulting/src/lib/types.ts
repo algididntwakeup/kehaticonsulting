@@ -9,7 +9,7 @@ export type ValidationStatus = 'pending' | 'approved' | 'referred' | 'rejected';
 
 export type SlotStatus = 'available' | 'booked' | 'cancelled' | 'completed';
 
-export type BookingStatus = 'confirmed' | 'cancelled' | 'completed';
+export type BookingStatus = 'pending_psikolog' | 'pending_admin' | 'confirmed' | 'rejected' | 'cancelled' | 'completed';
 
 export type ArticleStatus = 'draft' | 'published';
 
@@ -142,4 +142,27 @@ export interface RegisterPayload {
   satker: string;
   unit?: string;
   password: string;
+}
+
+// ─── Mailbox ─────────────────────────────────────────
+export interface MailboxMessage {
+  id: string;
+  user_id?: string;
+  tipe: 'tiket' | 'rujukan' | 'info';
+  judul: string;
+  konten: string;
+  created_at: string;
+  is_read: boolean;
+  // Khusus untuk tiket:
+  booking_id?: string;
+  tiket_id?: string;
+  psikolog_nama?: string;
+  tanggal?: string;
+  waktu?: string;
+  metode?: MetodeKonseling;
+  lokasi_link?: string;
+  // Khusus untuk rujukan:
+  screening_id?: string;
+  file_url?: string;
+  action_url?: string;
 }

@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { mockBookings } from '@/lib/mockData';
+import { getLocalBookings } from '@/lib/dataStore';
+import { Booking } from '@/lib/types';
+import { useEffect, useState, use } from 'react';
 
 function QRCode() {
   return (
@@ -18,19 +20,31 @@ function QRCode() {
   );
 }
 
-export default function TiketPage({ params }: { params: { id: string } }) {
-  const booking = mockBookings.find(b => b.id === params.id) ?? mockBookings[0];
+export default function TiketPage({ params }: { params: Promise<{ id: string }> }) {
+  const unwrappedParams = use(params);
+  const id = unwrappedParams.id;
+  const [booking, setBooking] = useState<Booking | null>(null);
+
+  useEffect(() => {
+    const local = getLocalBookings();
+    setBooking(local.find(b => b.id === id) ?? local[0]);
+  }, [id]);
 
   const formatDate = (d: string) => new Date(d).toLocaleDateString('id-ID', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
   });
 
-  const statusConfig = {
+  if (!booking) return <div className="p-10 text-center">Loading...</div>;
+
+  const statusConfig: Record<string, {label: string, color: string}> = {
     confirmed:  { label: 'Confirmed', color: 'bg-green-100 text-green-800 border-green-200' },
+    pending_psikolog: { label: 'Review Psikolog', color: 'bg-purple-100 text-purple-800 border-purple-200' },
+    pending_admin: { label: 'Verifikasi Admin', color: 'bg-orange-100 text-orange-800 border-orange-200' },
     completed:  { label: 'Completed', color: 'bg-blue-100 text-blue-800 border-blue-200' },
+    rejected:   { label: 'Ditolak', color: 'bg-red-100 text-red-800 border-red-200' },
     cancelled:  { label: 'Cancelled', color: 'bg-red-100 text-red-800 border-red-200' },
   };
-  const status = statusConfig[booking.status];
+  const status = statusConfig[booking.status] || statusConfig['pending_psikolog'];
 
   return (
     <div className="max-w-xl mx-auto px-4 py-8 animate-fade-in">

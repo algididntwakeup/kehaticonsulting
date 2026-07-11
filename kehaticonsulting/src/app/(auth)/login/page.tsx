@@ -26,8 +26,10 @@ export default function LoginPage() {
     const result = await login(nrp, password);
     setLoading(false);
     if (result.success) {
-      if (result.user?.role === 'admin' || result.user?.role === 'psikolog') {
+      if (result.user?.role === 'admin') {
         router.push('/admin/dashboard');
+      } else if (result.user?.role === 'psikolog') {
+        router.push('/psikolog/dashboard');
       } else {
         router.push('/dashboard');
       }
