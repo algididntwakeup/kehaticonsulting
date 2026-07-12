@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { dass21Questions, mockUsers } from '@/lib/mockData';
-import { saveScreening } from '@/lib/dataStore';
+import { dass21Questions, mockUsers, mockPsikolog } from '@/lib/mockData';
+import { saveScreening, saveBooking } from '@/lib/dataStore';
 import { useAuth } from '@/context/AuthContext';
 import { Screening } from '@/lib/types';
 
@@ -89,11 +89,44 @@ export default function HasilSkriningPage() {
         jawaban: Object.entries(answers).map(([nomor, skor]) => ({ nomor: Number(nomor), skor })),
         skor_total: total,
         level_risiko: computedLevel,
-        dapat_booking: true,
+        dapat_booking: computedLevel !== 'tinggi',
         validation_status: 'pending',
         submitted_at: new Date().toISOString(),
       };
       saveScreening(newScreening);
+
+      // Jika risiko TINGGI (Parah), otomatis daftarkan rujukan administrasi untuk ditinjau oleh Admin
+      if (computedLevel === 'tinggi') {
+        const autoBookingId = `bkg_${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+        const autoTiketId = `TKT-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+        
+        const rujukanSlot = {
+          id: `slot_rujukan_${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+          psikolog: mockPsikolog[0],
+          tanggal: new Date().toISOString().split('T')[0],
+          jam_mulai: '08:00',
+          jam_selesai: '16:00',
+          metode: 'daring' as const,
+          kapasitas: 1,
+          lokasi: 'Unggah Surat Rujukan PDF',
+          status: 'booked' as const,
+        };
+        
+        const newBooking = {
+          id: autoBookingId,
+          tiket_id: autoTiketId,
+          user_id: user?.id || mockUsers[0].id,
+          user: user || mockUsers[0],
+          slot: rujukanSlot,
+          screening_id: skriningId,
+          catatan_tambahan: 'Sistem Otomatis: Hasil skrining mendeteksi tingkat risiko TINGGI (Parah). Memerlukan surat rujukan penanganan lanjutan dari Admin.',
+          status: 'pending_admin' as const,
+          created_at: new Date().toISOString(),
+        };
+        
+        saveBooking(newBooking);
+      }
+
       sessionStorage.setItem('skrining_saved', 'true');
     }
   }, [user]);

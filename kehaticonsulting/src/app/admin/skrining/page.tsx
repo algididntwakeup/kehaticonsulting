@@ -202,6 +202,9 @@ export default function AdminSkriningPage() {
     setBookings(getLocalBookings());
   };
 
+  const sk = selected ? getScreeningForBooking(selected) : null;
+  const isSevere = sk && sk.level_risiko === 'tinggi';
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="mb-6">
@@ -428,29 +431,31 @@ export default function AdminSkriningPage() {
                       className="w-full rounded-lg border border-[#dbdfe6] bg-[#f6f6f8] text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#135bec] transition-all" />
                   </div>
 
-                  <div className="mb-4 bg-blue-50 border border-blue-100 p-4 rounded-xl animate-fade-in">
-                    <p className="text-xs font-bold text-[#135bec] mb-3">Detail Pelaksanaan Konseling</p>
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      <div>
-                        <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Mulai</label>
-                        <input type="time" value={waktuMulaiOverride} onChange={e => setWaktuMulaiOverride(e.target.value)}
-                          className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                  {!isSevere && (
+                    <div className="mb-4 bg-blue-50 border border-blue-100 p-4 rounded-xl animate-fade-in">
+                      <p className="text-xs font-bold text-[#135bec] mb-3">Detail Pelaksanaan Konseling</p>
+                      <div className="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                          <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Mulai</label>
+                          <input type="time" value={waktuMulaiOverride} onChange={e => setWaktuMulaiOverride(e.target.value)}
+                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Selesai</label>
+                          <input type="time" value={waktuSelesaiOverride} onChange={e => setWaktuSelesaiOverride(e.target.value)}
+                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                        </div>
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Selesai</label>
-                        <input type="time" value={waktuSelesaiOverride} onChange={e => setWaktuSelesaiOverride(e.target.value)}
+                        <label className="text-[10px] font-bold text-[#616f89] block mb-1">
+                          {selected.slot.metode === 'daring' ? 'Link Google Meet / Zoom' : 'Lokasi Ruangan'}
+                        </label>
+                        <input type="text" value={lokasiOverride} onChange={e => setLokasiOverride(e.target.value)}
+                          placeholder={selected.slot.metode === 'daring' ? "Masukkan link GMeet..." : "Nama ruangan/lokasi..."}
                           className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
                       </div>
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold text-[#616f89] block mb-1">
-                        {selected.slot.metode === 'daring' ? 'Link Google Meet / Zoom' : 'Lokasi Ruangan'}
-                      </label>
-                      <input type="text" value={lokasiOverride} onChange={e => setLokasiOverride(e.target.value)}
-                        placeholder={selected.slot.metode === 'daring' ? "Masukkan link GMeet..." : "Nama ruangan/lokasi..."}
-                        className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
-                    </div>
-                  </div>
+                  )}
 
                   <div className="flex flex-col gap-2">
                     {user?.role === 'psikolog' ? (
@@ -468,10 +473,14 @@ export default function AdminSkriningPage() {
                       </>
                     ) : (
                       <>
-                        <button onClick={() => handleValidate('confirmed')}
-                          className="w-full flex items-center justify-center gap-2 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-colors">
-                          <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                          Konfirmasi Jadwal
+                        <button onClick={() => handleValidate(isSevere ? 'completed' : 'confirmed')}
+                          className={`w-full flex items-center justify-center gap-2 py-2.5 text-white text-sm font-bold rounded-lg transition-colors ${
+                            isSevere ? 'bg-red-600 hover:bg-red-700 shadow-sm shadow-red-500/10' : 'bg-green-600 hover:bg-green-700'
+                          }`}>
+                          <span className="material-symbols-outlined text-[18px]">
+                            {isSevere ? 'assignment_late' : 'check_circle'}
+                          </span>
+                          {isSevere ? 'Kirim Surat Rujukan & Selesaikan' : 'Konfirmasi Jadwal'}
                         </button>
                         <button onClick={() => handleValidate('rejected')}
                           className="w-full flex items-center justify-center gap-2 py-2.5 border border-red-200 text-red-600 text-sm font-semibold rounded-lg hover:bg-red-50 transition-colors">
