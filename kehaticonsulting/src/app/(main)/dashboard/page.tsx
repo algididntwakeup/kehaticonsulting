@@ -2,9 +2,11 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { mockBookings, mockArticles, formatDateShort } from '@/lib/mockData';
+import { getLocalBookings } from '@/lib/dataStore';
+import { Booking } from '@/lib/types';
 
 const quickActions = [
   {
@@ -37,7 +39,32 @@ const moodEmojis = ['😫', '😐', '🙂', '😄', '🤩'];
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const activeBooking = mockBookings.find(b => b.status === 'confirmed');
+  const [activeBookings, setActiveBookings] = useState<Booking[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    const refresh = () => {
+      const local = getLocalBookings();
+      const today = new Date().toISOString().split('T')[0];
+      const active = local.filter(b => 
+        b.user_id === user.id && 
+        ['confirmed', 'pending_psikolog', 'pending_admin'].includes(b.status) &&
+        b.slot.tanggal >= today
+      );
+      // Urutkan berdasarkan tanggal & jam terdekat
+      active.sort((a, b) => {
+        const dateTimeA = `${a.slot.tanggal}T${a.slot.jam_mulai}`;
+        const dateTimeB = `${b.slot.tanggal}T${b.slot.jam_mulai}`;
+        return dateTimeA.localeCompare(dateTimeB);
+      });
+      setActiveBookings(active);
+    };
+    refresh();
+    const interval = setInterval(refresh, 3000);
+    return () => clearInterval(interval);
+  }, [user]);
+
+  const activeBooking = activeBookings.find(b => b.status === 'confirmed');
   const latestArticles = mockArticles.filter(a => a.status === 'published').slice(0, 3);
   const [selectedMood, setSelectedMood] = useState<number | null>(2);
   const [showMoodWarning, setShowMoodWarning] = useState(false);
@@ -189,21 +216,37 @@ export default function DashboardPage() {
               <h3 className="font-bold text-[#111318]">Jadwal Mendatang</h3>
               <Link href="/riwayat" className="text-xs text-[#135bec] font-semibold hover:underline">Lihat Semua</Link>
             </div>
-            {activeBooking ? (
-              <div className="flex gap-3 items-start">
-                <div className="flex flex-col items-center bg-[#ebf1fd] rounded-lg p-2 min-w-[54px]">
-                  <span className="text-xs font-bold text-[#135bec] uppercase">
-                    {new Date(activeBooking.slot.tanggal).toLocaleString('id-ID', { month: 'short' })}
-                  </span>
-                  <span className="text-xl font-extrabold text-[#111318]">
-                    {new Date(activeBooking.slot.tanggal).getDate()}
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-[#111318] line-clamp-1">Konseling {activeBooking.slot.psikolog.nama.split(' ').slice(0, 2).join(' ')}</h4>
-                  <p className="text-xs text-[#616f89] mt-0.5">{activeBooking.slot.jam_mulai}–{activeBooking.slot.jam_selesai} WIB</p>
-                  <span className="inline-block mt-1.5 px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Confirmed</span>
-                </div>
+            {activeBookings.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {activeBookings.map((bkg) => (
+                  <div key={bkg.id} className="flex gap-3 items-start border-b border-[#f6f6f8] pb-3 last:border-0 last:pb-0">
+                    <div className={`flex flex-col items-center rounded-lg p-2 min-w-[54px] ${
+                      bkg.status === 'confirmed' ? 'bg-[#ebf1fd]' : 'bg-orange-50'
+                    }`}>
+                      <span className={`text-[10px] font-bold uppercase ${
+                        bkg.status === 'confirmed' ? 'text-[#135bec]' : 'text-orange-700'
+                      }`}>
+                        {new Date(bkg.slot.tanggal).toLocaleString('id-ID', { month: 'short' })}
+                      </span>
+                      <span className="text-xl font-extrabold text-[#111318]">
+                        {new Date(bkg.slot.tanggal).getDate()}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-[#111318] line-clamp-1">
+                        Konseling {bkg.slot.psikolog.nama.split(' ').slice(0, 2).join(' ')}
+                      </h4>
+                      <p className="text-xs text-[#616f89] mt-0.5">{bkg.slot.jam_mulai}–{bkg.slot.jam_selesai} WIB</p>
+                      <span className={`inline-block mt-1.5 px-2 py-0.5 text-[9px] font-bold rounded-full uppercase ${
+                        bkg.status === 'confirmed'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-orange-100 text-orange-700'
+                      }`}>
+                        {bkg.status === 'confirmed' ? 'Confirmed' : bkg.status.replace('pending_', 'Pending ')}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="flex flex-col items-center py-6 text-center">
