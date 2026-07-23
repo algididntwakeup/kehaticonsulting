@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,7 +122,13 @@ export default function LoginPage() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-[#111318] text-sm font-semibold flex justify-between" htmlFor="password">
                   <span>Password</span>
-                  <a href="#" className="text-[#135bec] text-xs font-medium hover:underline">Lupa Password?</a>
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPasswordModal(true)}
+                    className="text-[#135bec] text-xs font-medium hover:underline focus:outline-none"
+                  >
+                    Lupa Password?
+                  </button>
                 </label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#616f89]">
@@ -183,6 +190,70 @@ export default function LoginPage() {
       <footer className="py-4 text-center text-xs text-[#616f89]">
         © 2026 KEHATI — Biro SDM Polda Jawa Barat. Hak Cipta Dilindungi.
       </footer>
+
+      {/* Forgot Password Security Modal */}
+      {showForgotPasswordModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative overflow-hidden border border-[#dbdfe6]">
+            {/* Header Icon */}
+            <div className="w-14 h-14 rounded-2xl bg-[#ebf1fd] text-[#135bec] flex items-center justify-center mb-4">
+              <span className="material-symbols-outlined text-[32px]">shield_person</span>
+            </div>
+            
+            <h3 className="font-bold text-xl text-[#111318] mb-2">Bantuan Lupa Password</h3>
+            <p className="text-sm text-[#616f89] mb-5 leading-relaxed">
+              Demi keamanan akun dan kerahasiaan data personel, pemulihan password dilakukan melalui verifikasi oleh Admin SDM Polda Jabar. Silakan hubungi kontak berikut:
+            </p>
+
+            <div className="flex flex-col gap-3 mb-5">
+              <div className="flex items-center gap-3 p-3 bg-[#f6f6f8] rounded-xl border border-[#dbdfe6]">
+                <div className="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[20px]">chat</span>
+                </div>
+                <div>
+                  <p className="text-xs text-[#616f89] font-medium">WhatsApp Admin SDM</p>
+                  <p className="text-sm font-bold text-[#111318]">0812-3456-7890</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 bg-[#f6f6f8] rounded-xl border border-[#dbdfe6]">
+                <div className="w-10 h-10 rounded-lg bg-blue-100 text-[#135bec] flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[20px]">call</span>
+                </div>
+                <div>
+                  <p className="text-xs text-[#616f89] font-medium">Hotline Call Center</p>
+                  <p className="text-sm font-bold text-[#111318]">(022) 7202-1000 ext. 5678</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 bg-[#f6f6f8] rounded-xl border border-[#dbdfe6]">
+                <div className="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[20px]">mail</span>
+                </div>
+                <div>
+                  <p className="text-xs text-[#616f89] font-medium">Email Resmi SDM</p>
+                  <p className="text-sm font-bold text-[#111318]">sdm.poldajabar@polri.go.id</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl mb-6 flex items-start gap-2">
+              <span className="material-symbols-outlined text-amber-600 text-[18px] shrink-0 mt-0.5">info</span>
+              <p className="text-xs text-amber-800 leading-relaxed">
+                Jam operasional admin: <strong>Senin – Jumat, 08.00 – 16.00 WIB</strong>. Harap siapkan NRP dan Pangkat saat menghubungi admin.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowForgotPasswordModal(false)}
+              className="w-full bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-sm active:scale-[0.98]"
+            >
+              Mengerti & Tutup
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
