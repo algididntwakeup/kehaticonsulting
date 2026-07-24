@@ -1,0 +1,175 @@
+// Prisma Schema — KEHATI Platform
+// Serverless PostgreSQL Database Schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  personel
+  admin
+  psikolog
+}
+
+enum RisikoLevel {
+  rendah
+  sedang
+  tinggi
+}
+
+enum ValidationStatus {
+  pending
+  approved
+  referred
+  rejected
+}
+
+enum SlotStatus {
+  available
+  booked
+  cancelled
+  completed
+}
+
+enum BookingStatus {
+  pending_psikolog
+  pending_admin
+  confirmed
+  rejected
+  cancelled
+  completed
+}
+
+enum ArticleStatus {
+  draft
+  published
+}
+
+enum MetodeKonseling {
+  daring
+  luring
+}
+
+enum MessageType {
+  tiket
+  rujukan
+  info
+}
+
+model User {
+  id            String      @id @default(uuid())
+  nrp           String      @unique
+  password_hash String
+  nama_lengkap  String
+  pangkat       String
+  satker        String
+  unit          String?
+  email         String?
+  role          Role        @default(personel)
+  is_active     Boolean     @default(true)
+  avatar        String?
+  created_at    DateTime    @default(now())
+
+  screenings          Screening[]
+  screeningsValidated Screening[]      @relation("ValidatedBy")
+  bookings            Booking[]
+  articles            Article[]
+  mailbox_messages    MailboxMessage[]
+}
+
+model Psikolog {
+  id        String   @id @default(uuid())
+  nama      String
+  spesialis String?
+  avatar    String?
+  slots     Slot[]
+}
+
+model Slot {
+  id          String          @id @default(uuid())
+  psikolog_id String
+  psikolog    Psikolog        @relation(fields: [psikolog_id], references: [id], onDelete: Cascade)
+  tanggal     String          // YYYY-MM-DD
+  jam_mulai   String          // HH:mm
+  jam_selesai String          // HH:mm
+  metode      MetodeKonseling @default(daring)
+  kapasitas   Int             @default(1)
+  lokasi      String
+  status      SlotStatus      @default(available)
+  bookings    Booking[]
+}
+
+model Screening {
+  id                 String           @id @default(uuid())
+  user_id            String
+  user               User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  instrument_version String           @default("DASS-21-v1")
+  jawaban            Json             // Storing array of [{nomor, skor}]
+  skor_total         Int
+  level_risiko       RisikoLevel
+  dapat_booking      Boolean          @default(true)
+  validation_status  ValidationStatus @default(pending)
+  catatan_admin      String?
+  validated_by       String?
+  validator          User?            @relation("ValidatedBy", fields: [validated_by], references: [id])
+  validated_at       DateTime?
+  submitted_at       DateTime         @default(now())
+
+  bookings         Booking[]
+  mailbox_messages MailboxMessage[]
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  tiket_id         String        @unique
+  user_id          String
+  user             User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  slot_id          String
+  slot             Slot          @relation(fields: [slot_id], references: [id], onDelete: Cascade)
+  screening_id     String
+  screening        Screening     @relation(fields: [screening_id], references: [id], onDelete: Cascade)
+  catatan_tambahan String?
+  status           BookingStatus @default(pending_psikolog)
+  catatan_admin    String?
+  cancelled_at     DateTime?
+  cancel_reason    String?
+  created_at       DateTime      @default(now())
+
+  mailbox_messages MailboxMessage[]
+}
+
+model MailboxMessage {
+  id           String      @id @default(uuid())
+  user_id      String
+  user         User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  tipe         MessageType @default(info)
+  judul        String
+  konten       String
+  is_read      Boolean     @default(false)
+  booking_id   String?
+  booking      Booking?    @relation(fields: [booking_id], references: [id], onDelete: SetNull)
+  screening_id String?
+  screening    Screening?  @relation(fields: [screening_id], references: [id], onDelete: SetNull)
+  file_url     String?
+  action_url   String?
+  created_at   DateTime    @default(now())
+}
+
+model Article {
+  id            String        @id @default(uuid())
+  judul         String
+  konten        String
+  kategori      String
+  thumbnail_url String?
+  status        ArticleStatus @default(draft)
+  author_id     String
+  author        User          @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  read_time     Int           @default(5)
+  published_at  DateTime?
+  created_at    DateTime      @default(now())
+}
