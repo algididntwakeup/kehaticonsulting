@@ -104,7 +104,7 @@ export default function AdminBeritaPage() {
           <p className="text-[#616f89] text-sm mt-1">Buat, edit, dan kelola konten artikel portal KEHATI.</p>
         </div>
         <button onClick={handleOpenAdd}
-          className="flex items-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition-all hover:shadow-md">
+          className="flex items-center gap-2 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-purple-500/20 transition-all hover:shadow-lg active:scale-[0.99]">
           <span className="material-symbols-outlined text-[18px]">add</span>
           Artikel Baru
         </button>
@@ -113,7 +113,7 @@ export default function AdminBeritaPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[
-          { label: 'Total Artikel', value: articles.length, icon: 'article', color: 'text-[#135bec]' },
+          { label: 'Total Artikel', value: articles.length, icon: 'article', color: 'text-[#7c3aed]' },
           { label: 'Published', value: articles.filter(a => a.status === 'published').length, icon: 'public', color: 'text-green-600' },
           { label: 'Draft', value: articles.filter(a => a.status === 'draft').length, icon: 'edit_note', color: 'text-yellow-600' },
         ].map(s => (
@@ -154,7 +154,7 @@ export default function AdminBeritaPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="text-xs font-bold px-2 py-0.5 bg-[#ebf1fd] text-[#135bec] rounded-full">{article.kategori || '-'}</span>
+                    <span className="text-xs font-bold px-2 py-0.5 bg-[#ede9fe] text-[#7c3aed] rounded-full">{article.kategori || '-'}</span>
                   </td>
                   <td className="px-4 py-3">
                     <button onClick={() => handleToggle(article.id)}
@@ -173,7 +173,7 @@ export default function AdminBeritaPage() {
                   <td className="px-4 py-3 text-xs text-[#616f89]">{article.read_time} mnt</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
-                      <button onClick={() => handleOpenEdit(article)} className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors">
+                      <button onClick={() => handleOpenEdit(article)} className="p-1.5 rounded-lg text-[#616f89] hover:text-[#7c3aed] hover:bg-[#ede9fe] transition-colors">
                         <span className="material-symbols-outlined text-[18px]">edit</span>
                       </button>
                       <button onClick={() => handleDelete(article.id)}
@@ -204,19 +204,19 @@ export default function AdminBeritaPage() {
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Judul *</label>
                 <input type="text" value={form.judul} onChange={e => setForm(f => ({ ...f, judul: e.target.value }))}
                   placeholder="Judul artikel"
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Kategori</label>
                   <input type="text" value={form.kategori} onChange={e => setForm(f => ({ ...f, kategori: e.target.value }))}
                     placeholder="Kesehatan, Kegiatan..."
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
                 </div>
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Status</label>
                   <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white">
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white">
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
                   </select>
@@ -226,18 +226,18 @@ export default function AdminBeritaPage() {
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">URL Thumbnail (opsional)</label>
                 <input type="text" value={form.thumbnail_url} onChange={e => setForm(f => ({ ...f, thumbnail_url: e.target.value }))}
                   placeholder="https://images.unsplash.com/..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
               </div>
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Konten *</label>
                 <textarea value={form.konten} onChange={e => setForm(f => ({ ...f, konten: e.target.value }))}
                   rows={5} placeholder="Isi konten artikel..."
-                  className="w-full px-3 py-2 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] resize-none" />
+                  className="w-full px-3 py-2 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] resize-none" />
               </div>
             </div>
             <div className="flex gap-3 p-6 pt-0">
               <button onClick={handleSave}
-                className="flex-1 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+                className="flex-1 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                 {editId ? 'Simpan Perubahan' : 'Simpan Artikel'}
               </button>
               <button onClick={() => { setShowModal(false); setEditId(null); }}

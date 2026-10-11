@@ -45,7 +45,7 @@ export default function RiwayatPage() {
           <button key={tab} onClick={() => setActiveTab(tab)}
             className={`px-6 py-2.5 rounded-lg text-sm font-bold capitalize transition-all ${
               activeTab === tab
-                ? 'bg-white text-[#135bec] shadow-sm'
+                ? 'bg-white text-[#7c3aed] shadow-sm'
                 : 'text-[#616f89] hover:text-[#111318]'
             }`}>
             {tab === 'booking' ? (
@@ -65,7 +65,7 @@ export default function RiwayatPage() {
               <span className="material-symbols-outlined text-[60px] text-[#dbdfe6] mb-4">confirmation_number</span>
               <p className="text-[#616f89] font-medium">Belum ada riwayat booking</p>
               <Link href="/booking">
-                <button className="mt-4 px-6 py-2.5 bg-[#135bec] text-white rounded-lg text-sm font-bold hover:bg-[#0e45b5] transition-colors">
+                <button className="mt-4 px-6 py-2.5 bg-[#7c3aed] text-white rounded-lg text-sm font-bold hover:bg-[#6d28d9] transition-colors">
                   Buat Booking
                 </button>
               </Link>
@@ -74,12 +74,12 @@ export default function RiwayatPage() {
             bookings.map((booking, i) => (
               <Link key={booking.id} href={`/tiket/${booking.id}`}>
                 <div
-                  className="bg-white rounded-xl border border-[#dbdfe6] p-5 hover:border-[#135bec]/40 hover:shadow-sm transition-all cursor-pointer group animate-fade-in"
+                  className="bg-white rounded-xl border border-[#dbdfe6] p-5 hover:border-[#7c3aed]/40 hover:shadow-sm transition-all cursor-pointer group animate-fade-in"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className="w-12 h-12 rounded-xl bg-[#ebf1fd] text-[#135bec] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-xl bg-[#ede9fe] text-[#7c3aed] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <span className="material-symbols-outlined text-[24px]">
                           {booking.slot.metode === 'daring' ? 'videocam' : 'location_on'}
                         </span>
@@ -108,7 +108,7 @@ export default function RiwayatPage() {
                         </div>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-[20px] text-[#dbdfe6] group-hover:text-[#135bec] transition-colors shrink-0">arrow_forward_ios</span>
+                    <span className="material-symbols-outlined text-[20px] text-[#dbdfe6] group-hover:text-[#7c3aed] transition-colors shrink-0">arrow_forward_ios</span>
                   </div>
                 </div>
               </Link>
@@ -125,7 +125,7 @@ export default function RiwayatPage() {
               <span className="material-symbols-outlined text-[60px] text-[#dbdfe6] mb-4">psychology</span>
               <p className="text-[#616f89] font-medium">Belum ada riwayat skrining</p>
               <Link href="/skrining">
-                <button className="mt-4 px-6 py-2.5 bg-[#135bec] text-white rounded-lg text-sm font-bold hover:bg-[#0e45b5] transition-colors">
+                <button className="mt-4 px-6 py-2.5 bg-[#7c3aed] text-white rounded-lg text-sm font-bold hover:bg-[#6d28d9] transition-colors">
                   Mulai Skrining
                 </button>
               </Link>
@@ -175,7 +175,7 @@ export default function RiwayatPage() {
                         </span>
                       </div>
                       {sk.catatan_admin && (
-                        <p className="mt-2 text-xs text-[#616f89] italic border-l-2 border-[#135bec] pl-2">
+                        <p className="mt-2 text-xs text-[#616f89] italic border-l-2 border-[#7c3aed] pl-2">
                           Catatan: {sk.catatan_admin}
                         </p>
                       )}
@@ -196,7 +196,7 @@ export default function RiwayatPage() {
 
           <div className="mt-4 text-center">
             <Link href="/skrining">
-              <button className="px-6 py-3 bg-[#135bec] text-white rounded-xl text-sm font-bold hover:bg-[#0e45b5] transition-all shadow-sm shadow-blue-500/20 hover:shadow-md flex items-center gap-2 mx-auto">
+              <button className="px-6 py-3 bg-[#7c3aed] text-white rounded-xl text-sm font-bold hover:bg-[#6d28d9] transition-all shadow-sm shadow-purple-500/20 hover:shadow-md flex items-center gap-2 mx-auto">
                 <span className="material-symbols-outlined text-[18px]">add</span>
                 Skrining Baru
               </button>

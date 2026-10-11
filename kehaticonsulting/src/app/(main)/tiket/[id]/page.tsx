@@ -67,7 +67,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
             body { font-family: 'Arial', sans-serif; padding: 40px; color: #111318; background-color: #fff; }
             .ticket { border: 2px solid #dbdfe6; padding: 30px; border-radius: 0px; max-width: 600px; margin: 0 auto; }
             .header { text-align: center; border-bottom: 2px dashed #dbdfe6; padding-bottom: 20px; margin-bottom: 20px; }
-            .header h1 { margin: 5px 0; color: #135bec; font-size: 28px; }
+            .header h1 { margin: 5px 0; color: #7c3aed; font-size: 28px; }
             .header p { margin: 0; color: #616f89; font-size: 14px; }
             .section { margin-bottom: 20px; }
             .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f6f6f8; }
@@ -118,7 +118,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
     confirmed:  { label: 'Confirmed', color: 'bg-green-100 text-green-800 border-green-200' },
     pending_psikolog: { label: 'Review Psikolog', color: 'bg-purple-100 text-purple-800 border-purple-200' },
     pending_admin: { label: 'Verifikasi Admin', color: 'bg-orange-100 text-orange-800 border-orange-200' },
-    completed:  { label: 'Completed', color: 'bg-blue-100 text-blue-800 border-blue-200' },
+    completed:  { label: 'Completed', color: 'bg-purple-100 text-purple-800 border-purple-200' },
     rejected:   { label: 'Ditolak', color: 'bg-red-100 text-red-800 border-red-200' },
     cancelled:  { label: 'Cancelled', color: 'bg-red-100 text-red-800 border-red-200' },
   };
@@ -127,7 +127,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
   return (
     <div className="max-w-xl mx-auto px-4 py-8 animate-fade-in">
       <nav className="flex items-center gap-2 text-sm text-[#616f89] mb-6">
-        <Link href="/riwayat" className="hover:text-[#135bec]">Riwayat</Link>
+        <Link href="/riwayat" className="hover:text-[#7c3aed]">Riwayat</Link>
         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
         <span className="text-[#111318] font-medium">Tiket #{booking.tiket_id}</span>
       </nav>
@@ -135,7 +135,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
       {/* Ticket Card */}
       <div className="bg-white rounded-2xl border border-[#dbdfe6] shadow-sm overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#135bec] to-[#0e45b5] p-6 text-white text-center">
+        <div className="bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] p-6 text-white text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
               <span className="material-symbols-outlined text-[18px]">health_and_safety</span>
@@ -227,7 +227,7 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
           Unduh Tiket (PDF)
         </button>
         <Link href="/riwayat">
-          <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[#135bec] font-semibold text-sm hover:underline">
+          <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[#7c3aed] font-semibold text-sm hover:underline">
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Kembali ke Riwayat
           </button>
@@ -236,8 +236,8 @@ export default function TiketPage({ params }: { params: Promise<{ id: string }> 
 
       {/* Info */}
       {booking.status === 'confirmed' && (
-        <div className="mt-4 p-4 bg-[#ebf1fd] border border-[#135bec]/20 rounded-xl text-xs text-[#616f89]">
-          <span className="font-bold text-[#135bec]">ℹ️ Informasi:</span> Pembatalan hanya dapat dilakukan minimal 24 jam sebelum jadwal sesi. Setelah itu, pembatalan tidak dapat diproses.
+        <div className="mt-4 p-4 bg-[#ede9fe] border border-[#7c3aed]/20 rounded-xl text-xs text-[#616f89]">
+          <span className="font-bold text-[#7c3aed]">ℹ️ Informasi:</span> Pembatalan hanya dapat dilakukan minimal 24 jam sebelum jadwal sesi. Setelah itu, pembatalan tidak dapat diproses.
         </div>
       )}
 

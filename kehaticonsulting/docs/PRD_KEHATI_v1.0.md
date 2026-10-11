@@ -492,7 +492,7 @@ Mengambil daftar slot jadwal yang tersedia.
       "id": "slot_01HDEF",
       "psikolog": {
         "id": "psi_01",
-        "nama": "dr. Andini Putri, M.Psi"
+        "nama": "dr. Yusi Hariyumanti HS, M.Psi"
       },
       "tanggal": "2026-05-20",
       "jam_mulai": "09:00",
@@ -559,7 +559,7 @@ Membuat booking jadwal konseling.
       "tanggal": "2026-05-20",
       "jam_mulai": "09:00",
       "metode": "daring",
-      "psikolog": "dr. Andini Putri, M.Psi"
+      "psikolog": "dr. Yusi Hariyumanti HS, M.Psi"
     },
     "status": "confirmed",
     "created_at": "2026-05-13T09:15:00Z"

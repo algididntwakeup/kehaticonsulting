@@ -40,16 +40,16 @@ export default function ProfilPage() {
           {/* Avatar Card */}
           <div className="bg-white rounded-2xl border border-[#dbdfe6] p-6 text-center shadow-sm">
             <div className="relative inline-block mb-4">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#135bec] to-[#0e45b5] text-white flex items-center justify-center text-4xl font-black mx-auto shadow-lg shadow-blue-500/20">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] text-white flex items-center justify-center text-4xl font-black mx-auto shadow-lg shadow-purple-500/20">
                 {user?.nama_lengkap?.charAt(0) ?? 'U'}
               </div>
-              <button className="absolute bottom-0 right-0 w-8 h-8 bg-white border-2 border-[#dbdfe6] rounded-full flex items-center justify-center hover:border-[#135bec] transition-colors">
+              <button className="absolute bottom-0 right-0 w-8 h-8 bg-white border-2 border-[#dbdfe6] rounded-full flex items-center justify-center hover:border-[#7c3aed] transition-colors">
                 <span className="material-symbols-outlined text-[14px] text-[#616f89]">edit</span>
               </button>
             </div>
             <h2 className="font-bold text-[#111318] text-base">{user?.nama_lengkap}</h2>
             <p className="text-[#616f89] text-sm mt-0.5">{user?.pangkat}</p>
-            <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-[#ebf1fd] text-[#135bec] rounded-full text-xs font-bold">
+            <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-[#ede9fe] text-[#7c3aed] rounded-full text-xs font-bold">
               <span className="material-symbols-outlined text-[14px]">verified</span>
               <span className="capitalize">{user?.role}</span>
             </div>
@@ -60,7 +60,7 @@ export default function ProfilPage() {
             <h3 className="font-bold text-[#111318] mb-3 text-sm">Menu Cepat</h3>
             <div className="flex flex-col gap-1">
               {[
-                { icon: 'psychology', label: 'Skrining Baru', href: '/skrining', color: 'text-[#135bec]' },
+                { icon: 'psychology', label: 'Skrining Baru', href: '/skrining', color: 'text-[#7c3aed]' },
                 { icon: 'history', label: 'Riwayat Saya', href: '/riwayat', color: 'text-[#616f89]' },
                 { icon: 'confirmation_number', label: 'Tiket Aktif', href: '/riwayat', color: 'text-green-600' },
               ].map(item => (
@@ -92,7 +92,7 @@ export default function ProfilPage() {
               <h3 className="font-bold text-[#111318]">Informasi Akun</h3>
               <button onClick={() => setEditing(!editing)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-                  editing ? 'bg-[#f6f6f8] text-[#616f89]' : 'bg-[#ebf1fd] text-[#135bec] hover:bg-[#135bec] hover:text-white'
+                  editing ? 'bg-[#f6f6f8] text-[#616f89]' : 'bg-[#ede9fe] text-[#7c3aed] hover:bg-[#7c3aed] hover:text-white'
                 }`}>
                 <span className="material-symbols-outlined text-[16px]">{editing ? 'close' : 'edit'}</span>
                 {editing ? 'Batal' : 'Edit Profil'}
@@ -121,7 +121,7 @@ export default function ProfilPage() {
                 {editing ? (
                   <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="email@polri.go.id"
-                    className="w-full text-sm text-[#111318] bg-white border border-[#dbdfe6] px-3 py-2.5 rounded-lg focus:outline-none focus:border-[#135bec] transition-all" />
+                    className="w-full text-sm text-[#111318] bg-white border border-[#dbdfe6] px-3 py-2.5 rounded-lg focus:outline-none focus:border-[#7c3aed] transition-all" />
                 ) : (
                   <p className="text-sm font-semibold text-[#111318] bg-[#f6f6f8] px-3 py-2.5 rounded-lg">{form.email || '-'}</p>
                 )}
@@ -130,7 +130,7 @@ export default function ProfilPage() {
 
             {editing && (
               <div className="flex gap-3 mt-6">
-                <button className="flex-1 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-sm shadow-blue-500/20 hover:shadow-md flex items-center justify-center gap-2">
+                <button className="flex-1 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-sm shadow-purple-500/20 hover:shadow-md flex items-center justify-center gap-2">
                   <span className="material-symbols-outlined text-[18px]">save</span>
                   Simpan Perubahan
                 </button>
@@ -151,14 +151,14 @@ export default function ProfilPage() {
                   <label className="text-xs font-semibold text-[#616f89] mb-1.5 block">{label}</label>
                   <div className="relative">
                     <input type="password" placeholder="••••••••"
-                      className="w-full text-sm text-[#111318] bg-[#f6f6f8] border border-[#dbdfe6] pl-4 pr-10 py-3 rounded-lg focus:outline-none focus:border-[#135bec] focus:bg-white transition-all" />
+                      className="w-full text-sm text-[#111318] bg-[#f6f6f8] border border-[#dbdfe6] pl-4 pr-10 py-3 rounded-lg focus:outline-none focus:border-[#7c3aed] focus:bg-white transition-all" />
                     <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318]">
                       <span className="material-symbols-outlined text-[18px]">visibility_off</span>
                     </button>
                   </div>
                 </div>
               ))}
-              <button className="w-full bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-sm flex items-center justify-center gap-2 mt-2">
+              <button className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-3 rounded-xl text-sm transition-all shadow-sm flex items-center justify-center gap-2 mt-2">
                 <span className="material-symbols-outlined text-[18px]">lock_reset</span>
                 Ganti Password
               </button>
@@ -166,8 +166,8 @@ export default function ProfilPage() {
           </div>
 
           {/* Privacy */}
-          <div className="bg-[#ebf1fd] border border-[#135bec]/20 rounded-xl p-4 text-sm text-[#616f89]">
-            <p className="font-bold text-[#135bec] mb-1.5 flex items-center gap-2">
+          <div className="bg-[#ede9fe] border border-[#7c3aed]/20 rounded-xl p-4 text-sm text-[#616f89]">
+            <p className="font-bold text-[#7c3aed] mb-1.5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">privacy_tip</span>
               Privasi & Keamanan Data
             </p>

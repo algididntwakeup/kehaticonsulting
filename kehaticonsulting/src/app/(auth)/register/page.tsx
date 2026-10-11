@@ -43,15 +43,15 @@ export default function RegisterPage() {
       {/* Header */}
       <header className="flex items-center justify-between border-b border-[#dbdfe6] bg-white/80 backdrop-blur-md px-4 md:px-10 py-3 sticky top-0 z-50">
         <Link href="/login" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#135bec] text-white flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-[#7c3aed] text-white flex items-center justify-center">
             <span className="material-symbols-outlined text-[16px]">health_and_safety</span>
           </div>
-          <span className="text-base font-bold text-[#135bec]">KEHATI</span>
+          <span className="text-base font-bold text-[#7c3aed]">KEHATI</span>
         </Link>
         <div className="flex items-center gap-3">
           <span className="hidden sm:inline text-sm text-[#616f89]">Sudah punya akun?</span>
           <Link href="/login">
-            <button className="flex items-center justify-center h-9 px-5 bg-[#f6f6f8] border border-[#dbdfe6] text-[#111318] hover:bg-[#ebf1fd] hover:border-[#135bec] hover:text-[#135bec] transition-all rounded-lg text-sm font-bold">
+            <button className="flex items-center justify-center h-9 px-5 bg-[#f6f6f8] border border-[#dbdfe6] text-[#111318] hover:bg-[#ede9fe] hover:border-[#7c3aed] hover:text-[#7c3aed] transition-all rounded-lg text-sm font-bold">
               Masuk
             </button>
           </Link>
@@ -64,7 +64,7 @@ export default function RegisterPage() {
 
           {/* Left Hero */}
           <div className="hidden md:flex flex-1 flex-col justify-start h-full pt-4 sticky top-24">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#135bec] to-[#0e45b5] aspect-[4/3] shadow-xl mb-6 group">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] aspect-[4/3] shadow-xl mb-6 group">
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-6 right-6 w-40 h-40 border-2 border-white rounded-full"></div>
                 <div className="absolute bottom-6 left-6 w-24 h-24 border-2 border-white rounded-full"></div>
@@ -73,7 +73,7 @@ export default function RegisterPage() {
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white z-10 bg-gradient-to-t from-black/50 to-transparent">
                 <span className="material-symbols-outlined text-5xl mb-3 block">psychology</span>
                 <h3 className="text-2xl font-bold mb-2">Dukungan Psikologis Terpercaya</h3>
-                <p className="text-blue-100 text-sm leading-relaxed">Layanan konseling rahasia dan profesional, eksklusif untuk personel Polda Jawa Barat.</p>
+                <p className="text-purple-100 text-sm leading-relaxed">Layanan konseling rahasia dan profesional, eksklusif untuk personel Polda Jawa Barat.</p>
               </div>
             </div>
             <div className="flex flex-col gap-3 text-sm text-[#616f89]">
@@ -84,7 +84,7 @@ export default function RegisterPage() {
                 ['schedule', 'Jadwal Fleksibel Daring & Luring'],
               ].map(([icon, text]) => (
                 <div key={text} className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[18px] text-[#135bec]">{icon}</span>
+                  <span className="material-symbols-outlined text-[18px] text-[#7c3aed]">{icon}</span>
                   <span>{text}</span>
                 </div>
               ))}
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">badge</span>
                   <input id="nrp" type="text" value={form.nrp} onChange={e => update('nrp', e.target.value)}
                     placeholder="Nomor Registrasi Pokok"
-                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all" />
+                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all" />
                 </div>
               </div>
 
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">person</span>
                   <input id="nama" type="text" value={form.nama_lengkap} onChange={e => update('nama_lengkap', e.target.value)}
                     placeholder="Nama lengkap sesuai dokumen"
-                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all" />
+                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all" />
                 </div>
               </div>
 
@@ -141,7 +141,7 @@ export default function RegisterPage() {
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">stars</span>
                     <select id="pangkat" value={form.pangkat} onChange={e => update('pangkat', e.target.value)}
-                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-8 text-sm focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all appearance-none cursor-pointer">
+                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-8 text-sm focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all appearance-none cursor-pointer">
                       <option value="">Pilih Pangkat</option>
                       {pangkatOptions.map(p => <option key={p} value={p}>{p.split('(')[1]?.replace(')', '') ?? p}</option>)}
                     </select>
@@ -156,7 +156,7 @@ export default function RegisterPage() {
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">local_police</span>
                     <select id="satker" value={form.satker} onChange={e => update('satker', e.target.value)}
-                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-8 text-sm focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all appearance-none cursor-pointer">
+                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-8 text-sm focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all appearance-none cursor-pointer">
                       <option value="">Pilih Satker</option>
                       {satkerOptions.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
@@ -172,7 +172,7 @@ export default function RegisterPage() {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">business</span>
                   <input id="unit" type="text" value={form.unit} onChange={e => update('unit', e.target.value)}
                     placeholder="Contoh: Reskrim, Lantas, Intelkam"
-                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all" />
+                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-4 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all" />
                 </div>
               </div>
 
@@ -185,7 +185,7 @@ export default function RegisterPage() {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[20px]">lock_open</span>
                   <input id="password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={e => update('password', e.target.value)}
                     placeholder="Min. 8 karakter"
-                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-12 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all" />
+                    className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] h-12 pl-11 pr-12 text-sm placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] transition-colors">
                     <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility' : 'visibility_off'}</span>
@@ -197,17 +197,17 @@ export default function RegisterPage() {
               {/* Terms */}
               <div className="flex items-start gap-3 mt-1">
                 <input id="terms" type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-[#dbdfe6] text-[#135bec] cursor-pointer accent-[#135bec]" />
+                  className="mt-0.5 h-4 w-4 rounded border-[#dbdfe6] text-[#7c3aed] cursor-pointer accent-[#7c3aed]" />
                 <label htmlFor="terms" className="text-sm text-[#616f89] cursor-pointer leading-relaxed">
-                  Saya menyetujui <a href="#" className="text-[#135bec] hover:underline font-medium">Syarat & Ketentuan</a> dan{' '}
-                  <a href="#" className="text-[#135bec] hover:underline font-medium">Kebijakan Privasi</a> KEHATI.
+                  Saya menyetujui <a href="#" className="text-[#7c3aed] hover:underline font-medium">Syarat & Ketentuan</a> dan{' '}
+                  <a href="#" className="text-[#7c3aed] hover:underline font-medium">Kebijakan Privasi</a> KEHATI.
                 </label>
               </div>
 
               {/* Submit */}
               <div className="pt-2">
                 <button type="submit" disabled={loading}
-                  className="w-full flex items-center justify-center h-12 rounded-lg bg-[#135bec] hover:bg-[#0e45b5] disabled:opacity-60 text-white text-base font-bold shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-[0.98] gap-2">
+                  className="w-full flex items-center justify-center h-12 rounded-lg bg-[#7c3aed] hover:bg-[#6d28d9] disabled:opacity-60 text-white text-base font-bold shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all active:scale-[0.98] gap-2">
                   {loading ? (
                     <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Mendaftarkan...</>
                   ) : (
@@ -218,7 +218,7 @@ export default function RegisterPage() {
             </form>
 
             <div className="mt-6 pt-5 border-t border-[#dbdfe6] text-center">
-              <p className="text-sm text-[#616f89]">Butuh bantuan? <a href="mailto:kehati@polda-jabar.go.id" className="text-[#135bec] font-medium hover:underline">Hubungi Support</a></p>
+              <p className="text-sm text-[#616f89]">Butuh bantuan? <a href="mailto:kehati@polda-jabar.go.id" className="text-[#7c3aed] font-medium hover:underline">Hubungi Support</a></p>
             </div>
           </div>
         </div>

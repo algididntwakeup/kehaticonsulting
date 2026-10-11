@@ -21,7 +21,7 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
         <div className="lg:col-span-2 animate-fade-in">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-[#616f89] mb-6">
-            <Link href="/berita" className="hover:text-[#135bec] transition-colors">Berita</Link>
+            <Link href="/berita" className="hover:text-[#7c3aed] transition-colors">Berita</Link>
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
             <span className="text-[#111318] font-medium line-clamp-1">{article.judul}</span>
           </nav>
@@ -35,7 +35,7 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
 
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="text-xs font-bold text-[#135bec] bg-[#ebf1fd] px-3 py-1 rounded-full uppercase tracking-wider">{article.kategori}</span>
+            <span className="text-xs font-bold text-[#7c3aed] bg-[#ede9fe] px-3 py-1 rounded-full uppercase tracking-wider">{article.kategori}</span>
             <span className="flex items-center gap-1 text-xs text-[#616f89]">
               <span className="material-symbols-outlined text-[14px]">schedule</span>
               {article.published_at ? formatDate(article.published_at) : '-'}
@@ -50,7 +50,7 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
           <h1 className="text-2xl sm:text-3xl font-bold text-[#111318] mb-6 leading-tight">{article.judul}</h1>
 
           <div
-            className="prose prose-blue max-w-none text-[#111318] text-base leading-relaxed [&>p]:mb-4 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:mt-6 [&>h2]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4"
+            className="prose prose-purple max-w-none text-[#111318] text-base leading-relaxed [&>p]:mb-4 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:mt-6 [&>h2]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4"
             dangerouslySetInnerHTML={{ __html: article.konten }}
           />
 
@@ -58,7 +58,7 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
           <div className="mt-8 pt-6 border-t border-[#dbdfe6] flex items-center gap-4">
             <span className="text-sm font-semibold text-[#616f89]">Bagikan:</span>
             {['share', 'content_copy'].map(icon => (
-              <button key={icon} className="p-2 rounded-lg border border-[#dbdfe6] text-[#616f89] hover:border-[#135bec] hover:text-[#135bec] transition-colors">
+              <button key={icon} className="p-2 rounded-lg border border-[#dbdfe6] text-[#616f89] hover:border-[#7c3aed] hover:text-[#7c3aed] transition-colors">
                 <span className="material-symbols-outlined text-[18px]">{icon}</span>
               </button>
             ))}
@@ -67,7 +67,7 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
           {/* Back */}
           <div className="mt-6">
             <Link href="/berita">
-              <button className="flex items-center gap-2 text-sm font-semibold text-[#135bec] hover:underline">
+              <button className="flex items-center gap-2 text-sm font-semibold text-[#7c3aed] hover:underline">
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                 Kembali ke Daftar Berita
               </button>
@@ -78,13 +78,13 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
         {/* Sidebar */}
         <div className="flex flex-col gap-6">
           {/* CTA Skrining */}
-          <div className="bg-gradient-to-br from-[#135bec] to-[#0e45b5] rounded-xl p-6 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] rounded-xl p-6 text-white relative overflow-hidden">
             <div className="relative z-10">
               <span className="material-symbols-outlined text-[40px] mb-3 block">psychology</span>
               <h3 className="font-bold text-lg mb-2">Butuh Dukungan?</h3>
-              <p className="text-blue-100 text-sm mb-4">Mulai skrining kesehatan mental atau booking sesi konseling sekarang.</p>
+              <p className="text-purple-100 text-sm mb-4">Mulai skrining kesehatan mental atau booking sesi konseling sekarang.</p>
               <Link href="/skrining">
-                <button className="w-full bg-white text-[#135bec] font-bold py-2.5 rounded-lg text-sm hover:bg-blue-50 transition-colors">
+                <button className="w-full bg-white text-[#7c3aed] font-bold py-2.5 rounded-lg text-sm hover:bg-purple-50 transition-colors">
                   Mulai Skrining
                 </button>
               </Link>
@@ -109,8 +109,8 @@ export default function BeritaDetailPage({ params }: { params: Promise<{ id: str
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold text-[#135bec] mb-1 uppercase">{a.kategori}</p>
-                      <h4 className="text-sm font-semibold text-[#111318] line-clamp-2 group-hover:text-[#135bec] transition-colors leading-snug">{a.judul}</h4>
+                      <p className="text-xs font-bold text-[#7c3aed] mb-1 uppercase">{a.kategori}</p>
+                      <h4 className="text-sm font-semibold text-[#111318] line-clamp-2 group-hover:text-[#7c3aed] transition-colors leading-snug">{a.judul}</h4>
                     </div>
                   </div>
                 </Link>

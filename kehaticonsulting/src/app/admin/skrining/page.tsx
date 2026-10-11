@@ -218,8 +218,8 @@ export default function AdminSkriningPage() {
           <button key={f} onClick={() => setFilter(f)}
             className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-all ${
               filter === f
-                ? 'bg-[#135bec] text-white'
-                : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:border-[#135bec]/40 hover:text-[#135bec]'
+                ? 'bg-[#7c3aed] text-white shadow-sm shadow-purple-500/20'
+                : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:border-[#7c3aed]/40 hover:text-[#7c3aed]'
             }`}>
             {f === 'semua' ? 'Semua' : f.replace('_', ' ')}
           </button>
@@ -254,7 +254,7 @@ export default function AdminSkriningPage() {
                           filtered.filter(b => isDeletable(b.status)).every(b => selectedBookingIds.includes(b.id))
                         }
                         onChange={() => toggleSelectAll(filtered.filter(b => isDeletable(b.status)))}
-                        className="rounded accent-[#135bec] h-4 w-4 cursor-pointer align-middle"
+                        className="rounded accent-[#7c3aed] h-4 w-4 cursor-pointer align-middle"
                         title="Pilih Semua yang Dapat Dihapus"
                       />
                     </th>
@@ -270,14 +270,14 @@ export default function AdminSkriningPage() {
                   {filtered.map(bkg => {
                     const sk = getScreeningForBooking(bkg);
                     return (
-                    <tr key={bkg.id} className={`border-b border-[#f6f6f8] hover:bg-[#f6f6f8] transition-colors ${selected?.id === bkg.id ? 'bg-[#ebf1fd]' : ''}`}>
+                    <tr key={bkg.id} className={`border-b border-[#f6f6f8] hover:bg-[#f6f6f8] transition-colors ${selected?.id === bkg.id ? 'bg-[#ede9fe]/60' : ''}`}>
                       <td className="px-4 py-3 text-left w-10">
                         {isDeletable(bkg.status) ? (
                           <input
                             type="checkbox"
                             checked={selectedBookingIds.includes(bkg.id)}
                             onChange={() => toggleSelectBooking(bkg.id)}
-                            className="rounded accent-[#135bec] h-4 w-4 cursor-pointer align-middle"
+                            className="rounded accent-[#7c3aed] h-4 w-4 cursor-pointer align-middle"
                           />
                         ) : (
                           <span className="inline-block w-4 h-4" />
@@ -295,7 +295,7 @@ export default function AdminSkriningPage() {
                       </td>
                       <td className="px-4 py-3">
                         <p className="font-semibold text-[#111318] text-sm">{bkg.slot.psikolog.nama}</p>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${bkg.slot.metode === 'daring' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${bkg.slot.metode === 'daring' ? 'bg-[#ede9fe] text-[#7c3aed]' : 'bg-green-100 text-green-700'}`}>
                           {bkg.slot.metode.toUpperCase()}
                         </span>
                       </td>
@@ -320,7 +320,7 @@ export default function AdminSkriningPage() {
                             setWaktuMulaiOverride(bkg.slot.jam_mulai);
                             setWaktuSelesaiOverride(bkg.slot.jam_selesai);
                           }}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-[#ebf1fd] text-[#135bec] rounded-lg text-xs font-bold hover:bg-[#135bec] hover:text-white transition-all">
+                          className="flex items-center gap-1 px-3 py-1.5 bg-[#ede9fe] text-[#7c3aed] rounded-lg text-xs font-bold hover:bg-[#7c3aed] hover:text-white transition-all">
                           <span className="material-symbols-outlined text-[14px]">rate_review</span>
                           Tinjau
                         </button>
@@ -346,15 +346,15 @@ export default function AdminSkriningPage() {
 
               {selected.status === 'confirmed' ? (
                 <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="bg-[#ebf1fd] border border-[#135bec]/20 p-4 rounded-xl text-xs text-[#616f89] leading-relaxed">
-                    <span className="font-bold text-[#135bec] block mb-1 flex items-center gap-1">
+                  <div className="bg-[#ede9fe]/40 border border-[#7c3aed]/20 p-4 rounded-xl text-xs text-[#616f89] leading-relaxed">
+                    <span className="font-bold text-[#7c3aed] block mb-1 flex items-center gap-1">
                       <span className="material-symbols-outlined text-[16px]">check_circle</span>
                       Jadwal Telah Dikonfirmasi
                     </span>
                     Sesi konseling ini telah dijadwalkan pada hari <strong className="text-[#111318]">{formatDateShort(selected.slot.tanggal)}</strong> pukul <strong className="text-[#111318]">{selected.slot.jam_mulai} - {selected.slot.jam_selesai} WIB</strong>. Silakan selesaikan sesi jika konseling telah terlaksana.
                   </div>
                   <button onClick={() => setShowCompleteModal(true)}
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-[#135bec] hover:bg-[#0e45b5] text-white text-sm font-bold rounded-lg transition-colors shadow-sm shadow-blue-500/10">
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white text-sm font-bold rounded-lg transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                     <span className="material-symbols-outlined text-[18px]">verified_user</span>
                     Selesaikan Sesi Konseling
                   </button>
@@ -369,7 +369,7 @@ export default function AdminSkriningPage() {
                         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${getRisikoColor(getScreeningForBooking(selected)!.level_risiko)}`}>
                           Risiko {getScreeningForBooking(selected)!.level_risiko.toUpperCase()}
                         </span>
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#ebf1fd] text-[#135bec]">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#ede9fe] text-[#7c3aed]">
                           Skor: {getScreeningForBooking(selected)!.skor_total}
                         </span>
                       </div>
@@ -392,7 +392,7 @@ export default function AdminSkriningPage() {
                     </div>
                     <textarea value={pesan} onChange={e => setPesan(e.target.value)} rows={3}
                       placeholder="Kirim pesan pemberitahuan ke kotak masuk personel..."
-                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#135bec] transition-all" />
+                      className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#7c3aed] transition-all" />
                   </div>
 
                   {/* Referral PDF Uploader */}
@@ -428,22 +428,22 @@ export default function AdminSkriningPage() {
                     <label className="text-xs font-bold text-[#616f89] mb-1 block">Catatan Internal (Admin/Psikolog)</label>
                     <textarea value={catatan} onChange={e => setCatatan(e.target.value)} rows={2}
                       placeholder="Hanya terlihat oleh Admin & Psikolog..."
-                      className="w-full rounded-lg border border-[#dbdfe6] bg-[#f6f6f8] text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#135bec] transition-all" />
+                      className="w-full rounded-lg border border-[#dbdfe6] bg-[#f6f6f8] text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#7c3aed] transition-all" />
                   </div>
 
                   {!isSevere && (
-                    <div className="mb-4 bg-blue-50 border border-blue-100 p-4 rounded-xl animate-fade-in">
-                      <p className="text-xs font-bold text-[#135bec] mb-3">Detail Pelaksanaan Konseling</p>
+                    <div className="mb-4 bg-[#ede9fe]/40 border border-[#7c3aed]/20 p-4 rounded-xl animate-fade-in">
+                      <p className="text-xs font-bold text-[#7c3aed] mb-3">Detail Pelaksanaan Konseling</p>
                       <div className="grid grid-cols-2 gap-3 mb-3">
                         <div>
                           <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Mulai</label>
                           <input type="time" value={waktuMulaiOverride} onChange={e => setWaktuMulaiOverride(e.target.value)}
-                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#7c3aed]" />
                         </div>
                         <div>
                           <label className="text-[10px] font-bold text-[#616f89] block mb-1">Jam Selesai</label>
                           <input type="time" value={waktuSelesaiOverride} onChange={e => setWaktuSelesaiOverride(e.target.value)}
-                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                            className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#7c3aed]" />
                         </div>
                       </div>
                       <div>
@@ -452,7 +452,7 @@ export default function AdminSkriningPage() {
                         </label>
                         <input type="text" value={lokasiOverride} onChange={e => setLokasiOverride(e.target.value)}
                           placeholder={selected.slot.metode === 'daring' ? "Masukkan link GMeet..." : "Nama ruangan/lokasi..."}
-                          className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#135bec]" />
+                          className="w-full bg-white border border-[#dbdfe6] rounded p-1.5 text-xs focus:outline-none focus:border-[#7c3aed]" />
                       </div>
                     </div>
                   )}
@@ -461,7 +461,7 @@ export default function AdminSkriningPage() {
                     {user?.role === 'psikolog' ? (
                       <>
                         <button onClick={() => handleValidate('pending_admin')}
-                          className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#135bec] hover:bg-[#0e45b5] text-white text-sm font-bold rounded-lg transition-colors">
+                          className="w-full flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white text-sm font-bold rounded-lg transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                           <span className="material-symbols-outlined text-[18px]">verified</span>
                           Setuju & Teruskan ke Admin
                         </button>
@@ -529,8 +529,8 @@ export default function AdminSkriningPage() {
       {showCompleteModal && selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-fade-in overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-[#dbdfe6] bg-[#ebf1fd]">
-              <h3 className="font-bold text-[#135bec] flex items-center gap-1.5">
+            <div className="flex items-center justify-between p-6 border-b border-[#dbdfe6] bg-[#ede9fe]/50">
+              <h3 className="font-bold text-[#7c3aed] flex items-center gap-1.5">
                 <span className="material-symbols-outlined">verified_user</span>
                 Selesaikan Konseling ({selected.tiket_id})
               </h3>
@@ -549,14 +549,14 @@ export default function AdminSkriningPage() {
                   onChange={e => setFeedbackCatatan(e.target.value)}
                   rows={4}
                   placeholder="Ketik catatan hasil konseling..."
-                  className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#135bec] transition-all"
+                  className="w-full rounded-lg border border-[#dbdfe6] bg-white text-[#111318] text-sm p-3 resize-none focus:outline-none focus:border-[#7c3aed] transition-all"
                   required
                 />
               </div>
             </div>
             <div className="flex gap-2 p-4 bg-[#f6f6f8] border-t border-[#dbdfe6]">
               <button onClick={handleCompleteSessionSubmit}
-                className="flex-1 py-2 rounded-lg text-white font-bold bg-[#135bec] hover:bg-[#0e45b5] text-xs transition-colors">
+                className="flex-1 py-2 rounded-lg text-white font-bold bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-xs transition-all shadow-md shadow-purple-500/20">
                 Konfirmasi Selesai
               </button>
               <button onClick={() => setShowCompleteModal(false)}

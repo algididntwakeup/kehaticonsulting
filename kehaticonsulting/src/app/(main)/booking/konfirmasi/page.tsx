@@ -66,7 +66,7 @@ function KonfirmasiBookingContent() {
     <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-[#616f89] mb-6">
-        <Link href="/booking" className="hover:text-[#135bec]">Booking</Link>
+        <Link href="/booking" className="hover:text-[#7c3aed]">Booking</Link>
         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
         <span className="text-[#111318] font-medium">Konfirmasi</span>
       </nav>
@@ -76,23 +76,23 @@ function KonfirmasiBookingContent() {
       {/* Slot Detail Card */}
       <div className="bg-white rounded-2xl border border-[#dbdfe6] shadow-sm overflow-hidden mb-6">
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#135bec] to-[#0e45b5] p-6 text-white">
+        <div className="bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] p-6 text-white">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
               <span className="material-symbols-outlined text-[24px]">person</span>
             </div>
             <div>
-              <p className="text-blue-100 text-xs">Psikolog</p>
+              <p className="text-purple-100 text-xs">Psikolog</p>
               <p className="font-bold text-lg">{slot.psikolog.nama}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-blue-100 text-xs mb-1">Tanggal</p>
+              <p className="text-purple-100 text-xs mb-1">Tanggal</p>
               <p className="font-bold text-sm">{formatDate(slot.tanggal)}</p>
             </div>
             <div>
-              <p className="text-blue-100 text-xs mb-1">Waktu</p>
+              <p className="text-purple-100 text-xs mb-1">Waktu</p>
               <p className="font-bold text-sm">{slot.jam_mulai} – {slot.jam_selesai} WIB</p>
             </div>
           </div>
@@ -106,7 +106,7 @@ function KonfirmasiBookingContent() {
               Metode Konseling
             </div>
             <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-              slot.metode === 'daring' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+              slot.metode === 'daring' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'
             }`}>
               {slot.metode.charAt(0).toUpperCase() + slot.metode.slice(1)}
             </span>
@@ -138,16 +138,16 @@ function KonfirmasiBookingContent() {
           onChange={e => setCatatan(e.target.value)}
           rows={4}
           placeholder="Ceritakan secara singkat apa yang ingin Anda bahas dalam sesi konseling ini. Informasi ini akan membantu konselor mempersiapkan sesi yang lebih efektif."
-          className="w-full rounded-xl border border-[#dbdfe6] bg-[#f6f6f8] text-[#111318] text-sm p-4 placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 resize-none transition-all"
+          className="w-full rounded-xl border border-[#dbdfe6] bg-[#f6f6f8] text-[#111318] text-sm p-4 placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 resize-none transition-all"
         />
         <p className="text-xs text-[#616f89] mt-2">{catatan.length}/500 karakter</p>
       </div>
 
       {/* Privacy Notice */}
-      <div className="bg-[#ebf1fd] border border-[#135bec]/20 rounded-xl p-4 mb-6">
+      <div className="bg-[#ede9fe] border border-[#7c3aed]/20 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-3">
           <input type="checkbox" id="agree" checked={agreed} onChange={e => setAgreed(e.target.checked)}
-            className="mt-0.5 accent-[#135bec] h-4 w-4 cursor-pointer" />
+            className="mt-0.5 accent-[#7c3aed] h-4 w-4 cursor-pointer" />
           <label htmlFor="agree" className="text-sm text-[#616f89] cursor-pointer leading-relaxed">
             Saya memahami bahwa sesi konseling ini bersifat <strong className="text-[#111318]">rahasia</strong> dan data saya dilindungi sesuai kebijakan privasi KEHATI. Saya bersedia hadir tepat waktu atau melakukan pembatalan minimal <strong className="text-[#111318]">24 jam sebelum jadwal</strong>.
           </label>
@@ -159,7 +159,7 @@ function KonfirmasiBookingContent() {
         <button onClick={handleConfirm} disabled={!agreed || loading}
           className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all ${
             agreed && !loading
-              ? 'bg-[#135bec] hover:bg-[#0e45b5] shadow-md shadow-blue-500/20 hover:shadow-lg active:scale-[0.98]'
+              ? 'bg-[#7c3aed] hover:bg-[#6d28d9] shadow-md shadow-purple-500/20 hover:shadow-lg active:scale-[0.98]'
               : 'bg-[#dbdfe6] cursor-not-allowed'
           }`}>
           {loading ? (

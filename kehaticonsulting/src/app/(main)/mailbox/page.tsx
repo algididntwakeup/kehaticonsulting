@@ -52,7 +52,7 @@ function MailboxContent() {
   };
 
   const getIconColor = (type: string) => {
-    if (type === 'tiket') return 'bg-blue-100 text-blue-600';
+    if (type === 'tiket') return 'bg-[#ede9fe] text-[#7c3aed]';
     if (type === 'rujukan') return 'bg-red-100 text-red-600';
     return 'bg-gray-100 text-gray-600';
   };
@@ -60,7 +60,7 @@ function MailboxContent() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-[#135bec] text-white flex items-center justify-center shadow-sm">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7c3aed] to-[#4f46e5] text-white flex items-center justify-center shadow-md shadow-purple-500/20">
           <span className="material-symbols-outlined text-[20px]">inbox</span>
         </div>
         <div>
@@ -79,7 +79,7 @@ function MailboxContent() {
               <input
                 type="text"
                 placeholder="Cari pesan..."
-                className="w-full pl-10 pr-4 py-2 bg-[#f6f6f8] border border-[#dbdfe6] rounded-lg text-sm focus:outline-none focus:border-[#135bec] transition-colors"
+                className="w-full pl-10 pr-4 py-2 bg-[#f6f6f8] border border-[#dbdfe6] rounded-lg text-sm focus:outline-none focus:border-[#7c3aed] transition-colors"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ function MailboxContent() {
                   key={msg.id}
                   onClick={() => handleSelect(msg.id)}
                   className={`w-full text-left p-4 border-b border-[#dbdfe6] hover:bg-[#f6f6f8] transition-colors flex gap-3 items-start relative ${
-                    selectedId === msg.id ? 'bg-[#ebf1fd]/50 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[#135bec]' : ''
+                    selectedId === msg.id ? 'bg-[#ede9fe]/50 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[#7c3aed]' : ''
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${getIconColor(msg.tipe)}`}>
@@ -114,7 +114,7 @@ function MailboxContent() {
                     </p>
                   </div>
                   {!msg.is_read && (
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#135bec] shrink-0 mt-1.5 shadow-sm"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#7c3aed] shrink-0 mt-1.5 shadow-sm"></div>
                   )}
                 </button>
               ))
@@ -143,7 +143,7 @@ function MailboxContent() {
               {/* TIKET DETAIL */}
               {selectedMsg.tipe === 'tiket' && (
                 <div className="bg-[#fcfcfd] rounded-2xl border border-[#dbdfe6] overflow-hidden">
-                  <div className="bg-[#135bec] p-4 text-white flex items-center justify-between">
+                  <div className="bg-gradient-to-r from-[#7c3aed] to-[#4f46e5] p-4 text-white flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
                       <span className="font-bold">Tiket Konseling</span>
@@ -154,34 +154,34 @@ function MailboxContent() {
                     <div>
                       <p className="text-xs text-[#616f89] mb-1">Psikolog</p>
                       <p className="text-sm font-bold text-[#111318] flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[16px] text-[#135bec]">psychology</span>
+                        <span className="material-symbols-outlined text-[16px] text-[#7c3aed]">psychology</span>
                         {selectedMsg.psikolog_nama}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-[#616f89] mb-1">Jadwal</p>
                       <p className="text-sm font-bold text-[#111318] flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[16px] text-[#135bec]">schedule</span>
+                        <span className="material-symbols-outlined text-[16px] text-[#7c3aed]">schedule</span>
                         {selectedMsg.tanggal} | {selectedMsg.waktu}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-[#616f89] mb-1">Metode</p>
                       <p className="text-sm font-bold text-[#111318] flex items-center gap-1.5 capitalize">
-                        <span className="material-symbols-outlined text-[16px] text-[#135bec]">{selectedMsg.metode === 'daring' ? 'videocam' : 'groups'}</span>
+                        <span className="material-symbols-outlined text-[16px] text-[#7c3aed]">{selectedMsg.metode === 'daring' ? 'videocam' : 'groups'}</span>
                         {selectedMsg.metode}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-[#616f89] mb-1">{selectedMsg.metode === 'daring' ? 'Link Meeting' : 'Lokasi'}</p>
                       {selectedMsg.metode === 'daring' ? (
-                        <a href={selectedMsg.lokasi_link?.startsWith('http') ? selectedMsg.lokasi_link : `https://${selectedMsg.lokasi_link}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-[#135bec] hover:underline flex items-center gap-1.5 truncate">
+                        <a href={selectedMsg.lokasi_link?.startsWith('http') ? selectedMsg.lokasi_link : `https://${selectedMsg.lokasi_link}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-[#7c3aed] hover:underline flex items-center gap-1.5 truncate">
                           <span className="material-symbols-outlined text-[16px]">link</span>
                           {selectedMsg.lokasi_link}
                         </a>
                       ) : (
                         <p className="text-sm font-bold text-[#111318] flex items-center gap-1.5">
-                          <span className="material-symbols-outlined text-[16px] text-[#135bec]">place</span>
+                          <span className="material-symbols-outlined text-[16px] text-[#7c3aed]">place</span>
                           {selectedMsg.lokasi_link}
                         </p>
                       )}
@@ -191,7 +191,7 @@ function MailboxContent() {
                   <div className="p-4 border-t border-[#dbdfe6] bg-white flex gap-3">
                     {selectedMsg.action_url && (
                       <Link href={selectedMsg.action_url} className="flex-1">
-                        <button className="w-full py-2.5 rounded-xl bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold text-sm transition-colors shadow-sm">
+                        <button className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold text-sm transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                           Lihat Detail Tiket
                         </button>
                       </Link>

@@ -12,7 +12,7 @@ const quickActions = [
   {
     href: '/skrining',
     icon: 'psychology',
-    iconBg: 'bg-blue-100 text-[#135bec]',
+    iconBg: 'bg-purple-100 text-[#7c3aed]',
     title: 'Mulai Skrining & Konsultasi',
     desc: 'Cek kondisi kesehatan mentalmu secara berkala dan mulai booking sesi konseling.',
     badge: null,
@@ -114,7 +114,7 @@ export default function DashboardPage() {
         {quickActions.map((action, i) => (
           <Link key={action.href} href={action.href}>
             <div
-              className="group relative flex flex-col p-6 bg-white rounded-xl border border-[#dbdfe6] shadow-sm hover:shadow-md hover:border-[#135bec]/40 transition-all duration-300 overflow-hidden h-full animate-fade-in cursor-pointer"
+              className="group relative flex flex-col p-6 bg-white rounded-xl border border-[#dbdfe6] shadow-sm hover:shadow-md hover:border-[#7c3aed]/40 transition-all duration-300 overflow-hidden h-full animate-fade-in cursor-pointer"
               style={{ animationDelay: `${i * 80}ms` }}
             >
               {/* Background icon decoration */}
@@ -131,7 +131,7 @@ export default function DashboardPage() {
                 )}
               </div>
               <p className="text-sm text-[#616f89]">{action.desc}</p>
-              <div className="mt-4 flex items-center gap-1 text-[#135bec] text-xs font-bold group-hover:gap-2 transition-all">
+              <div className="mt-4 flex items-center gap-1 text-[#7c3aed] text-xs font-bold group-hover:gap-2 transition-all">
                 <span>Mulai</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </div>
@@ -147,7 +147,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold text-[#111318]">Berita Terbaru</h2>
-            <Link href="/berita" className="flex items-center gap-1 text-sm font-semibold text-[#135bec] hover:text-[#0e45b5] transition-colors">
+            <Link href="/berita" className="flex items-center gap-1 text-sm font-semibold text-[#7c3aed] hover:text-[#6d28d9] transition-colors">
               Lihat Semua
               <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
             </Link>
@@ -157,7 +157,7 @@ export default function DashboardPage() {
             {latestArticles.map((article, i) => (
               <Link key={article.id} href={`/berita/${article.id}`}>
                 <article
-                  className="flex flex-col sm:flex-row gap-4 p-4 bg-white rounded-xl border border-[#dbdfe6] hover:border-[#135bec]/30 hover:shadow-sm transition-all cursor-pointer group animate-fade-in"
+                  className="flex flex-col sm:flex-row gap-4 p-4 bg-white rounded-xl border border-[#dbdfe6] hover:border-[#7c3aed]/30 hover:shadow-sm transition-all cursor-pointer group animate-fade-in"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <div className="w-full sm:w-44 h-28 shrink-0 rounded-lg overflow-hidden bg-[#f6f6f8]">
@@ -171,8 +171,8 @@ export default function DashboardPage() {
                     )}
                   </div>
                   <div className="flex flex-col justify-center flex-1 min-w-0">
-                    <span className="text-xs font-bold text-[#135bec] mb-1.5 uppercase tracking-wider">{article.kategori}</span>
-                    <h3 className="text-base font-bold text-[#111318] mb-2 leading-snug group-hover:text-[#135bec] transition-colors line-clamp-2">{article.judul}</h3>
+                    <span className="text-xs font-bold text-[#7c3aed] mb-1.5 uppercase tracking-wider">{article.kategori}</span>
+                    <h3 className="text-base font-bold text-[#111318] mb-2 leading-snug group-hover:text-[#7c3aed] transition-colors line-clamp-2">{article.judul}</h3>
                     <div className="flex items-center gap-4 text-xs text-[#616f89] mt-auto">
                       <span className="flex items-center gap-1">
                         <span className="material-symbols-outlined text-[14px]">schedule</span>
@@ -193,10 +193,10 @@ export default function DashboardPage() {
         {/* Right Sidebar */}
         <div className="flex flex-col gap-5">
           {/* Mood Tracker */}
-          <div className="bg-gradient-to-br from-[#135bec] to-[#0e45b5] rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4f46e5] rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
             <div className="relative z-10">
               <h3 className="text-base font-bold mb-1">Mood Hari Ini</h3>
-              <p className="text-blue-100 text-sm mb-5">Bagaimana perasaanmu sekarang?</p>
+              <p className="text-purple-100 text-sm mb-5">Bagaimana perasaanmu sekarang?</p>
               <div className="flex justify-between items-center bg-white/10 rounded-xl p-2 backdrop-blur-sm">
                 {moodEmojis.map((emoji, i) => (
                   <button key={i} onClick={() => handleMoodClick(i)}
@@ -207,24 +207,24 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-24 h-24 bg-blue-400/20 rounded-full blur-xl"></div>
+            <div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-24 h-24 bg-purple-400/20 rounded-full blur-xl"></div>
           </div>
 
           {/* Upcoming Schedule */}
           <div className="bg-white rounded-xl border border-[#dbdfe6] p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-[#111318]">Jadwal Mendatang</h3>
-              <Link href="/riwayat" className="text-xs text-[#135bec] font-semibold hover:underline">Lihat Semua</Link>
+              <Link href="/riwayat" className="text-xs text-[#7c3aed] font-semibold hover:underline">Lihat Semua</Link>
             </div>
             {activeBookings.length > 0 ? (
               <div className="flex flex-col gap-3">
                 {activeBookings.map((bkg) => (
                   <div key={bkg.id} className="flex gap-3 items-start border-b border-[#f6f6f8] pb-3 last:border-0 last:pb-0">
                     <div className={`flex flex-col items-center rounded-lg p-2 min-w-[54px] ${
-                      bkg.status === 'confirmed' ? 'bg-[#ebf1fd]' : 'bg-orange-50'
+                      bkg.status === 'confirmed' ? 'bg-[#ede9fe]' : 'bg-orange-50'
                     }`}>
                       <span className={`text-[10px] font-bold uppercase ${
-                        bkg.status === 'confirmed' ? 'text-[#135bec]' : 'text-orange-700'
+                        bkg.status === 'confirmed' ? 'text-[#7c3aed]' : 'text-orange-700'
                       }`}>
                         {new Date(bkg.slot.tanggal).toLocaleString('id-ID', { month: 'short' })}
                       </span>
@@ -253,7 +253,7 @@ export default function DashboardPage() {
                 <span className="material-symbols-outlined text-[40px] text-[#dbdfe6] mb-2">event_available</span>
                 <p className="text-sm text-[#616f89]">Belum ada jadwal konseling</p>
                 <Link href="/skrining">
-                  <button className="mt-3 text-xs font-bold text-[#135bec] hover:underline">Buat Booking →</button>
+                  <button className="mt-3 text-xs font-bold text-[#7c3aed] hover:underline">Buat Booking →</button>
                 </Link>
               </div>
             )}
@@ -270,7 +270,7 @@ export default function DashboardPage() {
                 ['location_on', 'Biro SDM, Lt. 3 Mapolda Jabar'],
               ].map(([icon, text]) => (
                 <div key={text} className="flex items-start gap-2 text-[#616f89]">
-                  <span className="material-symbols-outlined text-[16px] text-[#135bec] mt-0.5 shrink-0">{icon}</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#7c3aed] mt-0.5 shrink-0">{icon}</span>
                   <span className="text-xs">{text}</span>
                 </div>
               ))}
@@ -292,7 +292,7 @@ export default function DashboardPage() {
             </p>
             <div className="flex flex-col gap-3">
               <Link href="/skrining" onClick={() => setShowMoodWarning(false)}>
-                <button className="w-full bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-sm">
+                <button className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-sm">
                   Lakukan Skrining Sekarang
                 </button>
               </Link>

@@ -37,7 +37,7 @@ export default function AdminDashboardPage() {
   const totalDist = distribusi.rendah + distribusi.sedang + distribusi.tinggi || 1;
 
   const statCards = [
-    { label: 'Skrining Masuk', value: totalSkrining.toString(), icon: 'psychology', color: 'bg-blue-100 text-[#135bec]', trend: `${screenings.filter(s => new Date(s.submitted_at).toDateString() === new Date().toDateString()).length} hari ini` },
+    { label: 'Skrining Masuk', value: totalSkrining.toString(), icon: 'psychology', color: 'bg-purple-100 text-[#7c3aed]', trend: `${screenings.filter(s => new Date(s.submitted_at).toDateString() === new Date().toDateString()).length} hari ini` },
     { label: 'Antrian Booking', value: pendingAll.toString(), icon: 'calendar_month', color: 'bg-orange-100 text-orange-600', trend: `${pendingAdmin} menunggu konfirmasi Anda` },
     { label: 'Risiko Tinggi', value: `${risikoTinggi} Orang`, icon: 'warning', color: 'bg-red-100 text-red-600', trend: 'Perlu perhatian' },
     { label: 'Total User Aktif', value: '248', icon: 'group', color: 'bg-green-100 text-green-600', trend: '+12 bulan ini' },
@@ -52,7 +52,7 @@ export default function AdminDashboardPage() {
           <p className="text-[#616f89] mt-1 text-sm">Selamat datang, {user?.nama_lengkap?.split(' ').slice(0, 2).join(' ')} — Pantau dan kelola layanan KEHATI.</p>
         </div>
         <div className="flex items-center gap-2 text-xs text-[#616f89] bg-white border border-[#dbdfe6] px-3 py-2 rounded-lg">
-          <span className="material-symbols-outlined text-[16px] text-[#135bec]">schedule</span>
+          <span className="material-symbols-outlined text-[16px] text-[#7c3aed]">schedule</span>
           {new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function AdminDashboardPage() {
             </div>
             <p className="text-3xl font-black text-[#111318]">{card.value}</p>
             <p className="text-xs font-semibold text-[#616f89] mt-1">{card.label}</p>
-            <p className="text-xs text-[#135bec] mt-1">{card.trend}</p>
+            <p className="text-xs text-[#7c3aed] mt-1">{card.trend}</p>
           </div>
         ))}
       </div>
@@ -110,7 +110,7 @@ export default function AdminDashboardPage() {
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">{pendingAll} pending</span>
               )}
             </h3>
-            <Link href="/admin/skrining" className="text-xs font-semibold text-[#135bec] hover:underline flex items-center gap-1">
+            <Link href="/admin/skrining" className="text-xs font-semibold text-[#7c3aed] hover:underline flex items-center gap-1">
               Lihat Semua <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </Link>
           </div>
@@ -122,7 +122,7 @@ export default function AdminDashboardPage() {
               </div>
             ) : (
               bookings.slice(0, 4).map(bkg => (
-                <div key={bkg.id} className="flex items-center gap-4 p-3 rounded-lg bg-[#f6f6f8] hover:bg-[#ebf1fd] transition-colors">
+                <div key={bkg.id} className="flex items-center gap-4 p-3 rounded-lg bg-[#f6f6f8] hover:bg-[#ede9fe]/50 transition-colors">
                   <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black bg-[#dbdfe6] text-[#616f89]">
                     {bkg.user?.nama_lengkap?.charAt(0) ?? 'U'}
                   </div>
@@ -131,7 +131,7 @@ export default function AdminDashboardPage() {
                     <p className="text-xs text-[#616f89]">{bkg.slot.psikolog.nama} · {formatDateShort(bkg.slot.tanggal)}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${bkg.slot.metode === 'daring' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${bkg.slot.metode === 'daring' ? 'bg-[#ede9fe] text-[#7c3aed]' : 'bg-green-100 text-green-700'}`}>
                       {bkg.slot.metode.toUpperCase()}
                     </span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${getBookingStatusColor(bkg.status)}`}>
@@ -149,13 +149,13 @@ export default function AdminDashboardPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { href: '/admin/skrining', icon: 'psychology', label: 'Review Pengajuan', badge: `${pendingAll} Pending`, badgeColor: 'bg-red-100 text-red-700' },
-          { href: '/admin/jadwal', icon: 'calendar_month', label: 'Kelola Jadwal', badge: `${bookings.filter(b => b.status === 'confirmed').length} Terkonfirmasi`, badgeColor: 'bg-blue-100 text-blue-700' },
+          { href: '/admin/jadwal', icon: 'calendar_month', label: 'Kelola Jadwal', badge: `${bookings.filter(b => b.status === 'confirmed').length} Terkonfirmasi`, badgeColor: 'bg-[#ede9fe] text-[#7c3aed]' },
           { href: '/admin/berita', icon: 'article', label: 'Kelola Berita', badge: 'Buat & Edit', badgeColor: 'bg-yellow-100 text-yellow-700' },
           { href: '/admin/user', icon: 'manage_accounts', label: 'Kelola User', badge: '248 User', badgeColor: 'bg-green-100 text-green-700' },
         ].map(item => (
           <Link key={item.href} href={item.href}>
-            <div className="bg-white rounded-xl border border-[#dbdfe6] p-5 hover:shadow-md hover:border-[#135bec]/40 transition-all cursor-pointer group">
-              <div className="w-10 h-10 rounded-xl bg-[#ebf1fd] text-[#135bec] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="bg-white rounded-xl border border-[#dbdfe6] p-5 hover:shadow-md hover:border-[#7c3aed]/40 transition-all cursor-pointer group">
+              <div className="w-10 h-10 rounded-xl bg-[#ede9fe] text-[#7c3aed] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
               </div>
               <p className="font-bold text-[#111318] text-sm">{item.label}</p>

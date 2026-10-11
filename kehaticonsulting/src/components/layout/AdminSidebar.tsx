@@ -30,16 +30,16 @@ export default function AdminSidebar() {
       <div className="flex items-center justify-between px-4 h-16 border-b border-[#dbdfe6]">
         {!collapsed && (
           <Link href="/admin/dashboard" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-[#135bec] text-white flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[#7c3aed] text-white flex items-center justify-center">
               <span className="material-symbols-outlined text-[16px]">health_and_safety</span>
             </div>
-            <span className="text-base font-bold text-[#135bec]">KEHATI</span>
+            <span className="text-base font-bold text-[#7c3aed]">KEHATI</span>
             <span className="text-xs font-semibold text-[#616f89] bg-[#f6f6f8] px-1.5 py-0.5 rounded capitalize">{user?.role}</span>
           </Link>
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-lg text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#135bec] transition-colors ml-auto"
+          className="p-1.5 rounded-lg text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#7c3aed] transition-colors ml-auto"
         >
           <span className="material-symbols-outlined text-[20px]">
             {collapsed ? 'chevron_right' : 'chevron_left'}
@@ -74,7 +74,7 @@ export default function AdminSidebar() {
               title={link.label}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                 active
-                  ? 'bg-[#ebf1fd] text-[#135bec]'
+                  ? 'bg-[#ede9fe] text-[#7c3aed]'
                   : 'text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#111318]'
               } ${collapsed ? 'justify-center' : ''}`}
             >
@@ -83,7 +83,7 @@ export default function AdminSidebar() {
               </span>
               {!collapsed && <span className="truncate">{link.label}</span>}
               {!collapsed && active && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#135bec]"></span>
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#7c3aed]"></span>
               )}
             </Link>
           );
@@ -103,7 +103,7 @@ export default function AdminSidebar() {
           {/* User info */}
           {!collapsed && (
             <div className="flex items-center gap-3 p-3 rounded-lg bg-[#f6f6f8] mb-2">
-              <div className="w-8 h-8 rounded-full bg-[#135bec] text-white flex items-center justify-center font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-[#7c3aed] text-white flex items-center justify-center font-bold text-sm shrink-0">
                 {user?.nama_lengkap?.charAt(0) ?? 'A'}
               </div>
               <div className="min-w-0">

@@ -31,7 +31,7 @@ export const mockUsers: User[] = [
   {
     id: 'usr_psi01',
     nrp: '70000002',
-    nama_lengkap: 'dr. Andini Putri, M.Psi',
+    nama_lengkap: 'dr. Yusi Hariyumanti HS, M.Psi',
     pangkat: 'Psikolog',
     satker: 'Biro SDM Polda Jabar',
     unit: 'Bagian Psikologi',
@@ -121,7 +121,7 @@ export const mockScreenings: Screening[] = [
 
 // ─── Psikolog ─────────────────────────────────────────
 export const mockPsikolog = [
-  { id: 'psi_01', nama: 'dr. Andini Putri, M.Psi', spesialis: 'Psikologi Klinis' },
+  { id: 'psi_01', nama: 'dr. Yusi Hariyumanti HS, M.Psi', spesialis: 'Psikologi Klinis' },
   { id: 'psi_02', nama: 'Drs. Rudi Hartono, M.Si', spesialis: 'Psikologi Industri' },
   { id: 'psi_03', nama: 'Siti Rahayu, S.Psi., M.Psi', spesialis: 'Konseling' },
 ];
@@ -446,7 +446,7 @@ export function getRisikoColor(level: string): string {
 export function getValidationColor(status: string): string {
   switch (status) {
     case 'approved':  return 'text-green-700 bg-green-100';
-    case 'referred':  return 'text-blue-700 bg-blue-100';
+    case 'referred':  return 'text-purple-700 bg-purple-100';
     case 'rejected':  return 'text-red-700 bg-red-100';
     case 'pending':   return 'text-yellow-700 bg-yellow-100';
     default:          return 'text-gray-700 bg-gray-100';
@@ -458,7 +458,7 @@ export function getBookingStatusColor(status: string): string {
     case 'confirmed':  return 'text-green-700 bg-green-100';
     case 'pending_psikolog': return 'text-purple-700 bg-purple-100';
     case 'pending_admin': return 'text-orange-700 bg-orange-100';
-    case 'completed':  return 'text-blue-700 bg-blue-100';
+    case 'completed':  return 'text-purple-700 bg-purple-100';
     case 'rejected':   return 'text-red-700 bg-red-100';
     case 'cancelled':  return 'text-red-700 bg-red-100';
     default:           return 'text-gray-700 bg-gray-100';

@@ -40,9 +40,9 @@ export default function BookingPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8 animate-fade-in">
         <nav className="flex items-center gap-2 text-sm text-[#616f89] mb-3">
-          <Link href="/dashboard" className="hover:text-[#135bec]">Dashboard</Link>
+          <Link href="/dashboard" className="hover:text-[#7c3aed]">Dashboard</Link>
           <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-          <Link href="/skrining/hasil" className="hover:text-[#135bec]">Hasil Skrining</Link>
+          <Link href="/skrining/hasil" className="hover:text-[#7c3aed]">Hasil Skrining</Link>
           <span className="material-symbols-outlined text-[16px]">chevron_right</span>
           <span className="text-[#111318] font-medium">Booking Jadwal</span>
         </nav>
@@ -60,8 +60,8 @@ export default function BookingPage() {
                 <button key={m} onClick={() => setMetodeFilter(m)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                     metodeFilter === m
-                      ? 'bg-[#135bec] text-white shadow-sm'
-                      : 'bg-[#f6f6f8] text-[#616f89] hover:bg-[#ebf1fd] hover:text-[#135bec]'
+                      ? 'bg-[#7c3aed] text-white shadow-sm'
+                      : 'bg-[#f6f6f8] text-[#616f89] hover:bg-[#ede9fe] hover:text-[#7c3aed]'
                   }`}>
                   <span className="material-symbols-outlined text-[16px]">
                     {m === 'daring' ? 'videocam' : m === 'luring' ? 'location_on' : 'apps'}
@@ -73,7 +73,7 @@ export default function BookingPage() {
             <div className="sm:ml-auto">
               <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm text-[#111318] focus:outline-none focus:border-[#135bec] bg-white cursor-pointer"
+                className="h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm text-[#111318] focus:outline-none focus:border-[#7c3aed] bg-white cursor-pointer"
               />
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function BookingPage() {
                 <div key={date} className="animate-fade-in">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="flex items-center gap-2 text-sm font-bold text-[#111318]">
-                      <span className="material-symbols-outlined text-[18px] text-[#135bec]">calendar_today</span>
+                      <span className="material-symbols-outlined text-[18px] text-[#7c3aed]">calendar_today</span>
                       {formatDate(date)}
                     </div>
                     <div className="flex-1 h-px bg-[#dbdfe6]"></div>
@@ -105,8 +105,8 @@ export default function BookingPage() {
                         <button key={slot.id} onClick={() => setSelectedSlot(isSelected ? null : slot)}
                           className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
                             isSelected
-                              ? 'border-[#135bec] bg-[#ebf1fd]'
-                              : 'border-[#dbdfe6] bg-white hover:border-[#135bec]/50 hover:shadow-sm'
+                              ? 'border-[#7c3aed] bg-[#ede9fe]'
+                              : 'border-[#dbdfe6] bg-white hover:border-[#7c3aed]/50 hover:shadow-sm'
                           }`}
                         >
                           <div className="flex items-center justify-between mb-3">
@@ -115,11 +115,11 @@ export default function BookingPage() {
                                 {slot.metode === 'daring' ? 'videocam' : 'location_on'}
                               </span>
                               <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
-                                slot.metode === 'daring' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+                                slot.metode === 'daring' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'
                               }`}>{slot.metode}</span>
                             </div>
                             {isSelected && (
-                              <span className="material-symbols-outlined text-[20px] text-[#135bec]">check_circle</span>
+                              <span className="material-symbols-outlined text-[20px] text-[#7c3aed]">check_circle</span>
                             )}
                           </div>
                           <p className="text-xl font-black text-[#111318] mb-1">
@@ -158,7 +158,7 @@ export default function BookingPage() {
                       { label: 'Lokasi', value: selectedSlot.lokasi, icon: 'place' },
                     ].map(item => (
                       <div key={item.label} className="flex gap-3">
-                        <span className="material-symbols-outlined text-[18px] text-[#135bec] shrink-0 mt-0.5">{item.icon}</span>
+                        <span className="material-symbols-outlined text-[18px] text-[#7c3aed] shrink-0 mt-0.5">{item.icon}</span>
                         <div>
                           <p className="text-xs text-[#616f89]">{item.label}</p>
                           <p className="text-sm font-semibold text-[#111318]">{item.value}</p>
@@ -167,7 +167,7 @@ export default function BookingPage() {
                     ))}
                   </div>
                   <button onClick={handleBook}
-                    className="w-full flex items-center justify-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-3.5 rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg transition-all active:scale-[0.98]">
+                    className="w-full flex items-center justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-3.5 rounded-xl shadow-md shadow-purple-500/20 hover:shadow-lg transition-all active:scale-[0.98]">
                     <span className="material-symbols-outlined text-[20px]">check_circle</span>
                     Lanjut Konfirmasi
                   </button>
@@ -181,8 +181,8 @@ export default function BookingPage() {
             </div>
 
             {/* Tips */}
-            <div className="mt-4 p-4 bg-[#ebf1fd] border border-[#135bec]/20 rounded-xl">
-              <p className="text-xs font-bold text-[#135bec] mb-2 flex items-center gap-1">
+            <div className="mt-4 p-4 bg-[#ede9fe] border border-[#7c3aed]/20 rounded-xl">
+              <p className="text-xs font-bold text-[#7c3aed] mb-2 flex items-center gap-1">
                 <span className="material-symbols-outlined text-[16px]">info</span>
                 Informasi
               </p>

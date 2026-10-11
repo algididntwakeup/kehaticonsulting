@@ -52,7 +52,7 @@ export default function Navbar() {
   };
 
   const getIconColor = (tipe: string) => {
-    if (tipe === 'tiket') return 'bg-blue-100 text-blue-600';
+    if (tipe === 'tiket') return 'bg-purple-100 text-purple-600';
     if (tipe === 'rujukan') return 'bg-red-100 text-red-600';
     return 'bg-gray-100 text-gray-600';
   };
@@ -65,16 +65,16 @@ export default function Navbar() {
           {/* Left: Logo */}
           <div className="flex items-center gap-4">
             <button
-              className="lg:hidden p-2 text-[#616f89] hover:text-[#135bec] rounded-lg hover:bg-[#f6f6f8] transition-colors"
+              className="lg:hidden p-2 text-[#616f89] hover:text-[#7c3aed] rounded-lg hover:bg-[#f6f6f8] transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               <span className="material-symbols-outlined">{mobileOpen ? 'close' : 'menu'}</span>
             </button>
             <Link href="/dashboard" className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#135bec] text-white">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#7c3aed] text-white">
                 <span className="material-symbols-outlined text-[20px]">health_and_safety</span>
               </div>
-              <span className="text-xl font-bold tracking-tight text-[#135bec] hidden sm:block">KEHATI</span>
+              <span className="text-xl font-bold tracking-tight text-[#7c3aed] hidden sm:block">KEHATI</span>
             </Link>
           </div>
 
@@ -86,8 +86,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`text-sm font-semibold transition-colors ${
                   pathname.startsWith(link.href)
-                    ? 'text-[#135bec]'
-                    : 'text-[#616f89] hover:text-[#135bec]'
+                    ? 'text-[#7c3aed]'
+                    : 'text-[#616f89] hover:text-[#7c3aed]'
                 }`}
               >
                 {link.label}
@@ -98,7 +98,7 @@ export default function Navbar() {
           {/* Right: Actions */}
           <div className="flex items-center gap-2">
             <Link href="/skrining">
-              <button className="hidden sm:flex items-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm shadow-blue-500/20 hover:shadow-md hover:shadow-blue-500/30">
+              <button className="hidden sm:flex items-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-sm font-bold px-4 py-2 rounded-lg transition-all shadow-sm shadow-purple-500/20 hover:shadow-md hover:shadow-purple-500/30">
                 <span className="material-symbols-outlined text-[18px]">psychology</span>
                 Mulai Skrining
               </button>
@@ -106,7 +106,7 @@ export default function Navbar() {
 
             {/* Mailbox icon — direct link */}
             <Link href="/mailbox"
-              className="relative p-2 text-[#616f89] hover:text-[#135bec] transition-colors rounded-lg hover:bg-[#f6f6f8]">
+              className="relative p-2 text-[#616f89] hover:text-[#7c3aed] transition-colors rounded-lg hover:bg-[#f6f6f8]">
               <span className="material-symbols-outlined">mail</span>
               {unreadCount > 0 && (
                 <span className="absolute top-1 right-1 min-w-[16px] h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
@@ -119,7 +119,7 @@ export default function Navbar() {
             <div className="relative">
               <button 
                 onClick={() => setNotifOpen(!notifOpen)}
-                className="relative p-2 text-[#616f89] hover:text-[#135bec] transition-colors rounded-lg hover:bg-[#f6f6f8]">
+                className="relative p-2 text-[#616f89] hover:text-[#7c3aed] transition-colors rounded-lg hover:bg-[#f6f6f8]">
                 <span className="material-symbols-outlined">notifications</span>
                 {unreadCount > 0 && (
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
@@ -141,7 +141,7 @@ export default function Navbar() {
                     <div className="flex flex-col max-h-[300px] overflow-y-auto">
                       {mailbox.slice(0, 5).map(msg => (
                         <Link key={msg.id} href={`/mailbox?id=${msg.id}`} onClick={() => { markMailboxMessageAsRead(msg.id); setNotifOpen(false); }}>
-                          <div className={`px-4 py-3 border-b border-[#f6f6f8] hover:bg-[#f6f6f8] transition-colors cursor-pointer flex gap-3 ${!msg.is_read ? 'bg-[#ebf1fd]/40' : ''}`}>
+                          <div className={`px-4 py-3 border-b border-[#f6f6f8] hover:bg-[#f6f6f8] transition-colors cursor-pointer flex gap-3 ${!msg.is_read ? 'bg-[#ede9fe]/40' : ''}`}>
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${getIconColor(msg.tipe)}`}>
                               <span className="material-symbols-outlined text-[16px]">{getIcon(msg.tipe)}</span>
                             </div>
@@ -153,7 +153,7 @@ export default function Navbar() {
                               <p className="text-[10px] text-[#616f89] mt-1">{new Date(msg.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
                             </div>
                             {!msg.is_read && (
-                              <div className="w-2 h-2 rounded-full bg-[#135bec] shrink-0 mt-2"></div>
+                              <div className="w-2 h-2 rounded-full bg-[#7c3aed] shrink-0 mt-2"></div>
                             )}
                           </div>
                         </Link>
@@ -161,7 +161,7 @@ export default function Navbar() {
                     </div>
                   )}
                   <div className="px-4 py-2.5 text-center border-t border-[#dbdfe6] hover:bg-[#f6f6f8] transition-colors bg-[#f6f6f8]">
-                    <Link href="/mailbox" onClick={() => setNotifOpen(false)} className="text-xs font-bold text-[#135bec]">
+                    <Link href="/mailbox" onClick={() => setNotifOpen(false)} className="text-xs font-bold text-[#7c3aed]">
                       Buka Kotak Masuk
                     </Link>
                   </div>
@@ -181,7 +181,7 @@ export default function Navbar() {
                   <span className="block text-sm font-semibold text-[#111318] leading-none">{user?.nama_lengkap?.split(' ').slice(0, 2).join(' ')}</span>
                   <span className="text-xs text-[#616f89] leading-none mt-0.5 block">{user?.satker?.split(' ').slice(0, 2).join(' ')}</span>
                 </span>
-                <div className="w-9 h-9 rounded-full bg-[#135bec] text-white flex items-center justify-center font-bold text-sm border-2 border-[#ebf1fd] group-hover:border-[#135bec] transition-colors">
+                <div className="w-9 h-9 rounded-full bg-[#7c3aed] text-white flex items-center justify-center font-bold text-sm border-2 border-[#ede9fe] group-hover:border-[#7c3aed] transition-colors">
                   {user?.nama_lengkap?.charAt(0) ?? 'U'}
                 </div>
               </button>
@@ -234,8 +234,8 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
                   pathname.startsWith(link.href)
-                    ? 'bg-[#ebf1fd] text-[#135bec]'
-                    : 'text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#135bec]'
+                    ? 'bg-[#ede9fe] text-[#7c3aed]'
+                    : 'text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#7c3aed]'
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px]">{link.icon}</span>
@@ -243,7 +243,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link href="/mailbox" onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#135bec]">
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#616f89] hover:bg-[#f6f6f8] hover:text-[#7c3aed]">
               <span className="material-symbols-outlined text-[20px]">mail</span>
               Kotak Masuk
               {unreadCount > 0 && (
@@ -251,7 +251,7 @@ export default function Navbar() {
               )}
             </Link>
             <Link href="/skrining" onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 mt-2 rounded-lg text-sm font-bold bg-[#135bec] text-white">
+              className="flex items-center gap-3 px-3 py-2.5 mt-2 rounded-lg text-sm font-bold bg-[#7c3aed] text-white">
               <span className="material-symbols-outlined text-[20px]">psychology</span>
               Mulai Skrining
             </Link>

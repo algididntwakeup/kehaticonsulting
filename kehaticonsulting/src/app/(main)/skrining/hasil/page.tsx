@@ -168,7 +168,7 @@ export default function HasilSkriningPage() {
       action: 'Booking Konseling Sekarang',
       actionHref: '/booking',
       actionIcon: 'calendar_month',
-      actionColor: 'bg-[#135bec] hover:bg-[#0e45b5]',
+      actionColor: 'bg-[#7c3aed] hover:bg-[#6d28d9]',
       recommendations: [
         'Segera lakukan booking sesi konseling dengan psikolog',
         'Ceritakan perasaan Anda kepada orang yang dipercaya',
@@ -209,7 +209,7 @@ export default function HasilSkriningPage() {
   const subScores = scores ? [
     { label: 'Depresi', raw: scores.depression, type: 'depression' as const, maxRaw: 21, icon: 'mood_bad', color: 'bg-purple-500' },
     { label: 'Kecemasan', raw: scores.anxiety, type: 'anxiety' as const, maxRaw: 21, icon: 'psychology_alt', color: 'bg-orange-500' },
-    { label: 'Stres', raw: scores.stress, type: 'stress' as const, maxRaw: 21, icon: 'warning', color: 'bg-blue-500' },
+    { label: 'Stres', raw: scores.stress, type: 'stress' as const, maxRaw: 21, icon: 'warning', color: 'bg-indigo-500' },
   ] : [];
 
   return (
@@ -262,7 +262,7 @@ export default function HasilSkriningPage() {
           {fromSession && subScores.length > 0 && (
             <div className="mb-8 bg-[#f6f6f8] rounded-xl p-5">
               <h2 className="text-sm font-bold text-[#111318] mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-[#135bec]">bar_chart</span>
+                <span className="material-symbols-outlined text-[18px] text-[#7c3aed]">bar_chart</span>
                 Rincian Per Dimensi
               </h2>
               <div className="flex flex-col gap-4">
@@ -305,13 +305,13 @@ export default function HasilSkriningPage() {
           {/* Recommendations */}
           <div className="mb-8">
             <h2 className="text-base font-bold text-[#111318] mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[20px] text-[#135bec]">lightbulb</span>
+              <span className="material-symbols-outlined text-[20px] text-[#7c3aed]">lightbulb</span>
               Rekomendasi Tindak Lanjut
             </h2>
             <div className="flex flex-col gap-3">
               {config.recommendations.map((rec, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#ebf1fd] text-[#135bec] flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-[#ede9fe] text-[#7c3aed] flex items-center justify-center shrink-0 mt-0.5">
                     <span className="text-xs font-bold">{i + 1}</span>
                   </div>
                   <p className="text-sm text-[#616f89]">{rec}</p>
@@ -357,7 +357,7 @@ export default function HasilSkriningPage() {
 
       {/* Info card */}
       <div className="mt-5 p-4 bg-white rounded-xl border border-[#dbdfe6] flex items-start gap-3">
-        <span className="material-symbols-outlined text-[20px] text-[#135bec] mt-0.5 shrink-0">info</span>
+        <span className="material-symbols-outlined text-[20px] text-[#7c3aed] mt-0.5 shrink-0">info</span>
         <p className="text-xs text-[#616f89] leading-relaxed">
           Hasil skrining ini bersifat <strong>rahasia</strong> dan hanya dapat diakses oleh Anda dan konselor yang ditunjuk. Data ini tidak akan dibagikan tanpa seizin Anda.
         </p>

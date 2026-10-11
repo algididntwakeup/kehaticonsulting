@@ -66,7 +66,7 @@ export default function AdminJadwalPage() {
           <p className="text-[#616f89] text-sm mt-1">Tambah, edit, atau hapus slot jadwal konseling.</p>
         </div>
         <button onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition-all hover:shadow-md">
+          className="flex items-center gap-2 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-purple-500/20 transition-all hover:shadow-lg active:scale-[0.99]">
           <span className="material-symbols-outlined text-[18px]">add</span>
           Tambah Slot
         </button>
@@ -75,9 +75,9 @@ export default function AdminJadwalPage() {
       {/* Stats row */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { label: 'Total Slot', value: slots.length, color: 'text-[#135bec]' },
+          { label: 'Total Slot', value: slots.length, color: 'text-[#7c3aed]' },
           { label: 'Available', value: slots.filter(s => s.status === 'available').length, color: 'text-green-600' },
-          { label: 'Booked', value: slots.filter(s => s.status === 'booked').length, color: 'text-blue-600' },
+          { label: 'Booked', value: slots.filter(s => s.status === 'booked').length, color: 'text-purple-600' },
           { label: 'Completed', value: slots.filter(s => s.status === 'completed').length, color: 'text-gray-600' },
         ].map(stat => (
           <div key={stat.label} className="bg-white rounded-xl border border-[#dbdfe6] p-4 text-center">
@@ -108,7 +108,7 @@ export default function AdminJadwalPage() {
                   <td className="px-4 py-3 text-sm text-[#111318] font-medium">{formatDate(slot.tanggal)}</td>
                   <td className="px-4 py-3 text-sm font-bold text-[#111318]">{slot.jam_mulai} – {slot.jam_selesai}</td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${slot.metode === 'daring' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${slot.metode === 'daring' ? 'bg-[#ede9fe] text-[#7c3aed]' : 'bg-green-100 text-green-700'}`}>
                       {slot.metode.charAt(0).toUpperCase() + slot.metode.slice(1)}
                     </span>
                   </td>
@@ -122,7 +122,7 @@ export default function AdminJadwalPage() {
                     <div className="flex items-center gap-2">
                       <button 
                         disabled={user?.role === 'psikolog'} 
-                        className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="p-1.5 rounded-lg text-[#616f89] hover:text-[#7c3aed] hover:bg-[#ede9fe] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         title={user?.role === 'psikolog' ? 'Akses Khusus Admin' : 'Edit Jadwal'}
                       >
                         <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -160,7 +160,7 @@ export default function AdminJadwalPage() {
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Psikolog</label>
                 <select value={form.psikolog_id} onChange={e => setForm(f => ({ ...f, psikolog_id: e.target.value }))}
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white">
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white">
                   <option value="">Pilih Psikolog</option>
                   {mockPsikolog.map(p => <option key={p.id} value={p.id}>{p.nama}</option>)}
                 </select>
@@ -169,12 +169,12 @@ export default function AdminJadwalPage() {
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Tanggal</label>
                   <input type="date" value={form.tanggal} onChange={e => setForm(f => ({ ...f, tanggal: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
                 </div>
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Metode</label>
                   <select value={form.metode} onChange={e => setForm(f => ({ ...f, metode: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white">
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white">
                     <option value="daring">Daring</option>
                     <option value="luring">Luring</option>
                   </select>
@@ -182,24 +182,24 @@ export default function AdminJadwalPage() {
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Jam Mulai</label>
                   <input type="time" value={form.jam_mulai} onChange={e => setForm(f => ({ ...f, jam_mulai: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
                 </div>
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Jam Selesai</label>
                   <input type="time" value={form.jam_selesai} onChange={e => setForm(f => ({ ...f, jam_selesai: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Lokasi / Link</label>
                 <input type="text" value={form.lokasi} onChange={e => setForm(f => ({ ...f, lokasi: e.target.value }))}
                   placeholder="Google Meet / Ruang Konseling Lt.2"
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec]" />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed]" />
               </div>
             </div>
             <div className="flex gap-3 p-6 pt-0">
               <button onClick={handleAddSlot}
-                className="flex-1 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+                className="flex-1 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                 Simpan Slot
               </button>
               <button onClick={() => setShowModal(false)}

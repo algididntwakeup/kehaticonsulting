@@ -1,7 +1,7 @@
 /* =============================================
    KEHATI — Design System
    Kesehatan Hati | Polda Jawa Barat
-   Primary: #135bec | Font: Manrope
+   Primary: #7c3aed | Accent: #4f46e5 | Font: Manrope
    ============================================= */
 
 @import "tailwindcss";
@@ -9,10 +9,12 @@
 
 @theme {
   /* === Colors === */
-  --color-primary: #135bec;
-  --color-primary-dark: #0e45b5;
-  --color-primary-light: #ebf1fd;
+  --color-primary: #7c3aed;
+  --color-primary-dark: #6d28d9;
+  --color-primary-light: #ede9fe;
   --color-primary-content: #ffffff;
+  --color-accent: #4f46e5;
+  --color-accent-light: #e0e7ff;
 
   --color-bg-base: #f6f6f8;
   --color-bg-dark: #101622;
@@ -109,8 +111,8 @@ body {
 
 /* === Selection === */
 ::selection {
-  background-color: #ebf1fd;
-  color: #135bec;
+  background-color: #ede9fe;
+  color: #7c3aed;
 }
 
 /* === Animations === */
@@ -136,7 +138,7 @@ body {
 
 /* === Gradient Text === */
 .gradient-text {
-  background: linear-gradient(135deg, #135bec, #0e45b5);
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -152,15 +154,15 @@ body {
 
 /* === DASS-21 Radio Buttons === */
 .dass-option input[type="radio"]:checked + label {
-  background-color: #135bec;
+  background-color: #7c3aed;
   color: white;
-  border-color: #135bec;
+  border-color: #7c3aed;
 }
 
 /* === Sidebar active state === */
 .sidebar-link.active {
-  background-color: #ebf1fd;
-  color: #135bec;
+  background-color: #ede9fe;
+  color: #7c3aed;
   font-weight: 700;
 }
 

@@ -103,7 +103,7 @@ export default function AdminUserPage() {
   };
 
   const roleColor: Record<string, string> = {
-    personel:  'bg-blue-100 text-blue-700',
+    personel:  'bg-[#ede9fe] text-[#7c3aed]',
     admin:     'bg-purple-100 text-purple-700',
     psikolog:  'bg-green-100 text-green-700',
   };
@@ -116,7 +116,7 @@ export default function AdminUserPage() {
           <p className="text-[#616f89] text-sm mt-1">Lihat daftar semua pengguna, ubah role, dan status akun.</p>
         </div>
         <button onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition-all hover:shadow-md">
+          className="flex items-center gap-2 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-purple-500/20 transition-all hover:shadow-lg active:scale-[0.99]">
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           Tambah Admin/Psikolog
         </button>
@@ -125,9 +125,9 @@ export default function AdminUserPage() {
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { label: 'Total User', value: users.length, color: 'text-[#135bec]' },
-          { label: 'Personel', value: users.filter(u => u.role === 'personel').length, color: 'text-blue-600' },
-          { label: 'Admin', value: users.filter(u => u.role === 'admin').length, color: 'text-purple-600' },
+          { label: 'Total User', value: users.length, color: 'text-[#7c3aed]' },
+          { label: 'Personel', value: users.filter(u => u.role === 'personel').length, color: 'text-purple-600' },
+          { label: 'Admin', value: users.filter(u => u.role === 'admin').length, color: 'text-indigo-600' },
           { label: 'Psikolog', value: users.filter(u => u.role === 'psikolog').length, color: 'text-green-600' },
         ].map(s => (
           <div key={s.label} className="bg-white rounded-xl border border-[#dbdfe6] p-4 text-center">
@@ -143,15 +143,15 @@ export default function AdminUserPage() {
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#616f89] material-symbols-outlined text-[18px]">search</span>
           <input type="text" value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Cari nama, NRP, atau satker..."
-            className="w-full h-10 pl-10 pr-4 rounded-lg border border-[#dbdfe6] text-sm text-[#111318] focus:outline-none focus:border-[#135bec] bg-white" />
+            className="w-full h-10 pl-10 pr-4 rounded-lg border border-[#dbdfe6] text-sm text-[#111318] focus:outline-none focus:border-[#7c3aed] bg-white" />
         </div>
         <div className="flex gap-2">
           {['semua', 'personel', 'admin', 'psikolog'].map(r => (
             <button key={r} onClick={() => setFilterRole(r)}
               className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-all ${
                 filterRole === r
-                  ? 'bg-[#135bec] text-white'
-                  : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:text-[#135bec] hover:border-[#135bec]/40'
+                  ? 'bg-[#7c3aed] text-white shadow-sm shadow-purple-500/20'
+                  : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:text-[#7c3aed] hover:border-[#7c3aed]/40'
               }`}>
               {r === 'semua' ? 'Semua' : r.charAt(0).toUpperCase() + r.slice(1)}
             </button>
@@ -178,7 +178,7 @@ export default function AdminUserPage() {
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shrink-0 ${
                         u.role === 'admin' ? 'bg-purple-100 text-purple-700' :
                         u.role === 'psikolog' ? 'bg-green-100 text-green-700' :
-                        'bg-[#ebf1fd] text-[#135bec]'
+                        'bg-[#ede9fe] text-[#7c3aed]'
                       }`}>
                         {u.nama_lengkap.charAt(0)}
                       </div>
@@ -209,7 +209,7 @@ export default function AdminUserPage() {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button onClick={() => setDetailUser(u)}
-                        className="p-1.5 rounded-lg text-[#616f89] hover:text-[#135bec] hover:bg-[#ebf1fd] transition-colors"
+                        className="p-1.5 rounded-lg text-[#616f89] hover:text-[#7c3aed] hover:bg-[#ede9fe] transition-colors"
                         title="Lihat Detail User">
                         <span className="material-symbols-outlined text-[18px]">visibility</span>
                       </button>
@@ -251,26 +251,26 @@ export default function AdminUserPage() {
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">NRP *</label>
                 <input type="text" value={addForm.nrp} onChange={e => setAddForm(f => ({ ...f, nrp: e.target.value }))}
                   placeholder="Masukkan NRP..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]" required />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]" required />
               </div>
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Nama Lengkap *</label>
                 <input type="text" value={addForm.nama_lengkap} onChange={e => setAddForm(f => ({ ...f, nama_lengkap: e.target.value }))}
                   placeholder="Nama Lengkap beserta gelar..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]" required />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]" required />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Pangkat</label>
                   <select value={addForm.pangkat} onChange={e => setAddForm(f => ({ ...f, pangkat: e.target.value }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]">
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]">
                     {pangkatOptions.map(p => <option key={p} value={p}>{p}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Role Peran</label>
                   <select value={addForm.role} onChange={e => setAddForm(f => ({ ...f, role: e.target.value as any }))}
-                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]">
+                    className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]">
                     <option value="psikolog">Psikolog</option>
                     <option value="admin">Admin</option>
                   </select>
@@ -279,7 +279,7 @@ export default function AdminUserPage() {
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Satuan Kerja (Satker)</label>
                 <select value={addForm.satker} onChange={e => setAddForm(f => ({ ...f, satker: e.target.value }))}
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]">
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]">
                   {satkerOptions.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
@@ -287,18 +287,18 @@ export default function AdminUserPage() {
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Unit (opsional)</label>
                 <input type="text" value={addForm.unit} onChange={e => setAddForm(f => ({ ...f, unit: e.target.value }))}
                   placeholder="Misal: Bag Psikologi, Reskrim..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]" />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]" />
               </div>
               <div>
                 <label className="text-xs font-bold text-[#616f89] mb-1.5 block">Password Baru *</label>
                 <input type="password" value={addForm.password} onChange={e => setAddForm(f => ({ ...f, password: e.target.value }))}
                   placeholder="Masukkan password akun..."
-                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#135bec] bg-white text-[#111318]" required />
+                  className="w-full h-10 px-3 rounded-lg border border-[#dbdfe6] text-sm focus:outline-none focus:border-[#7c3aed] bg-white text-[#111318]" required />
               </div>
             </div>
             <div className="flex gap-3 p-6 border-t border-[#dbdfe6] bg-[#f6f6f8]">
               <button type="submit"
-                className="flex-1 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+                className="flex-1 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md shadow-purple-500/20 active:scale-[0.99]">
                 Simpan Akun
               </button>
               <button type="button" onClick={() => setShowAddModal(false)}
@@ -314,8 +314,8 @@ export default function AdminUserPage() {
       {detailUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-fade-in overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-[#dbdfe6] bg-[#ebf1fd]">
-              <h3 className="font-bold text-[#135bec] flex items-center gap-1.5">
+            <div className="flex items-center justify-between p-6 border-b border-[#dbdfe6] bg-[#ede9fe]/50">
+              <h3 className="font-bold text-[#7c3aed] flex items-center gap-1.5">
                 <span className="material-symbols-outlined">account_box</span>
                 Profil Pengguna
               </h3>
@@ -325,7 +325,7 @@ export default function AdminUserPage() {
             </div>
             <div className="p-6 flex flex-col gap-4 text-sm">
               <div className="flex items-center gap-3 pb-4 border-b border-[#dbdfe6]">
-                <div className="w-12 h-12 rounded-full bg-[#135bec] text-white flex items-center justify-center text-lg font-bold shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#4f46e5] text-white flex items-center justify-center text-lg font-bold shrink-0 shadow-md shadow-purple-500/20">
                   {detailUser.nama_lengkap.charAt(0)}
                 </div>
                 <div>
@@ -365,7 +365,7 @@ export default function AdminUserPage() {
               </div>
             </div>
             <div className="p-4 bg-[#f6f6f8] border-t border-[#dbdfe6] text-right">
-              <button onClick={() => setDetailUser(null)} className="px-5 py-2 bg-[#135bec] hover:bg-[#0e45b5] text-white font-bold text-xs rounded-lg transition-colors">
+              <button onClick={() => setDetailUser(null)} className="px-5 py-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
                 Tutup
               </button>
             </div>
@@ -385,7 +385,7 @@ export default function AdminUserPage() {
               </p>
             </div>
             <div className="flex gap-2 p-4 bg-[#f6f6f8] border-t border-[#dbdfe6]">
-              <button onClick={handleConfirmToggleActive} className="flex-1 py-2 rounded-lg text-white font-bold bg-[#135bec] hover:bg-[#0e45b5] text-xs transition-colors">
+              <button onClick={handleConfirmToggleActive} className="flex-1 py-2 rounded-lg text-white font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-xs transition-colors">
                 Ya, Ubah Status
               </button>
               <button onClick={() => setConfirmStatusUser(null)} className="flex-1 py-2 rounded-lg border border-[#dbdfe6] text-[#616f89] font-bold bg-white hover:bg-gray-50 text-xs transition-colors">
@@ -408,7 +408,7 @@ export default function AdminUserPage() {
               </p>
             </div>
             <div className="flex gap-2 p-4 bg-[#f6f6f8] border-t border-[#dbdfe6]">
-              <button onClick={handleConfirmRoleChange} className="flex-1 py-2 rounded-lg text-white font-bold bg-[#135bec] hover:bg-[#0e45b5] text-xs transition-colors">
+              <button onClick={handleConfirmRoleChange} className="flex-1 py-2 rounded-lg text-white font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-xs transition-colors">
                 Ya, Ubah Peran
               </button>
               <button onClick={() => setConfirmRoleData(null)} className="flex-1 py-2 rounded-lg border border-[#dbdfe6] text-[#616f89] font-bold bg-white hover:bg-gray-50 text-xs transition-colors">

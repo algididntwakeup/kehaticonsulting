@@ -40,7 +40,7 @@ export default function BeritaPage() {
           <input
             type="text" value={query} onChange={e => setQuery(e.target.value)}
             placeholder="Cari artikel berdasarkan judul..."
-            className="w-full h-11 pl-11 pr-4 rounded-lg border border-[#dbdfe6] bg-white text-sm text-[#111318] placeholder:text-[#616f89] focus:outline-none focus:border-[#135bec] focus:ring-2 focus:ring-[#135bec]/20 transition-all"
+            className="w-full h-11 pl-11 pr-4 rounded-lg border border-[#dbdfe6] bg-white text-sm text-[#111318] placeholder:text-[#616f89] focus:outline-none focus:border-[#7c3aed] focus:ring-2 focus:ring-[#7c3aed]/20 transition-all"
           />
         </div>
       </div>
@@ -51,8 +51,8 @@ export default function BeritaPage() {
           <button key={k} onClick={() => setSelectedKategori(k)}
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
               selectedKategori === k
-                ? 'bg-[#135bec] text-white shadow-sm shadow-blue-500/20'
-                : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:border-[#135bec]/40 hover:text-[#135bec]'
+                ? 'bg-[#7c3aed] text-white shadow-sm shadow-purple-500/20'
+                : 'bg-white border border-[#dbdfe6] text-[#616f89] hover:border-[#7c3aed]/40 hover:text-[#7c3aed]'
             }`}>
             {k}
           </button>
@@ -70,15 +70,15 @@ export default function BeritaPage() {
           {/* Featured Article */}
           {featured && (
             <Link href={`/berita/${featured.id}`}>
-              <article className="group mb-8 bg-white rounded-2xl border border-[#dbdfe6] overflow-hidden hover:shadow-md hover:border-[#135bec]/30 transition-all animate-fade-in cursor-pointer">
+              <article className="group mb-8 bg-white rounded-2xl border border-[#dbdfe6] overflow-hidden hover:shadow-md hover:border-[#7c3aed]/30 transition-all animate-fade-in cursor-pointer">
                 <div className="relative h-64 sm:h-80 overflow-hidden bg-[#f6f6f8]">
                   {featured.thumbnail_url && (
                     <img src={featured.thumbnail_url} alt={featured.judul}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
-                    <span className="text-xs font-bold text-white/80 uppercase tracking-wider bg-[#135bec] px-2 py-1 rounded-full w-fit mb-3">{featured.kategori}</span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-blue-100 transition-colors">{featured.judul}</h2>
+                    <span className="text-xs font-bold text-white/80 uppercase tracking-wider bg-[#7c3aed] px-2 py-1 rounded-full w-fit mb-3">{featured.kategori}</span>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-purple-100 transition-colors">{featured.judul}</h2>
                     <div className="flex items-center gap-4 text-xs text-white/70">
                       <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">schedule</span>{featured.published_at ? formatDateShort(featured.published_at) : '-'}</span>
                       <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">timer</span>{featured.read_time} menit</span>
@@ -94,7 +94,7 @@ export default function BeritaPage() {
             {rest.map((article, i) => (
               <Link key={article.id} href={`/berita/${article.id}`}>
                 <article
-                  className="group bg-white rounded-xl border border-[#dbdfe6] overflow-hidden hover:shadow-md hover:border-[#135bec]/30 transition-all h-full animate-fade-in cursor-pointer"
+                  className="group bg-white rounded-xl border border-[#dbdfe6] overflow-hidden hover:shadow-md hover:border-[#7c3aed]/30 transition-all h-full animate-fade-in cursor-pointer"
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
                   <div className="h-44 overflow-hidden bg-[#f6f6f8]">
@@ -108,8 +108,8 @@ export default function BeritaPage() {
                     )}
                   </div>
                   <div className="p-5">
-                    <span className="text-xs font-bold text-[#135bec] uppercase tracking-wider">{article.kategori}</span>
-                    <h3 className="text-base font-bold text-[#111318] mt-2 mb-3 leading-snug line-clamp-2 group-hover:text-[#135bec] transition-colors">{article.judul}</h3>
+                    <span className="text-xs font-bold text-[#7c3aed] uppercase tracking-wider">{article.kategori}</span>
+                    <h3 className="text-base font-bold text-[#111318] mt-2 mb-3 leading-snug line-clamp-2 group-hover:text-[#7c3aed] transition-colors">{article.judul}</h3>
                     <div className="flex items-center gap-4 text-xs text-[#616f89]">
                       <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">schedule</span>{article.published_at ? formatDateShort(article.published_at) : '-'}</span>
                       <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">timer</span>{article.read_time} mnt</span>
